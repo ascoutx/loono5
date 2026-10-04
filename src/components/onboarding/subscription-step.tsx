@@ -1,0 +1,129 @@
+"use client";
+
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { plans } from "@/lib/mock-data";
+
+const PLAN_KEYS = ["level1", "level2", "level3"] as const;
+
+/**
+ * Step 3: pick a plan and optionally redeem a 30-day Level 1 trial code.
+ * Level selection is local state until checkout is wired up.
+ */
+export function OnboardingSubscription() {
+  const t = useTranslations("onboarding.subscription");
+  const tf = useTranslations("onboarding.subscription.features");
+
+  const [selected, setSelected] = useState<1 | 2 | 3>(1);
+  const [promo, setPromo] = useState("");
+  const [promoState, setPromoState] = useState<"idle" | "applied">("idle");
+
+  return (
+    <>
+      <div className="flex flex-col gap-1 pt-4 pb-2">
+        <h1 className="text-xl font-bold">{t("title")}</h1>
+        <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
+      </div>
+
+      <p className="mb-4 rounded-xl bg-muted px-3 py-2 text-xs leading-relaxed text-muted-foreground">
+        {t("equalPayNotice")}
+      </p>
+
+      <ul className="flex flex-col gap-3">
+        {plans.map((plan, index) => {
+          const active = selected === plan.level;
+          return (
+            <li key={plan.level}>
+              <button
+                type="button"
+                onClick={() => setSelected(plan.level)}
+                aria-pressed={active}
+                className={cn(
+                  "flex w-full items-center gap-3 rounded-2xl border p-4 text-left transition-colors",
+                  active
+                    ? "border-primary bg-primary/5"
+                    : "border-border bg-card hover:bg-muted/50",
+                )}
+              >
+                <span
+                  className={cn(
+                    "flex size-5 shrink-0 items-center justify-center rounded-full border-2",
+                    active ? "border-primary" : "border-border",
+                  )}
+                >
+                  {active ? (
+                    <span className="size-2.5 rounded-full bg-primary" />
+                  ) : null}
+                </span>
+
+                <span className="min-w-0 flex-1">
+                  <span className="flex items-center gap-2">
+                    <span className="text-sm font-semibold">
+                      {t(PLAN_KEYS[index])}
+                    </span>
+                    <Badge variant="outline" className="text-[10px]">
+                      L{plan.level}
+                    </Badge>
+                  </span>
+                  <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">
+                    {tf("viewProfiles")}
+                  </span>
+                </span>
+
+                <span className="shrink-0 text-right">
+                  <span className="block text-base font-bold">
+                    ${plan.priceMonthly}
+                  </span>
+                  <span className="block text-[11px] text-muted-foreground">
+                    {t("perMonth")}
+                  </span>
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+
+      <div className="mt-5 flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium">{t("promoLabel")}</span>
+          {promoState === "applied" ? (
+            <Badge className="rounded-full bg-emerald-600 text-[10px] text-white">
+              {t("promoApplied")}
+            </Badge>
+          ) : (
+            <Badge variant="outline" className="rounded-full text-[10px]">
+              {t("trialBadge")}
+            </Badge>
+          )}
+        </div>
+        <div className="flex gap-2">
+          <Input
+            value={promo}
+            onChange={(event) => setPromo(event.target.value)}
+            placeholder={t("promoPlaceholder")}
+            className="flex-1 font-mono uppercase"
+          />
+          <Button
+            type="button"
+            variant="outline"
+            className="shrink-0"
+            onClick={() => {
+              if (promo.trim()) {
+                setPromoState("applied");
+                setSelected(1);
+              }
+            }}
+          >
+            {t("promoApply")}
+          </Button>
+        </div>
+      </div>
+    </>
+  );
+}
