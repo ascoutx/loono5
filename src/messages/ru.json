@@ -344,5 +344,22 @@
     "level": "Уровень {level}",
     "requiredLevel": "Требуется уровень {level}",
     "matrixTitle": "Видимость по уровням"
+  },
+  "partner": {
+    "revenue": "Аналитика доходов",
+    "revenueHint": "Комиссия за последние 6 месяцев",
+    "totalRevenue": "Общий доход",
+    "vsPrev": "к прошлому месяцу",
+    "newInvites": "Новые приглашения",
+    "activeSubs": "Платящие",
+    "arpu": "Средний чек",
+    "byMonth": "По месяцам",
+    "byWeek": "По неделям",
+    "quickActions": "Быстрые действия",
+    "partnerOnly": "Только для партнёров",
+    "backToApp": "Вернуться в приложение",
+    "conversion": "Конверсия",
+    "topCountry": "Главный источник",
+    "since": "с"
   }
 }

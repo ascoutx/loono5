@@ -1,28 +1,43 @@
 import type { ReactNode } from "react";
 
 import { BottomNav } from "./bottom-nav";
-import { MobileFrame } from "./mobile-frame";
+import { BOTTOM_NAV_CLEARANCE, MobileFrame } from "./mobile-frame";
+
+type Surface = "light" | "dark";
+
+interface AppShellProps {
+  children: ReactNode;
+  /** Shows the B2C bottom tab bar and reserves clearance for it. */
+  tabbed?: boolean;
+  showChrome?: boolean;
+  surface?: Surface;
+  badges?: Record<string, number>;
+}
 
 /**
- * Root chrome for every route: the H5 frame plus, for signed-in areas,
- * the bottom tab bar.
+ * Root chrome for every route.
+ *
+ * The bottom nav is passed to MobileFrame as `footer`, i.e. it lives outside
+ * the scroll container — that is what keeps it anchored to the bottom edge
+ * instead of drifting up behind short content.
  */
 export function AppShell({
   children,
   tabbed = false,
   showChrome = true,
+  surface = "light",
   badges,
-}: {
-  children: ReactNode;
-  tabbed?: boolean;
-  /** Fake iOS status bar shown in the desktop device preview. */
-  showChrome?: boolean;
-  badges?: Partial<Record<string, number>>;
-}) {
+}: AppShellProps) {
   return (
-    <MobileFrame showChrome={showChrome}>
+    <MobileFrame
+      showChrome={showChrome}
+      surface={surface}
+      scrollClassName={tabbed ? BOTTOM_NAV_CLEARANCE : undefined}
+      footer={tabbed ? <BottomNav badges={badges} /> : null}
+    >
       {children}
-      {tabbed ? <BottomNav badges={badges} /> : null}
     </MobileFrame>
   );
 }
+
+export type { Surface };

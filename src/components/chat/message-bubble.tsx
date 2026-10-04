@@ -13,54 +13,67 @@ interface MessageBubbleProps {
 }
 
 /**
- * Dual-text bubble (PRD rule 4): original text on top, translation below.
- * The translation row only renders once it resolves.
+ * Dual-text bubble (PRD rule 4).
+ *
+ * Reading order is inverted from the sender's perspective: the LARGE text is
+ * the translation into the reader's own language, and the ORIGINAL wording sits
+ * underneath in small grey type so the source language is still inspectable.
  */
 export function MessageBubble({ message, isOwn }: MessageBubbleProps) {
   const t = useTranslations("chats");
 
-  const showTranslation = message.translatedText ?? message.isTranslating;
+  // Primary is the reader's own language; fall back to the original until the
+  // translation resolves.
+  const primaryText = message.translatedText ?? message.originalText;
+
+  // Only worth a second line when it adds information, i.e. the original
+  // differs from what is shown up top (never for the reader's own messages).
+  const showOriginal = primaryText !== message.originalText;
 
   return (
     <li
       className={cn(
-        "flex w-full flex-col gap-1",
+        "flex w-full flex-col gap-0.5",
         isOwn ? "items-end" : "items-start",
       )}
     >
       <div
         className={cn(
-          "max-w-[78%] rounded-2xl px-3 py-2 text-sm leading-relaxed",
+          "max-w-[82%] rounded-2xl px-3 py-2",
           isOwn
             ? "rounded-br-md bg-primary text-primary-foreground"
             : "rounded-bl-md bg-muted text-foreground",
         )}
       >
-        <p className="break-words">{message.originalText}</p>
+        <p className="text-[15px] leading-relaxed break-words">{primaryText}</p>
       </div>
 
-      {showTranslation ? (
+      {/* Original wording, secondary and de-emphasised. */}
+      {showOriginal ? (
         <p
           className={cn(
-            "max-w-[78%] px-1 text-xs leading-relaxed text-muted-foreground",
+            "flex max-w-[82%] items-start gap-1 px-1 text-[11px] leading-snug text-muted-foreground",
+            isOwn ? "justify-end text-right" : "text-left",
+          )}
+        >
+          <Languages className="mt-0.5 size-2.5 shrink-0 opacity-70" />
+          <span className="min-w-0 break-words">{message.originalText}</span>
+        </p>
+      ) : message.isTranslating ? (
+        <p
+          className={cn(
+            "px-1 text-[11px] text-muted-foreground italic",
             isOwn ? "text-right" : "text-left",
           )}
         >
-          {message.isTranslating ? (
-            <span className="italic">{t("translating")}</span>
-          ) : (
-            <>
-              <Languages className="me-1 inline size-3 align-[-0.15em]" />
-              {message.translatedText}
-            </>
-          )}
+          {t("translating")}
         </p>
       ) : null}
     </li>
   );
 }
 
-/** Toggles the translation row for the whole thread. */
+/** Toggles the original-text row for the whole thread. */
 export function TranslateToggle({
   enabled,
   onToggle,

@@ -40,7 +40,7 @@ export default async function AgentJoinPage({
           <Button
             size="lg"
             className="w-full rounded-full"
-            render={<Link href="/agent/dashboard" />}
+            render={<Link href="/partner" />}
           >
             {t("start")}
           </Button>

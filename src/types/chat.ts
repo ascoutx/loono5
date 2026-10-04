@@ -18,7 +18,11 @@ export interface Message {
   /** Text in the language it was written in. */
   originalText: string;
   originalLocale: string;
-  /** Machine translation shown under the original (PRD rule 4). */
+  /**
+   * Machine translation into the READER's language (PRD rule 4) — i.e. always
+   * the viewer's locale, for both incoming and outgoing messages. Omitted when
+   * no translation is needed or it is still pending.
+   */
   translatedText?: string;
   translatedLocale?: string;
   /** While the translation is still pending. */

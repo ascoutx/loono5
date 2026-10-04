@@ -45,7 +45,7 @@ export default async function ProfilePage({
 
   const rows = [
     { href: "/profile/subscription", icon: Crown, label: t("subscription") },
-    { href: "/agent/dashboard", icon: Users, label: t("agentCenter") },
+    { href: "/partner", icon: Users, label: t("agentCenter") },
     { href: "/onboarding/profile", icon: UserCog, label: t("edit") },
     { href: "/settings", icon: SettingsIcon, label: t("settings") },
   ];
@@ -55,7 +55,7 @@ export default async function ProfilePage({
       <ScreenHeader title={t("title")} />
 
       <Screen>
-        <Card className="flex items-center gap-3 p-4">
+        <Card className="flex flex-row items-center gap-3 p-4">
           <Avatar className="size-14">
             <AvatarImage src={currentUser.avatarUrl} alt="" />
             <AvatarFallback>{currentUser.name.slice(0, 2)}</AvatarFallback>

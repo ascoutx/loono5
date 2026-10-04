@@ -14,22 +14,22 @@ interface ScreenProps {
 }
 
 /**
- * A single H5 screen: fills the frame, scrolls internally, and keeps the
- * footer pinned above the home indicator.
+ * A single H5 screen.
+ *
+ * `min-h-full` matters: the scroll container is the viewport-sized element
+ * above, so a short screen still fills it and its sticky footer lands on the
+ * bottom edge instead of floating mid-screen.
  */
 export function Screen({ children, footer, className, flush }: ScreenProps) {
   return (
     <div className="flex min-h-full flex-1 flex-col">
-      <div
-        className={cn("flex-1", !flush && "px-4", !footer && "pb-6", className)}
-      >
+      <div className={cn("flex-1", !flush && "px-4", className)}>
         {children}
       </div>
       {footer ? (
         <div
           className={cn(
             "sticky bottom-0 z-20 border-t border-border bg-background/95 px-4 pt-3 backdrop-blur",
-            SAFE_AREA.bottom,
             "pb-[calc(0.75rem+env(safe-area-inset-bottom))]",
           )}
         >
@@ -39,3 +39,5 @@ export function Screen({ children, footer, className, flush }: ScreenProps) {
     </div>
   );
 }
+
+export { SAFE_AREA };

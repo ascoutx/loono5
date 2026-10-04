@@ -340,5 +340,22 @@
     "level": "等级 {level}",
     "requiredLevel": "需要 {level} 级会员",
     "matrixTitle": "等级可见范围"
+  },
+  "partner": {
+    "revenue": "收益分析",
+    "revenueHint": "近 6 个月佣金收入",
+    "totalRevenue": "总收益",
+    "vsPrev": "较上月",
+    "newInvites": "新增邀请",
+    "activeSubs": "付费订阅",
+    "arpu": "客单价",
+    "byMonth": "按月",
+    "byWeek": "按周",
+    "quickActions": "快捷操作",
+    "partnerOnly": "仅合作方可见",
+    "backToApp": "返回应用",
+    "conversion": "转化率",
+    "topCountry": "主要来源",
+    "since": "累计"
   }
 }

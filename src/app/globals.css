@@ -50,23 +50,24 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  /* B2C "Soft Porcelain": warm off-white canvas, pure-white cards. */
+  --background: oklch(0.9846 0.0035 75);
+  --foreground: oklch(0.205 0.012 285);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
+  --secondary: oklch(0.9655 0.005 75);
   --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
+  --muted: oklch(0.9655 0.005 75);
+  --muted-foreground: oklch(0.515 0.014 285);
+  --accent: oklch(0.9655 0.005 75);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
+  --border: oklch(0.918 0.006 75);
+  --input: oklch(0.925 0.006 75);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
@@ -126,6 +127,10 @@
     @apply font-sans;
     /* Chinese first: no word-break gaps, proper CJK line breaking. */
     word-break: break-word;
+  }
+  html {
+    /* One continuous canvas across the whole document height. */
+    background-color: var(--background);
   }
   body {
     @apply bg-background text-foreground;

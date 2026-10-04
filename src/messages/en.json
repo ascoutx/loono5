@@ -344,5 +344,22 @@
     "level": "Level {level}",
     "requiredLevel": "Level {level} required",
     "matrixTitle": "Tier visibility"
+  },
+  "partner": {
+    "revenue": "Revenue analytics",
+    "revenueHint": "Commission income, last 6 months",
+    "totalRevenue": "Total revenue",
+    "vsPrev": "vs last month",
+    "newInvites": "New invites",
+    "activeSubs": "Paying subs",
+    "arpu": "Avg per user",
+    "byMonth": "Monthly",
+    "byWeek": "Weekly",
+    "quickActions": "Quick actions",
+    "partnerOnly": "Partners only",
+    "backToApp": "Back to app",
+    "conversion": "Conversion",
+    "topCountry": "Top source",
+    "since": "since"
   }
 }

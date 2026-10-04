@@ -1,25 +1,29 @@
 "use client";
 
-import { Compass, MessageCircle, User, Users } from "lucide-react";
+import { Compass, MessageCircle, User } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { usePathname } from "@/i18n/navigation";
 
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
+/**
+ * B2C tabs only. The partner (B2B) cabinet is deliberately absent — it is
+ * reached exclusively via /partner.
+ */
 const TABS = [
   { href: "/catalog", icon: Compass, key: "catalog" },
   { href: "/chats", icon: MessageCircle, key: "chats" },
   { href: "/profile", icon: User, key: "profile" },
-  { href: "/agent/dashboard", icon: Users, key: "agent" },
 ] as const;
 
 interface BottomNavProps {
-  /** Unread badge counts keyed by tab href. */
-  badges?: Partial<Record<string, number>>;
+  badges?: Record<string, number>;
 }
 
-/** Fixed H5 tab bar; shown only inside the main app area. */
+/**
+ * Pinned to the bottom of the device frame. Rendered outside the scroll
+ * container by MobileFrame, so `shrink-0` keeps it full height at the bottom.
+ */
 export function BottomNav({ badges }: BottomNavProps) {
   const t = useTranslations("nav");
   const pathname = usePathname();
@@ -27,11 +31,11 @@ export function BottomNav({ badges }: BottomNavProps) {
   return (
     <nav
       className={cn(
-        "sticky bottom-0 z-30 shrink-0 border-t border-border bg-background/95 backdrop-blur",
+        "relative z-30 shrink-0 border-t border-border bg-background/95 backdrop-blur",
         "pb-[max(0.5rem,env(safe-area-inset-bottom))]",
       )}
     >
-      <ul className="grid grid-cols-4">
+      <ul className="grid grid-cols-3">
         {TABS.map((tab) => {
           const active =
             pathname === tab.href || pathname.startsWith(`${tab.href}/`);
@@ -44,7 +48,7 @@ export function BottomNav({ badges }: BottomNavProps) {
                 href={tab.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "relative flex flex-col items-center gap-0.5 py-2 text-[11px] transition-colors",
+                  "flex flex-col items-center gap-0.5 py-2 text-[11px] transition-colors",
                   active ? "text-primary" : "text-muted-foreground",
                 )}
               >
