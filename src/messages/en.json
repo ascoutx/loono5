@@ -201,7 +201,8 @@
     "plans": {
       "level1": "Basic",
       "level2": "Plus",
-      "level3": "Prestige"
+      "level3": "Prestige",
+      "level4": "Individual Exclusive"
     },
     "perMonth": "/mo",
     "perYear": "/yr",
@@ -229,7 +230,9 @@
       "processing": "Processing…",
       "success": "Payment successful",
       "failed": "Payment failed, please retry"
-    }
+    },
+    "contactUs": "Contact us",
+    "byInvitation": "By invitation only"
   },
   "settings": {
     "title": "Settings",

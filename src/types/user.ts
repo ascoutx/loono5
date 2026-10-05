@@ -1,4 +1,4 @@
-export const USER_LEVELS = [1, 2, 3] as const;
+export const USER_LEVELS = [1, 2, 3, 4] as const;
 
 export type UserLevel = (typeof USER_LEVELS)[number];
 
@@ -41,7 +41,10 @@ export interface Subscription {
 
 export interface Plan {
   level: UserLevel;
-  priceMonthly: number;
-  priceYearly: number;
+  /** null when the tier has no public price (see `isContactSales`). */
+  priceMonthly: number | null;
+  priceYearly: number | null;
   currency: string;
+  /** Invite-only tier: the UI shows a contact CTA instead of an amount. */
+  isContactSales?: boolean;
 }

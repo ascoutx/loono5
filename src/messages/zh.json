@@ -197,7 +197,8 @@
     "plans": {
       "level1": "基础版",
       "level2": "进阶版",
-      "level3": "尊享版"
+      "level3": "尊享版",
+      "level4": "Individual Exclusive"
     },
     "perMonth": "/月",
     "perYear": "/年",
@@ -225,7 +226,9 @@
       "processing": "支付处理中…",
       "success": "支付成功",
       "failed": "支付失败，请重试"
-    }
+    },
+    "contactUs": "联系我们",
+    "byInvitation": "仅限受邀加入"
   },
   "settings": {
     "title": "设置",

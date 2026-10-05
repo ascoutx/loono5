@@ -11,10 +11,23 @@ import type { PublicUser } from "@/types/user";
 const AVATAR = (seed: string) =>
   `https://images.unsplash.com/photo-${seed}?w=400&q=80`;
 
+/**
+ * Subscription tiers. Yearly is billed as 10 months for 12 (~17% off), so the
+ * saving badge stays consistent across tiers.
+ *
+ * Level 4 is invite-only and carries no public price (PRD tiers 1-4).
+ */
 export const plans: Plan[] = [
-  { level: 1, priceMonthly: 12.99, priceYearly: 118.99, currency: "USD" },
-  { level: 2, priceMonthly: 29.99, priceYearly: 269.99, currency: "USD" },
-  { level: 3, priceMonthly: 59.99, priceYearly: 499.99, currency: "USD" },
+  { level: 1, priceMonthly: 30, priceYearly: 300, currency: "USD" },
+  { level: 2, priceMonthly: 200, priceYearly: 2000, currency: "USD" },
+  { level: 3, priceMonthly: 400, priceYearly: 4000, currency: "USD" },
+  {
+    level: 4,
+    priceMonthly: null,
+    priceYearly: null,
+    currency: "USD",
+    isContactSales: true,
+  },
 ];
 
 /** The signed-in member. Level 2 so that L1/L2 are visible and L3 is blurred. */
@@ -136,6 +149,30 @@ export const catalogUsers: PublicUser[] = [
       level: 1,
       startedAt: "2026-08-15T00:00:00.000Z",
       expiresAt: "2026-10-15T00:00:00.000Z",
+      isTrial: false,
+      scheduledLevel: null,
+    },
+  },
+  {
+    id: "u_06",
+    name: "Isabella",
+    gender: "female",
+    age: 30,
+    city: "Singapore",
+    countryCode: "SG",
+    avatarUrl: AVATAR("1524503387942"),
+    photoUrls: [AVATAR("1524503387942")],
+    bio: "Art dealer. Private by nature — I take things slowly.",
+    interests: ["Art", "Travel", "Wine"],
+    level: 4,
+    kycStatus: "approved",
+    isOnline: false,
+    lastActiveAt: "2026-09-30T12:00:00.000Z",
+    subscription: {
+      status: "active",
+      level: 4,
+      startedAt: "2026-01-15T00:00:00.000Z",
+      expiresAt: "2027-01-15T00:00:00.000Z",
       isTrial: false,
       scheduledLevel: null,
     },

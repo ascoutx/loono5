@@ -66,7 +66,7 @@ export function MockLevelSwitcher({
       <div
         role="group"
         aria-label={t("title")}
-        className="grid grid-cols-3 gap-1.5"
+        className="grid grid-cols-4 gap-1.5"
       >
         {USER_LEVELS.map((level) => {
           const active = current === level;

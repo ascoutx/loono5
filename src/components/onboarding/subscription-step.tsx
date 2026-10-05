@@ -1,15 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { plans } from "@/lib/mock-data";
-
-const PLAN_KEYS = ["level1", "level2", "level3"] as const;
+import { formatPrice, isContactSales, planLabelKey } from "@/lib/plans";
+import type { UserLevel } from "@/types/user";
 
 /**
  * Step 3: pick a plan and optionally redeem a 30-day Level 1 trial code.
@@ -18,8 +18,10 @@ const PLAN_KEYS = ["level1", "level2", "level3"] as const;
 export function OnboardingSubscription() {
   const t = useTranslations("onboarding.subscription");
   const tf = useTranslations("onboarding.subscription.features");
+  const ts = useTranslations("subscription");
+  const locale = useLocale();
 
-  const [selected, setSelected] = useState<1 | 2 | 3>(1);
+  const [selected, setSelected] = useState<UserLevel>(1);
   const [promo, setPromo] = useState("");
   const [promoState, setPromoState] = useState<"idle" | "applied">("idle");
 
@@ -35,7 +37,7 @@ export function OnboardingSubscription() {
       </p>
 
       <ul className="flex flex-col gap-3">
-        {plans.map((plan, index) => {
+        {plans.map((plan) => {
           const active = selected === plan.level;
           return (
             <li key={plan.level}>
@@ -64,7 +66,7 @@ export function OnboardingSubscription() {
                 <span className="min-w-0 flex-1">
                   <span className="flex items-center gap-2">
                     <span className="text-sm font-semibold">
-                      {t(PLAN_KEYS[index])}
+                      {t(planLabelKey(plan.level))}
                     </span>
                     <Badge variant="outline" className="text-[10px]">
                       L{plan.level}
@@ -76,12 +78,25 @@ export function OnboardingSubscription() {
                 </span>
 
                 <span className="shrink-0 text-right">
-                  <span className="block text-base font-bold">
-                    ${plan.priceMonthly}
-                  </span>
-                  <span className="block text-[11px] text-muted-foreground">
-                    {t("perMonth")}
-                  </span>
+                  {isContactSales(plan) || plan.priceMonthly === null ? (
+                    <>
+                      <span className="block text-sm font-bold text-primary">
+                        {ts("contactUs")}
+                      </span>
+                      <span className="block text-[11px] text-muted-foreground">
+                        {ts("byInvitation")}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="block text-base font-bold">
+                        {formatPrice(plan.priceMonthly, plan.currency, locale)}
+                      </span>
+                      <span className="block text-[11px] text-muted-foreground">
+                        {t("perMonth")}
+                      </span>
+                    </>
+                  )}
                 </span>
               </button>
             </li>

@@ -9,7 +9,12 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { formatPrice, planLabelKey, yearlySavingPercent } from "@/lib/plans";
+import {
+  formatPrice,
+  isContactSales,
+  planLabelKey,
+  yearlySavingPercent,
+} from "@/lib/plans";
 import type { Plan, UserLevel } from "@/types/user";
 
 type Period = "monthly" | "yearly";
@@ -51,8 +56,11 @@ export function PlanPicker({ plans, locale, currentLevel }: PlanPickerProps) {
           const active = selected === plan.level;
           const isCurrent = currentLevel === plan.level;
           const saving = yearlySavingPercent(plan);
-          const price =
-            period === "monthly" ? plan.priceMonthly : plan.priceYearly;
+          const price = isContactSales(plan)
+            ? null
+            : period === "monthly"
+              ? plan.priceMonthly
+              : plan.priceYearly;
 
           return (
             <li key={plan.level}>
@@ -120,12 +128,25 @@ export function PlanPicker({ plans, locale, currentLevel }: PlanPickerProps) {
                   </div>
 
                   <div className="shrink-0 text-right">
-                    <p className="text-base font-bold">
-                      {formatPrice(price, plan.currency, locale)}
-                    </p>
-                    <p className="text-[11px] text-muted-foreground">
-                      {period === "monthly" ? t("perMonth") : t("perYear")}
-                    </p>
+                    {price !== null ? (
+                      <>
+                        <p className="text-base font-bold">
+                          {formatPrice(price, plan.currency, locale)}
+                        </p>
+                        <p className="text-[11px] text-muted-foreground">
+                          {period === "monthly" ? t("perMonth") : t("perYear")}
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-sm font-bold text-primary">
+                          {t("contactUs")}
+                        </p>
+                        <p className="text-[11px] text-muted-foreground">
+                          {t("byInvitation")}
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
               </Card>

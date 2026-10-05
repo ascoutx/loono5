@@ -201,7 +201,8 @@
     "plans": {
       "level1": "Базовый",
       "level2": "Продвинутый",
-      "level3": "Премиум"
+      "level3": "Премиум",
+      "level4": "Individual Exclusive"
     },
     "perMonth": "/мес",
     "perYear": "/год",
@@ -229,7 +230,9 @@
       "processing": "Обработка…",
       "success": "Оплата прошла",
       "failed": "Ошибка оплаты, попробуйте снова"
-    }
+    },
+    "contactUs": "Связаться с нами",
+    "byInvitation": "Только по приглашению"
   },
   "settings": {
     "title": "Настройки",
