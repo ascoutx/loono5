@@ -250,6 +250,7 @@
     "version": "版本 {version}",
     "clearCache": "清除缓存",
     "logout": "退出登录",
+    "deleteAccount": "注销账号",
     "mock": {
       "title": "测试等级切换",
       "description": "一键切换当前用户等级（1/2/3），用于测试资料模糊与访问权限。",
@@ -257,6 +258,96 @@
       "reset": "清除测试会话",
       "session": "测试会话",
       "level": "当前等级"
+    }
+  },
+  "deleteAccount": {
+    "title": "注销账号",
+    "stepOf": "第 {current} / {total} 步",
+    "previous": "上一步",
+    "steps": {
+      "notice": "注销须知",
+      "verify": "身份验证",
+      "reason": "注销原因",
+      "confirm": "确认提交"
+    },
+    "notice": {
+      "title": "注销须知",
+      "subtitle": "请仔细阅读以下内容，注销后不可恢复",
+      "warningTitle": "注销后你将失去",
+      "items": {
+        "data": "会员资料、照片与认证材料等个人数据将被删除或匿名化处理；",
+        "entitlements": "会员等级、已购服务与未消耗的权益全部作废，已支付费用不予退还；",
+        "chats": "聊天记录与互动数据将被清除，且无法恢复；",
+        "relation": "代理身份及下级邀请关系将解除，未结算佣金按协议处理；",
+        "irreversible": "账号注销后不可恢复，重新注册须重新完成实名认证；",
+        "retention": "依法须留存的交易记录将隔离保存并限制用途。"
+      },
+      "agree": "我已阅读并同意《注销须知》，并知晓注销后账号不可恢复"
+    },
+    "verify": {
+      "title": "身份验证",
+      "subtitle": "为防止账号被他人恶意注销，请完成以下验证",
+      "phoneLabel": "已绑定手机号",
+      "codeLabel": "短信验证码",
+      "codePlaceholder": "请输入 6 位验证码",
+      "sendCode": "获取验证码",
+      "resendIn": "{seconds}s 后重发",
+      "passwordLabel": "登录密码",
+      "passwordPlaceholder": "请输入登录密码",
+      "faceHint": "提交后还需完成实名身份核验（人脸识别 / 证件比对），以确认是本人操作。",
+      "mockHint": "测试模式：输入任意 6 位验证码与任意密码即可通过。"
+    },
+    "reason": {
+      "title": "注销原因",
+      "subtitle": "你的反馈将帮助我们改进服务",
+      "options": {
+        "foundPartner": "已找到伴侣",
+        "noLongerNeed": "不再需要",
+        "badExperience": "使用体验不佳",
+        "privacy": "隐私顾虑",
+        "cost": "费用过高",
+        "duplicate": "重复注册",
+        "switchPlatform": "更换平台",
+        "matchQuality": "匹配效果不理想",
+        "service": "客服 / 服务不满意",
+        "other": "其他"
+      },
+      "noteLabel": "补充说明（选填）",
+      "optionalPlaceholder": "还有什么想告诉我们的？",
+      "otherLabel": "补充说明（必填）",
+      "otherPlaceholder": "请说明你注销的原因",
+      "privacyNote": "注销原因数据将作匿名化汇总，仅用于产品与运营分析，不会与你的个人身份关联。"
+    },
+    "confirm": {
+      "title": "确认注销",
+      "subtitle": "提交后账号将进入冷静期",
+      "precheckTitle": "注销前置校验",
+      "precheck": {
+        "balance": "无未结清款项",
+        "order": "无进行中的订单与争议",
+        "activity": "无未结束的活动报名",
+        "audit": "无进行中的认证审核"
+      },
+      "precheckPass": "已通过",
+      "coolingTitle": "冷静期说明",
+      "coolingText": "提交后账号进入 {days} 天冷静期：期间账号冻结、无法登录，可随时撤回申请；冷静期届满未撤回的，系统将执行注销。",
+      "summaryTitle": "注销摘要",
+      "summaryAccount": "注销账号",
+      "summaryReason": "注销原因",
+      "summaryData": "数据处理",
+      "summaryDataValue": "个人资料、照片与聊天记录将被删除或匿名化处理",
+      "cancel": "我再想想",
+      "submit": "确认提交注销申请"
+    },
+    "done": {
+      "title": "注销申请已提交",
+      "subtitle": "账号已进入冷静期，将于 {date} 正式注销",
+      "coolingLabel": "正式注销时间",
+      "note": "冷静期内可随时撤回申请；期满后个人数据将被删除或匿名化处理。",
+      "withdraw": "撤回注销申请",
+      "withdrawnTitle": "已撤回注销申请",
+      "withdrawnSubtitle": "你的账号已恢复正常，本次注销未执行。",
+      "backToSettings": "返回设置"
     }
   },
   "agent": {

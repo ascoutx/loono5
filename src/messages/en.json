@@ -254,6 +254,7 @@
     "version": "Version {version}",
     "clearCache": "Clear cache",
     "logout": "Log out",
+    "deleteAccount": "Delete account",
     "mock": {
       "title": "Test level switcher",
       "description": "Switch the current tier (1/2/3) in one tap to test profile blur and access rules.",
@@ -261,6 +262,96 @@
       "reset": "Clear test session",
       "session": "Test session",
       "level": "Current level"
+    }
+  },
+  "deleteAccount": {
+    "title": "Delete account",
+    "stepOf": "Step {current} of {total}",
+    "previous": "Back",
+    "steps": {
+      "notice": "Notice",
+      "verify": "Verification",
+      "reason": "Reason",
+      "confirm": "Confirm"
+    },
+    "notice": {
+      "title": "Before you delete",
+      "subtitle": "Please read carefully — deletion cannot be undone",
+      "warningTitle": "You will lose",
+      "items": {
+        "data": "Your profile, photos and verification documents will be deleted or anonymised;",
+        "entitlements": "Your membership level, purchased services and unused benefits are voided, with no refund;",
+        "chats": "Chat history and interaction data will be erased and cannot be recovered;",
+        "relation": "Your agent status and referral relationships end; unsettled commission is handled per agreement;",
+        "irreversible": "A deleted account cannot be restored — signing up again means redoing verification;",
+        "retention": "Records we must keep by law are stored in isolation with restricted use."
+      },
+      "agree": "I have read and agree to the Deletion Notice and understand the account cannot be restored"
+    },
+    "verify": {
+      "title": "Verify your identity",
+      "subtitle": "To stop anyone else from deleting your account, please complete the checks below",
+      "phoneLabel": "Linked phone",
+      "codeLabel": "SMS code",
+      "codePlaceholder": "Enter the 6-digit code",
+      "sendCode": "Send code",
+      "resendIn": "Resend in {seconds}s",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "faceHint": "You will also need to pass identity verification (face scan / document match) so we can confirm it is really you.",
+      "mockHint": "Test mode: any 6-digit code and any password will pass."
+    },
+    "reason": {
+      "title": "Why are you leaving?",
+      "subtitle": "Your feedback helps us improve",
+      "options": {
+        "foundPartner": "Found a partner",
+        "noLongerNeed": "No longer need it",
+        "badExperience": "Poor experience",
+        "privacy": "Privacy concerns",
+        "cost": "Too expensive",
+        "duplicate": "Duplicate account",
+        "switchPlatform": "Switching platform",
+        "matchQuality": "Poor match quality",
+        "service": "Unhappy with support",
+        "other": "Other"
+      },
+      "noteLabel": "Additional comments (optional)",
+      "optionalPlaceholder": "Anything you would like to tell us?",
+      "otherLabel": "Additional comments (required)",
+      "otherPlaceholder": "Tell us why you are deleting your account",
+      "privacyNote": "Reasons are aggregated anonymously for product and operations analysis and are never linked to your identity."
+    },
+    "confirm": {
+      "title": "Confirm deletion",
+      "subtitle": "Your account enters a cooling-off period once submitted",
+      "precheckTitle": "Pre-deletion checks",
+      "precheck": {
+        "balance": "No outstanding balance",
+        "order": "No open orders or disputes",
+        "activity": "No unfinished event registrations",
+        "audit": "No verification under review"
+      },
+      "precheckPass": "Passed",
+      "coolingTitle": "Cooling-off period",
+      "coolingText": "After submitting, your account is frozen for {days} days and cannot be signed in to. You may withdraw at any time; if you do not, deletion is carried out when the period ends.",
+      "summaryTitle": "Summary",
+      "summaryAccount": "Account",
+      "summaryReason": "Reason",
+      "summaryData": "Data handling",
+      "summaryDataValue": "Profile, photos and chat history will be deleted or anonymised",
+      "cancel": "Let me think",
+      "submit": "Submit deletion request"
+    },
+    "done": {
+      "title": "Deletion request submitted",
+      "subtitle": "Your account is in the cooling-off period and will be deleted on {date}",
+      "coolingLabel": "Scheduled deletion",
+      "note": "You can withdraw at any time during the cooling-off period; after it ends your personal data will be deleted or anonymised.",
+      "withdraw": "Withdraw request",
+      "withdrawnTitle": "Request withdrawn",
+      "withdrawnSubtitle": "Your account is back to normal — nothing was deleted.",
+      "backToSettings": "Back to settings"
     }
   },
   "agent": {
