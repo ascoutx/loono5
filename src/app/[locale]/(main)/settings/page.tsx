@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   Trash2,
   UserRound,
+  UserX,
 } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -20,6 +21,7 @@ import { Screen } from "@/components/layout/screen";
 import { ScreenHeader } from "@/components/layout/screen-header";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import { Link } from "@/i18n/navigation";
 import { isSignedIn } from "@/lib/auth/current-user";
 import { getMockSession } from "@/lib/auth/session";
 
@@ -153,6 +155,17 @@ export default async function SettingsPage({
             </span>
           </div>
         </section>
+
+        <Link
+          href="/settings/delete-account"
+          className="mt-4 flex items-center gap-3 rounded-2xl border border-border bg-card p-4 transition-colors hover:bg-muted/50 active:bg-muted"
+        >
+          <UserX className="size-4 shrink-0 text-destructive" />
+          <span className="flex-1 text-sm text-destructive">
+            {t("deleteAccount")}
+          </span>
+          <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+        </Link>
 
         <button
           type="button"
