@@ -157,7 +157,8 @@
       "title": "Upgrade to view this profile",
       "description": "This member is Level {level}. Upgrade to Level {level} to see the full profile.",
       "cta": "Upgrade level"
-    }
+    },
+    "details": "Details"
   },
   "verification": {
     "title": "Verification badges",
@@ -219,7 +220,239 @@
     "upgrade": "Upgrade level",
     "complete": "Complete profile",
     "verified": "Verified",
-    "notVerified": "Not verified"
+    "notVerified": "Not verified",
+    "details": "Details",
+    "completeness": "Profile completeness",
+    "completenessValue": "{percent}%",
+    "preferences": "Partner preferences",
+    "setPreferences": "Set up"
+  },
+  "profileForm": {
+    "title": "Complete your profile",
+    "subtitle": "The fuller your profile, the easier it is to be found",
+    "save": "Save profile",
+    "saveHint": "Changes apply immediately and can be edited anytime",
+    "saved": "Saved (demo — not wired to a backend)",
+    "completeness": "Profile completeness",
+    "completenessValue": "{percent}%",
+    "completenessHint": "A fuller profile ranks higher in introductions and recommendations",
+    "tabs": {
+      "about": "Profile",
+      "partner": "Partner preferences"
+    },
+    "sections": {
+      "basic": "Basic details",
+      "lifestyle": "Lifestyle & faith",
+      "assets": "Assets & residence"
+    },
+    "height": {
+      "label": "Height",
+      "unit": "cm",
+      "placeholder": "e.g. 175",
+      "value": "{cm} cm"
+    },
+    "education": {
+      "label": "Education",
+      "highschool": "High school or below",
+      "college": "College",
+      "bachelor": "Bachelor's",
+      "master": "Master's",
+      "doctorate": "Doctorate"
+    },
+    "language": {
+      "label": "Languages",
+      "hint": "Select all that apply",
+      "zh": "Chinese",
+      "en": "English",
+      "ru": "Russian",
+      "es": "Spanish",
+      "fr": "French",
+      "de": "German",
+      "ar": "Arabic",
+      "ja": "Japanese",
+      "ko": "Korean"
+    },
+    "occupation": {
+      "label": "Occupation",
+      "placeholder": "e.g. Product designer"
+    },
+    "marital": {
+      "label": "Marital status",
+      "single": "Single",
+      "divorced": "Divorced",
+      "widowed": "Widowed",
+      "separated": "Separated"
+    },
+    "children": {
+      "label": "Children",
+      "no": "Don't want children",
+      "want": "Want children",
+      "have": "Have children",
+      "have_want": "Have children, want more",
+      "undecided": "Undecided"
+    },
+    "religion": {
+      "label": "Religion",
+      "none": "No religion",
+      "christian": "Christian",
+      "catholic": "Catholic",
+      "muslim": "Muslim",
+      "buddhist": "Buddhist",
+      "hindu": "Hindu",
+      "jewish": "Jewish",
+      "other": "Other"
+    },
+    "tattoo": {
+      "label": "Tattoos",
+      "none": "None",
+      "small": "A small tattoo",
+      "visible": "Clearly visible tattoo"
+    },
+    "smoking": {
+      "label": "Smoking"
+    },
+    "drinking": {
+      "label": "Drinking"
+    },
+    "frequency": {
+      "never": "Never",
+      "socially": "Socially",
+      "regularly": "Regularly"
+    },
+    "asset": {
+      "label": "Assets",
+      "verifiedHint": "Can be linked to asset verification",
+      "under100k": "Under $100k",
+      "100k_500k": "$100k–$500k",
+      "500k_1m": "$500k–$1M",
+      "1m_5m": "$1M–$5M",
+      "above5m": "Over $5M"
+    },
+    "country": {
+      "label": "Country of residence",
+      "CN": "China",
+      "RU": "Russia",
+      "US": "United States",
+      "GB": "United Kingdom",
+      "DE": "Germany",
+      "FR": "France",
+      "JP": "Japan",
+      "KR": "South Korea",
+      "SG": "Singapore",
+      "AU": "Australia",
+      "CA": "Canada",
+      "AE": "United Arab Emirates"
+    },
+    "city": {
+      "label": "City",
+      "placeholder": "e.g. Shanghai"
+    },
+    "residence": {
+      "label": "Residence"
+    }
+  },
+  "partnerPref": {
+    "title": "Partner preferences",
+    "subtitle": "Tell us who you're looking for — used for introductions, search filters and ranking (Module P)",
+    "empty": "No partner preferences yet",
+    "freeSection": {
+      "title": "Basic conditions",
+      "hint": "Free · used in matching"
+    },
+    "premiumSection": {
+      "title": "Premium conditions",
+      "hint": "Unlocked by level",
+      "locked": "Upgrade to L{level} to unlock every premium condition",
+      "cta": "Upgrade to unlock"
+    },
+    "exclusiveSection": {
+      "title": "Special requirements",
+      "hint": "Charged separately"
+    },
+    "range": {
+      "from": "Min",
+      "to": "Max",
+      "unitAge": "yrs",
+      "unitHeight": "cm"
+    },
+    "age": {
+      "label": "Partner age range"
+    },
+    "height": {
+      "label": "Partner height range"
+    },
+    "countries": {
+      "label": "Partner's country of residence"
+    },
+    "cities": {
+      "label": "Partner's city",
+      "placeholder": "Type a city, then press Enter"
+    },
+    "smoking": {
+      "label": "Partner smoking"
+    },
+    "drinking": {
+      "label": "Partner drinking"
+    },
+    "noTattoo": {
+      "label": "Require no tattoos"
+    },
+    "education": {
+      "label": "Partner education"
+    },
+    "languages": {
+      "label": "Partner languages"
+    },
+    "religions": {
+      "label": "Partner religion"
+    },
+    "children": {
+      "label": "Partner plans for children"
+    },
+    "assetMin": {
+      "label": "Partner assets (at least)"
+    },
+    "exclusive": {
+      "sensitiveNotice": "Sensitive condition: offered only where local law allows and never shown to the person being filtered (P7).",
+      "unlock": "Unlock ${price}",
+      "active": "Active",
+      "inactive": "Unpaid · not active",
+      "unlocked": "Included",
+      "total": "Selected add-ons total {amount}",
+      "payHint": "Demo: clicking Unlock simulates a successful payment",
+      "assetThreshold": {
+        "label": "Set a partner asset threshold",
+        "desc": "Only introduces matches at or above the bracket you set; not applied while unpaid."
+      },
+      "exactRange": {
+        "label": "Set an exact age / height range",
+        "desc": "Filters on your exact range with no lenient matching."
+      },
+      "regionOnly": {
+        "label": "Limit to specific countries / cities",
+        "desc": "Only matches from the residence you specify."
+      },
+      "virginity": {
+        "label": "Special: no prior sexual experience",
+        "desc": "Charged separately per admin configuration; inactive and hidden until paid."
+      }
+    },
+    "complianceNote": "Conditions touching assets, fertility or faith follow local law, can be switched off by region, and are never displayed in discriminatory or unlawful wording (P7).",
+    "summary": {
+      "age": "{min}–{max} yrs",
+      "height": "{min}–{max} cm",
+      "countries": "{count} countries/regions",
+      "education": "{count} education levels",
+      "languages": "{count} languages",
+      "religions": "{count} religions",
+      "noTattoo": "No tattoos",
+      "children": "{count} children plans",
+      "assetMin": "Assets above {range}",
+      "cities": "{count} cities",
+      "smoking": "Partner smoking: {level}",
+      "drinking": "Partner drinking: {level}",
+      "exclusive": "{count} special conditions"
+    }
   },
   "subscription": {
     "title": "Subscription",

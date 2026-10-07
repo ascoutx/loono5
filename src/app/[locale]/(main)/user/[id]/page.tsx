@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { Screen } from "@/components/layout/screen";
 import { ScreenHeader } from "@/components/layout/screen-header";
+import { ProfileAttributes } from "@/components/profile/profile-attributes";
 import {
   VerificationBadges,
   VerificationTagWall,
@@ -137,6 +138,13 @@ export default async function UserProfilePage({
               ))}
             </ul>
           </section>
+          {user.profile ? (
+            <section className="flex flex-col gap-2">
+              <h3 className="text-sm font-semibold">{t("details")}</h3>
+              <ProfileAttributes profile={user.profile} />
+            </section>
+          ) : null}
+
           <section className="flex flex-col gap-1.5">
             <h3 className="text-sm font-semibold">{tv("title")}</h3>
             <VerificationTagWall tags={user.verifications} />

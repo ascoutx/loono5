@@ -1,3 +1,4 @@
+import type { PartnerPreferences, PersonalProfile } from "@/types/profile";
 import type { VerificationTag } from "@/types/verification";
 
 export const USER_LEVELS = [1, 2, 3, 4] as const;
@@ -25,6 +26,13 @@ export interface PublicUser {
   kycStatus: KycStatus;
   /** Module R — badges the member submitted or passed. */
   verifications: VerificationTag[];
+  /**
+   * Module P — extended attributes. Optional so members who have not filled
+   * the form in yet (and partial API payloads) stay valid.
+   */
+  profile?: PersonalProfile;
+  /** Module P — the member's conditions on the person they want to meet. */
+  preferences?: PartnerPreferences;
   isOnline: boolean;
   lastActiveAt: string;
   subscription: Subscription;

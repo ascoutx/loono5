@@ -1,6 +1,7 @@
 import type { Plan } from "@/types/user";
 import type { Agent, PromoCode, Payout, Referral } from "@/types/agent";
 import type { ChatThread, Message } from "@/types/chat";
+import type { PartnerPreferences, PersonalProfile } from "@/types/profile";
 import type { PublicUser } from "@/types/user";
 import type {
   VerificationCode,
@@ -77,6 +78,56 @@ export const plans: Plan[] = [
   },
 ];
 
+/**
+ * Module P — profile / preference helpers.
+ *
+ * `emptyProfile` doubles as the "reset" shape and as the fallback the editor
+ * receives for a member who has never opened the form.
+ */
+export const emptyProfile: PersonalProfile = {
+  heightCm: null,
+  education: null,
+  languages: [],
+  religion: null,
+  tattoo: null,
+  smoking: null,
+  drinking: null,
+  assetRange: null,
+  children: null,
+  maritalStatus: null,
+  occupation: "",
+  countryCode: "",
+  city: "",
+};
+
+export const emptyPreferences: PartnerPreferences = {
+  ageMin: null,
+  ageMax: null,
+  heightMin: null,
+  heightMax: null,
+  education: [],
+  languages: [],
+  religions: [],
+  noTattoo: false,
+  children: [],
+  assetMin: null,
+  countries: [],
+  cities: [],
+  smoking: null,
+  drinking: null,
+  exclusive: [],
+};
+
+/** Sparse object literal → full `PersonalProfile`. */
+function profileOf(spec: Partial<PersonalProfile>): PersonalProfile {
+  return { ...emptyProfile, ...spec };
+}
+
+/** Sparse object literal → full `PartnerPreferences`. */
+function prefsOf(spec: Partial<PartnerPreferences>): PartnerPreferences {
+  return { ...emptyPreferences, ...spec };
+}
+
 /** The signed-in member. Level 2 so that L1/L2 are visible and L3 is blurred. */
 export const currentUser: PublicUser = {
   id: "u_current",
@@ -98,6 +149,35 @@ export const currentUser: PublicUser = {
     job: "approved",
     income: "pending",
     marriage: "approved",
+  }),
+  profile: profileOf({
+    heightCm: 182,
+    education: "master",
+    languages: ["zh", "en", "ru"],
+    religion: "none",
+    tattoo: "none",
+    smoking: "never",
+    drinking: "socially",
+    assetRange: "500k_1m",
+    children: "want",
+    maritalStatus: "single",
+    occupation: "Product designer",
+    countryCode: "CN",
+    city: "Shanghai",
+  }),
+  preferences: prefsOf({
+    ageMin: 24,
+    ageMax: 34,
+    heightMin: 158,
+    heightMax: 176,
+    education: ["bachelor", "master"],
+    languages: ["zh", "en"],
+    noTattoo: true,
+    children: ["want", "undecided"],
+    assetMin: "100k_500k",
+    countries: ["CN", "SG", "JP"],
+    cities: ["Shanghai", "Singapore"],
+    smoking: "never",
   }),
   lastActiveAt: new Date().toISOString(),
   subscription: {
@@ -131,6 +211,21 @@ export const catalogUsers: PublicUser[] = [
       education: "pending",
       job: "approved",
     }),
+    profile: profileOf({
+      heightCm: 166,
+      education: "bachelor",
+      languages: ["zh", "en"],
+      religion: "none",
+      tattoo: "none",
+      smoking: "never",
+      drinking: "socially",
+      assetRange: "100k_500k",
+      children: "want",
+      maritalStatus: "single",
+      occupation: "Art director",
+      countryCode: "CN",
+      city: "Shanghai",
+    }),
     subscription: {
       status: "trialing",
       level: 1,
@@ -162,6 +257,21 @@ export const catalogUsers: PublicUser[] = [
       income: "approved",
       asset: "approved",
       marriage: "approved",
+    }),
+    profile: profileOf({
+      heightCm: 172,
+      education: "master",
+      languages: ["ru", "en", "fr"],
+      religion: "christian",
+      tattoo: "small",
+      smoking: "never",
+      drinking: "socially",
+      assetRange: "500k_1m",
+      children: "have",
+      maritalStatus: "divorced",
+      occupation: "Architect",
+      countryCode: "RU",
+      city: "Moscow",
     }),
     subscription: {
       status: "active",
@@ -197,6 +307,21 @@ export const catalogUsers: PublicUser[] = [
       marriage: "approved",
       criminal: "approved",
     }),
+    profile: profileOf({
+      heightCm: 161,
+      education: "bachelor",
+      languages: ["ja", "en"],
+      religion: "buddhist",
+      tattoo: "none",
+      smoking: "never",
+      drinking: "socially",
+      assetRange: "1m_5m",
+      children: "no",
+      maritalStatus: "single",
+      occupation: "Product designer",
+      countryCode: "JP",
+      city: "Tokyo",
+    }),
     subscription: {
       status: "active",
       level: 3,
@@ -222,6 +347,13 @@ export const catalogUsers: PublicUser[] = [
     isOnline: false,
     verifications: badges({ realname: "pending" }),
     lastActiveAt: "2026-09-28T09:00:00.000Z",
+    profile: profileOf({
+      heightCm: 168,
+      education: "college",
+      languages: ["zh"],
+      countryCode: "CN",
+      city: "Shenzhen",
+    }),
     subscription: {
       status: "active",
       level: 1,
@@ -254,6 +386,21 @@ export const catalogUsers: PublicUser[] = [
       marriage: "approved",
       criminal: "expired",
     }),
+    profile: profileOf({
+      heightCm: 170,
+      education: "master",
+      languages: ["en", "zh", "fr"],
+      religion: "catholic",
+      tattoo: "none",
+      smoking: "never",
+      drinking: "socially",
+      assetRange: "above5m",
+      children: "have_want",
+      maritalStatus: "divorced",
+      occupation: "Art dealer",
+      countryCode: "SG",
+      city: "Singapore",
+    }),
     subscription: {
       status: "active",
       level: 4,
@@ -283,6 +430,21 @@ export const catalogUsers: PublicUser[] = [
       education: "approved",
       job: "approved",
       asset: "expired",
+    }),
+    profile: profileOf({
+      heightCm: 165,
+      education: "bachelor",
+      languages: ["ru", "en"],
+      religion: "christian",
+      tattoo: "none",
+      smoking: "never",
+      drinking: "socially",
+      assetRange: "100k_500k",
+      children: "want",
+      maritalStatus: "single",
+      occupation: "Ballet teacher",
+      countryCode: "RU",
+      city: "Saint Petersburg",
     }),
     subscription: {
       status: "active",
