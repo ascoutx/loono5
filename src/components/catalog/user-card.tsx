@@ -1,6 +1,7 @@
 import { Crown, MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
 
+import { VerificationBadges } from "@/components/profile/verification-badges";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -74,6 +75,17 @@ export function UserCard({ user, unlocked }: UserCardProps) {
             </span>
           </span>
         )}
+      </div>
+
+      {/* Fixed-height strip so locked and unlocked tiles stay aligned.
+          Badges are a public trust signal, so they show either way. */}
+      <div className="flex min-h-7 items-center px-2 py-1">
+        <VerificationBadges
+          tags={user.verifications}
+          size="xs"
+          max={4}
+          className="gap-0.5"
+        />
       </div>
     </Card>
   );

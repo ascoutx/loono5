@@ -1,9 +1,13 @@
-import { Crown, MapPin, MoreHorizontal, ShieldCheck } from "lucide-react";
+import { Crown, MapPin, MoreHorizontal } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { Screen } from "@/components/layout/screen";
 import { ScreenHeader } from "@/components/layout/screen-header";
+import {
+  VerificationBadges,
+  VerificationTagWall,
+} from "@/components/profile/verification-badges";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -22,7 +26,7 @@ export default async function UserProfilePage({
 
   const t = await getTranslations("user");
   const tt = await getTranslations("tier");
-  const tp = await getTranslations("profile");
+  const tv = await getTranslations("verification");
 
   const user = findUser(id);
   if (!user) {
@@ -91,20 +95,18 @@ export default async function UserProfilePage({
               <Badge variant="outline" className="gap-0.5 text-[10px]">
                 <Crown className="size-2.5" />L{user.level}
               </Badge>
-              {user.kycStatus === "approved" ? (
-                <Badge
-                  variant="outline"
-                  className="gap-0.5 border-emerald-600/40 text-[10px] text-emerald-600"
-                >
-                  <ShieldCheck className="size-2.5" />
-                  {tp("verified")}
-                </Badge>
-              ) : null}
             </div>
             <p className="flex items-center gap-1 text-sm text-muted-foreground">
               <MapPin className="size-3.5" />
               {t("ageCity", { age: user.age, city: user.city })}
             </p>
+
+            <VerificationBadges
+              tags={user.verifications}
+              showUnverified
+              size="sm"
+              className="mt-1"
+            />
           </header>
 
           {!unlocked && !locked ? (
@@ -134,6 +136,10 @@ export default async function UserProfilePage({
                 </li>
               ))}
             </ul>
+          </section>
+          <section className="flex flex-col gap-1.5">
+            <h3 className="text-sm font-semibold">{tv("title")}</h3>
+            <VerificationTagWall tags={user.verifications} />
           </section>
         </div>
       </Screen>

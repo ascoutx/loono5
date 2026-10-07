@@ -2,6 +2,12 @@ import type { Plan } from "@/types/user";
 import type { Agent, PromoCode, Payout, Referral } from "@/types/agent";
 import type { ChatThread, Message } from "@/types/chat";
 import type { PublicUser } from "@/types/user";
+import type {
+  VerificationCode,
+  VerificationStatus,
+  VerificationTag,
+} from "@/types/verification";
+import { getTagDefinition } from "@/lib/verification";
 
 /**
  * Placeholder data for the starter project.
@@ -10,6 +16,47 @@ import type { PublicUser } from "@/types/user";
 
 const AVATAR = (seed: string) =>
   `https://images.unsplash.com/photo-${seed}?w=400&q=80`;
+
+const BADGE_VERIFIED_AT = "2026-06-01T00:00:00.000Z";
+
+function addMonths(iso: string, months: number): string {
+  const date = new Date(iso);
+  date.setMonth(date.getMonth() + months);
+  return date.toISOString();
+}
+
+/**
+ * Builds a badge list from a compact spec (Module R).
+ *
+ * Anything left out of the spec stays `unverified` and renders grey, which is
+ * what most mock members show. Approved badges with a validity window get an
+ * expiry date so R5 can be demoed.
+ */
+function badges(
+  spec: Partial<Record<VerificationCode, VerificationStatus>>,
+): VerificationTag[] {
+  return (Object.entries(spec) as [VerificationCode, VerificationStatus][]).map(
+    ([code, status]) => {
+      const passed = status === "approved" || status === "expired";
+      const months = getTagDefinition(code)?.validityMonths ?? null;
+
+      let expiresAt: string | null = null;
+      if (passed && months) {
+        expiresAt = addMonths(BADGE_VERIFIED_AT, months);
+      }
+      if (status === "expired") {
+        expiresAt = addMonths(BADGE_VERIFIED_AT, months ?? 3);
+      }
+
+      return {
+        code,
+        status,
+        verifiedAt: passed ? BADGE_VERIFIED_AT : null,
+        expiresAt,
+      };
+    },
+  );
+}
 
 /**
  * Subscription tiers. Yearly is billed as 10 months for 12 (~17% off), so the
@@ -45,6 +92,13 @@ export const currentUser: PublicUser = {
   level: 2,
   kycStatus: "approved",
   isOnline: true,
+  verifications: badges({
+    realname: "approved",
+    education: "approved",
+    job: "approved",
+    income: "pending",
+    marriage: "approved",
+  }),
   lastActiveAt: new Date().toISOString(),
   subscription: {
     status: "active",
@@ -72,6 +126,11 @@ export const catalogUsers: PublicUser[] = [
     kycStatus: "approved",
     isOnline: true,
     lastActiveAt: new Date().toISOString(),
+    verifications: badges({
+      realname: "approved",
+      education: "pending",
+      job: "approved",
+    }),
     subscription: {
       status: "trialing",
       level: 1,
@@ -96,6 +155,14 @@ export const catalogUsers: PublicUser[] = [
     kycStatus: "approved",
     isOnline: false,
     lastActiveAt: "2026-10-02T18:00:00.000Z",
+    verifications: badges({
+      realname: "approved",
+      education: "approved",
+      job: "approved",
+      income: "approved",
+      asset: "approved",
+      marriage: "approved",
+    }),
     subscription: {
       status: "active",
       level: 2,
@@ -120,6 +187,16 @@ export const catalogUsers: PublicUser[] = [
     kycStatus: "approved",
     isOnline: true,
     lastActiveAt: new Date().toISOString(),
+    verifications: badges({
+      realname: "approved",
+      education: "approved",
+      job: "approved",
+      income: "approved",
+      asset: "approved",
+      property: "approved",
+      marriage: "approved",
+      criminal: "approved",
+    }),
     subscription: {
       status: "active",
       level: 3,
@@ -143,6 +220,7 @@ export const catalogUsers: PublicUser[] = [
     level: 1,
     kycStatus: "pending",
     isOnline: false,
+    verifications: badges({ realname: "pending" }),
     lastActiveAt: "2026-09-28T09:00:00.000Z",
     subscription: {
       status: "active",
@@ -168,6 +246,14 @@ export const catalogUsers: PublicUser[] = [
     kycStatus: "approved",
     isOnline: false,
     lastActiveAt: "2026-09-30T12:00:00.000Z",
+    verifications: badges({
+      realname: "approved",
+      education: "approved",
+      asset: "approved",
+      property: "approved",
+      marriage: "approved",
+      criminal: "expired",
+    }),
     subscription: {
       status: "active",
       level: 4,
@@ -192,6 +278,12 @@ export const catalogUsers: PublicUser[] = [
     kycStatus: "approved",
     isOnline: true,
     lastActiveAt: new Date().toISOString(),
+    verifications: badges({
+      realname: "approved",
+      education: "approved",
+      job: "approved",
+      asset: "expired",
+    }),
     subscription: {
       status: "active",
       level: 2,
