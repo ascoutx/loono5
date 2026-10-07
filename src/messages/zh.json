@@ -155,6 +155,33 @@
       "cta": "升级等级"
     }
   },
+  "verification": {
+    "title": "认证标签",
+    "count": "已认证 {verified}/{total}",
+    "hint": "彩色图标代表已通过认证，灰色代表尚未认证。",
+    "manage": "去认证",
+    "validity": {
+      "months": "有效期 {months} 个月"
+    },
+    "tags": {
+      "realname": "实名认证",
+      "education": "学历认证",
+      "job": "工作职业认证",
+      "income": "收入认证",
+      "asset": "财产资产认证",
+      "property": "房产车产认证",
+      "marriage": "婚姻状况认证",
+      "criminal": "无犯罪记录认证"
+    },
+    "status": {
+      "unverified": "未认证",
+      "pending": "审核中",
+      "approved": "已认证",
+      "rejected": "审核未通过",
+      "expired": "已过期",
+      "revoked": "已撤销"
+    }
+  },
   "chats": {
     "title": "消息",
     "empty": "还没有聊天",

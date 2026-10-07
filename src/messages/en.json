@@ -159,6 +159,33 @@
       "cta": "Upgrade level"
     }
   },
+  "verification": {
+    "title": "Verification badges",
+    "count": "{verified} of {total} verified",
+    "hint": "Coloured icons are verified. Grey icons have not been verified yet.",
+    "manage": "Get verified",
+    "validity": {
+      "months": "Valid for {months} months"
+    },
+    "tags": {
+      "realname": "ID verified",
+      "education": "Education verified",
+      "job": "Employment verified",
+      "income": "Income verified",
+      "asset": "Assets verified",
+      "property": "Property verified",
+      "marriage": "Marital status verified",
+      "criminal": "Criminal record check"
+    },
+    "status": {
+      "unverified": "Not verified",
+      "pending": "Under review",
+      "approved": "Verified",
+      "rejected": "Rejected",
+      "expired": "Expired",
+      "revoked": "Revoked"
+    }
+  },
   "chats": {
     "title": "Chats",
     "empty": "No conversations yet",

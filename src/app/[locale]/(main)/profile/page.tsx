@@ -1,5 +1,4 @@
 import {
-  BadgeCheck,
   ChevronRight,
   Crown,
   LogOut,
@@ -13,6 +12,10 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MockLevelSwitcher } from "@/components/auth/mock-level-switcher";
 import { Screen } from "@/components/layout/screen";
 import { ScreenHeader } from "@/components/layout/screen-header";
+import {
+  VerificationBadges,
+  VerificationTagWall,
+} from "@/components/profile/verification-badges";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,6 +26,7 @@ import { getCurrentUser } from "@/lib/auth/current-user";
 import { currentAgent, plans } from "@/lib/mock-data";
 import { planLabelKey } from "@/lib/plans";
 import { daysUntilExpiry, hasActiveSubscription } from "@/lib/tiers";
+import { VERIFICATION_TAG_COUNT, countVerifiedTags } from "@/lib/verification";
 
 export default async function ProfilePage({
   params,
@@ -34,6 +38,7 @@ export default async function ProfilePage({
 
   const t = await getTranslations("profile");
   const ts = await getTranslations("subscription");
+  const tv = await getTranslations("verification");
 
   const currentUser = await getCurrentUser();
 
@@ -42,6 +47,7 @@ export default async function ProfilePage({
   const plan = plans.find(
     (item) => item.level === currentUser.subscription.level,
   );
+  const verifiedCount = countVerifiedTags(currentUser.verifications);
 
   const rows = [
     { href: "/profile/subscription", icon: Crown, label: t("subscription") },
@@ -55,33 +61,63 @@ export default async function ProfilePage({
       <ScreenHeader title={t("title")} />
 
       <Screen>
-        <Card className="flex flex-row items-center gap-3 p-4">
-          <Avatar className="size-14">
-            <AvatarImage src={currentUser.avatarUrl} alt="" />
-            <AvatarFallback>{currentUser.name.slice(0, 2)}</AvatarFallback>
-          </Avatar>
+        <Card className="p-4">
+          <div className="flex flex-row items-center gap-3">
+            <Avatar className="size-14">
+              <AvatarImage src={currentUser.avatarUrl} alt="" />
+              <AvatarFallback>{currentUser.name.slice(0, 2)}</AvatarFallback>
+            </Avatar>
 
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-1.5">
-              <span className="truncate text-base font-semibold">
+            <div className="min-w-0 flex-1">
+              <span className="block truncate text-base font-semibold">
                 {currentUser.name}
               </span>
-              {currentUser.kycStatus === "approved" ? (
-                <BadgeCheck className="size-4 shrink-0 text-emerald-600" />
-              ) : null}
+              <p className="truncate text-xs text-muted-foreground">
+                {currentUser.age} · {currentUser.city}
+              </p>
             </div>
-            <p className="truncate text-xs text-muted-foreground">
-              {currentUser.age} · {currentUser.city}
-            </p>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              className="shrink-0"
+              render={<Link href="/onboarding/profile" />}
+            >
+              {t("edit")}
+            </Button>
           </div>
 
-          <Button
-            variant="ghost"
+          <VerificationBadges
+            tags={currentUser.verifications}
+            showUnverified
             size="sm"
-            className="shrink-0"
-            render={<Link href="/onboarding/profile" />}
+            className="mt-3"
+          />
+        </Card>
+
+        <Card className="mt-3 p-4">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs text-muted-foreground">{tv("title")}</span>
+            <span className="text-[11px] font-medium text-muted-foreground">
+              {tv("count", {
+                verified: verifiedCount,
+                total: VERIFICATION_TAG_COUNT,
+              })}
+            </span>
+          </div>
+
+          <VerificationTagWall
+            tags={currentUser.verifications}
+            className="mt-3"
+          />
+
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-3 w-full rounded-full"
+            render={<Link href="/onboarding/kyc" />}
           >
-            {t("edit")}
+            {tv("manage")}
           </Button>
         </Card>
 

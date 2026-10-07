@@ -1,3 +1,5 @@
+import type { VerificationTag } from "@/types/verification";
+
 export const USER_LEVELS = [1, 2, 3, 4] as const;
 
 export type UserLevel = (typeof USER_LEVELS)[number];
@@ -21,6 +23,8 @@ export interface PublicUser {
   interests: string[];
   level: UserLevel;
   kycStatus: KycStatus;
+  /** Module R — badges the member submitted or passed. */
+  verifications: VerificationTag[];
   isOnline: boolean;
   lastActiveAt: string;
   subscription: Subscription;
