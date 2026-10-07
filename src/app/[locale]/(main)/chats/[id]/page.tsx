@@ -27,6 +27,9 @@ export default async function ChatThreadPage({
     <>
       <ScreenHeader
         backHref="/chats"
+        // The rail is always visible from xl up, so the back arrow would
+        // only ever lead to the "pick a conversation" placeholder.
+        backClassName="xl:hidden"
         title={thread.peer.name}
         action={
           thread.peer.isOnline ? (
@@ -38,7 +41,7 @@ export default async function ChatThreadPage({
       />
 
       <div className="flex flex-1 flex-col">
-        <ul className="flex flex-1 flex-col gap-3 px-4 py-4">
+        <ul className="flex flex-1 flex-col gap-3 px-4 py-4 md:px-6 xl:px-8">
           <li className="my-1 text-center text-[10px] text-muted-foreground">
             {t("today")}
           </li>
@@ -52,7 +55,7 @@ export default async function ChatThreadPage({
         </ul>
 
         <div
-          className="sticky bottom-0 border-t border-border bg-background/95 px-3 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] backdrop-blur"
+          className="sticky bottom-0 border-t border-border bg-background/95 px-3 pt-2 backdrop-blur md:px-5 xl:px-7"
           style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
         >
           <ChatComposer />

@@ -26,9 +26,14 @@ export default async function AuthPage({
 
   return (
     <AppShell>
-      <ScreenHeader title={tc("appName")} center action={<LocaleSwitcher />} />
+      <ScreenHeader
+        title={tc("appName")}
+        center
+        action={<LocaleSwitcher />}
+        width="narrow"
+      />
 
-      <div className="flex flex-1 flex-col px-4">
+      <div className="mx-auto flex w-full max-w-[42rem] flex-1 flex-col px-4 md:px-6">
         <div className="flex flex-col gap-1 pt-4 pb-6">
           <h2 className="text-xl font-bold">{t("title")}</h2>
           <p className="text-sm text-muted-foreground">{t("subtitle")}</p>

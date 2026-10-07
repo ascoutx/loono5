@@ -22,11 +22,12 @@ export default async function OnboardingProfilePage({
 
   return (
     <Screen
+      width="narrow"
       footer={
         <Button
           size="lg"
           className="w-full rounded-full"
-          render={<Link href="/onboarding/kyc" />}
+          render={<Link href="/onboarding/attributes" />}
         >
           {t("submit")}
         </Button>

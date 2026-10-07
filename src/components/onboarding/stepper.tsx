@@ -30,7 +30,7 @@ export function OnboardingStepper({ steps, children }: OnboardingStepperProps) {
 
   return (
     <div className="flex min-h-full flex-1 flex-col">
-      <ol className="flex items-center gap-2 px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-2">
+      <ol className="mx-auto flex w-full max-w-[42rem] items-center gap-2 px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-2 md:px-6">
         {steps.map((step, index) => {
           const done = index < currentIndex;
           const active = index === currentIndex;

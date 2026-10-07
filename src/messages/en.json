@@ -47,6 +47,186 @@
       "online": "online now"
     }
   },
+  "portal": {
+    "nav": {
+      "how": "How it works",
+      "pricing": "Membership",
+      "stories": "Success stories",
+      "faq": "FAQ",
+      "regions": "Global members"
+    },
+    "login": "Log in",
+    "join": "Join free",
+    "hero": {
+      "badge": "100% verified real people",
+      "title": "Dating with intention, starting on LOONO",
+      "subtitle": "We don't chase the biggest pool — we chase the right one. ID verification, tiered membership and live translation take the guesswork out of international dating.",
+      "ctaPrimary": "Start matching free",
+      "ctaSecondary": "See membership tiers",
+      "trustLine": "Equal pricing for everyone · 30-day free trial · Cancel anytime",
+      "pulse": "Every 14 minutes, someone finds love on LOONO",
+      "stats": {
+        "members": "verified members",
+        "countries": "countries & regions",
+        "matches": "cross-border couples"
+      },
+      "collageCaption": "Demo profiles · not real users"
+    },
+    "pillars": {
+      "eyebrow": "Why LOONO",
+      "title": "Three reasons this is built for the long run",
+      "subtitle": "From the very first day, every step is designed around “long-term”.",
+      "items": [
+        {
+          "tag": "01",
+          "title": "Date with intention",
+          "body": "Every member clears both an ID check and a live video check, and the directory opens tier by tier — what gets filtered out is the wrong intent.",
+          "points": [
+            "ID + live video verification",
+            "Tiered visibility, fewer dead-end messages",
+            "Live profile completeness meter"
+          ]
+        },
+        {
+          "tag": "02",
+          "title": "State your conditions, let matching do the legwork",
+          "body": "Height, age, language, faith, assets, plans for children — say exactly what matters and we only introduce people who qualify.",
+          "points": [
+            "Basic conditions are free",
+            "Premium conditions unlock by tier",
+            "Sensitive filters are region-gated"
+          ]
+        },
+        {
+          "tag": "03",
+          "title": "Safe from the very first day",
+          "body": "Nine verification badges — identity, education, job, assets, marital status, criminal record and more — light up one by one, so trust is visible at a glance.",
+          "points": [
+            "Nine badges; colour means verified",
+            "Sensitive conditions stay hidden from the other side",
+            "Transparent privacy and account deletion"
+          ]
+        }
+      ]
+    },
+    "stories": {
+      "eyebrow": "Success stories",
+      "title": "People who found their person here",
+      "subtitle": "Different countries, different languages — the same “this is the one”.",
+      "cta": "Read more stories",
+      "items": [
+        {
+          "name": "Mei & Aleksandr",
+          "meta": "Shanghai ↔ Moscow · married 2025",
+          "quote": "We talked for six months across three languages. The translator meant we never misunderstood each other."
+        },
+        {
+          "name": "Yuki & Daniel",
+          "meta": "Tokyo ↔ London · engaged 2024",
+          "quote": "All of his verification badges were lit. That reassured me more than any compliment could."
+        },
+        {
+          "name": "Sofia & Marco",
+          "meta": "St Petersburg ↔ Milan · married 2025",
+          "quote": "I wrote eleven conditions. On day three I met someone who matched every single one."
+        }
+      ]
+    },
+    "pricing": {
+      "eyebrow": "Membership",
+      "title": "Pick the tier that matches how serious you are",
+      "subtitle": "Invitation-only, equal pricing for all genders. The higher the tier, the wider the pool you can see.",
+      "monthly": "/month",
+      "yearly": "/year",
+      "yearlySave": "Save {percent}% yearly",
+      "popular": "Most popular",
+      "cta": "Choose this tier",
+      "contactCta": "Contact us",
+      "byInvitation": "By invitation only",
+      "visibility": "See L{from} – L{to} members",
+      "planFeatures": [
+        [
+          "Unlimited browsing and chat",
+          "Live translation in chat",
+          "Basic partner conditions"
+        ],
+        [
+          "Everything in Basic",
+          "Higher-tier profiles unlocked",
+          "All premium conditions"
+        ],
+        [
+          "Everything in Advanced",
+          "Priority ranking and featured profile",
+          "Dedicated support channel"
+        ],
+        [
+          "Everything in Premium",
+          "Human matchmaking service",
+          "One-to-one agent support"
+        ]
+      ],
+      "note": "Prices auto-convert by country and currency; figures shown are demo data."
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Questions you might have",
+      "items": [
+        {
+          "q": "How is LOONO different from other dating apps?",
+          "a": "We treat a long-term relationship as the premise, not an option. Members clear an ID and live-video check, the directory opens tier by tier, and your conditions can be stated very precisely — all of it pointing at one thing: serious people meeting serious people, faster."
+        },
+        {
+          "q": "Do I have to pay to use it?",
+          "a": "Registering, completing your profile and setting basic conditions are free. Seeing full profiles and starting chats requires the matching membership tier. New members get a 30-day free trial and can cancel at any time."
+        },
+        {
+          "q": "What if we don't share a language?",
+          "a": "The chat window translates live between Chinese, English and Russian, so you can preview exactly what the other person will read and avoid tone getting lost in translation."
+        },
+        {
+          "q": "Where do the verification badges come from?",
+          "a": "Members submit supporting documents one by one; a badge turns colour only after a human review passes. Some badges carry an expiry date and move to pending when it lapses. Anything not submitted or not approved stays grey."
+        },
+        {
+          "q": "How is my privacy protected?",
+          "a": "Sensitive conditions — an asset threshold, a specific personal requirement — are used for filtering only and are never shown to the other person, and they switch on or off automatically according to local law. You can start account deletion from Settings at any time; a 7-day cooling-off period applies."
+        }
+      ]
+    },
+    "regions": {
+      "eyebrow": "Global members",
+      "title": "Find the one closest to you",
+      "subtitle": "Members live across more than 80 countries and regions. Pick a region to see who's waiting for something real there.",
+      "cta": "See all regions"
+    },
+    "footer": {
+      "columns": {
+        "product": "Product",
+        "about": "About LOONO",
+        "legal": "Legal & privacy",
+        "support": "Help & support"
+      },
+      "product": [
+        "Discover members",
+        "Membership tiers",
+        "Verification",
+        "Partner programme"
+      ],
+      "about": ["About us", "Our team", "Careers", "Press"],
+      "legal": [
+        "Terms of use",
+        "Privacy policy",
+        "Deletion policy",
+        "Minor protection"
+      ],
+      "support": ["Help centre", "FAQ", "Contact us", "Feedback"],
+      "disclaimer": "This page is a product demo. All member profiles, prices and statistics are sample data and do not represent real users.",
+      "rights": "© 2026 LOONO. All rights reserved.",
+      "company": "LOONO International · demo site",
+      "appStore": "iOS / Android coming soon"
+    }
+  },
   "auth": {
     "title": "Welcome back",
     "subtitle": "Log in to keep browsing and chatting",
@@ -70,9 +250,13 @@
     }
   },
   "onboarding": {
-    "steps": "Complete profile",
-    "identity": "Verification",
-    "plan": "Choose plan",
+    "stepper": {
+      "profile": "Basics",
+      "attributes": "About me",
+      "partner": "Looking for",
+      "kyc": "ID check",
+      "subscription": "Plan"
+    },
     "stepOf": "Step {current} of {total}",
     "profile": {
       "title": "Complete your profile",
@@ -90,6 +274,19 @@
       "photosHint": "Upload at least 1 clear face photo",
       "upload": "Upload photo",
       "submit": "Save and continue"
+    },
+    "attributes": {
+      "title": "Your attributes",
+      "subtitle": "These attributes power matching and introductions — the more you add, the better the fits",
+      "continue": "Save and continue",
+      "hint": "Sensitive details such as height and assets stay private and are only used for matching"
+    },
+    "partner": {
+      "title": "Partner preferences",
+      "subtitle": "Set the basics now — you can fine-tune them any time after signing up",
+      "continue": "Save and continue",
+      "skip": "Skip for now",
+      "hint": "Special conditions are billed separately and stay inactive until paid"
     },
     "kyc": {
       "title": "Identity verification",
@@ -189,6 +386,7 @@
   },
   "chats": {
     "title": "Chats",
+    "selectHint": "Pick a conversation from the list to start chatting",
     "empty": "No conversations yet",
     "emptyHint": "Head to Discover to meet someone new",
     "unread": "{count} unread",

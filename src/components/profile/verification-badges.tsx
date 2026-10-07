@@ -159,7 +159,7 @@ export function VerificationTagWall({
 
   return (
     <div className={cn("flex flex-col gap-2.5", className)}>
-      <ul className="grid grid-cols-2 gap-2">
+      <ul className="grid grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-4">
         {VERIFICATION_TAGS.map((definition) => {
           const code = definition.code;
           const status =

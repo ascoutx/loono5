@@ -33,9 +33,10 @@ export default async function AgentJoinPage({
 
   return (
     <AppShell>
-      <ScreenHeader backHref="/" title={ta("join.title")} />
+      <ScreenHeader backHref="/" title={ta("join.title")} width="narrow" />
 
       <Screen
+        width="narrow"
         footer={
           <Button
             size="lg"

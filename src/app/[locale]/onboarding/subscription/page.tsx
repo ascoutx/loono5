@@ -17,6 +17,7 @@ export default async function OnboardingSubscriptionPage({
 
   return (
     <Screen
+      width="narrow"
       footer={
         <Button
           size="lg"

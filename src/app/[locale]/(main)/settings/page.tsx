@@ -70,9 +70,10 @@ export default async function SettingsPage({
         title={t("title")}
         backHref="/profile"
         action={<LocaleSwitcher />}
+        width="narrow"
       />
 
-      <Screen>
+      <Screen width="narrow">
         <MockLevelSwitcher
           current={session?.level ?? null}
           signedIn={signedIn}

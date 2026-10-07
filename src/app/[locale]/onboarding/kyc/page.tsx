@@ -39,6 +39,7 @@ export default async function OnboardingKycPage({
 
   return (
     <Screen
+      width="narrow"
       footer={
         <div className="flex flex-col gap-2">
           <Button
