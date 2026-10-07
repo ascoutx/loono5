@@ -21,9 +21,9 @@ export default async function SubscriptionPage({
 
   return (
     <>
-      <ScreenHeader backHref="/profile" title={t("title")} />
+      <ScreenHeader backHref="/profile" title={t("title")} width="narrow" />
 
-      <Screen>
+      <Screen width="narrow">
         <p className="pb-4 text-sm text-muted-foreground">{t("subtitle")}</p>
 
         <PlanPicker

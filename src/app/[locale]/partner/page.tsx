@@ -70,7 +70,7 @@ export default async function PartnerPage({
         }
       />
 
-      <div className="relative z-10 flex flex-col gap-3 px-4 pt-2 pb-8">
+      <div className="relative z-10 flex flex-col gap-3 px-4 pt-2 pb-8 md:px-6 xl:px-8">
         {/* Partner identity */}
         <Card className="flex flex-row items-center gap-3 border-white/10 bg-white/5 p-4 backdrop-blur-xl">
           <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-loono-rose to-loono-violet">
@@ -125,7 +125,7 @@ export default async function PartnerPage({
         </Card>
 
         {/* KPI grid */}
-        <ul className="grid grid-cols-2 gap-2">
+        <ul className="grid grid-cols-2 gap-2 xl:grid-cols-3">
           {kpis.map((kpi) => {
             const Icon = kpi.icon;
             return (

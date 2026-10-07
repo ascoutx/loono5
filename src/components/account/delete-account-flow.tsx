@@ -132,6 +132,7 @@ export function DeleteAccountFlow({ phone }: { phone: string | null }) {
         />
 
         <Screen
+          width="narrow"
           footer={
             <div className="flex flex-col gap-2">
               {withdrawn ? null : (
@@ -205,7 +206,7 @@ export function DeleteAccountFlow({ phone }: { phone: string | null }) {
         backHref={stepIndex === 0 ? "/settings" : undefined}
       />
 
-      <Screen footer={renderFooter()}>
+      <Screen width="narrow" footer={renderFooter()}>
         <StepIndicator
           current={stepIndex}
           label={t(`steps.${step}`)}
@@ -557,7 +558,7 @@ function FlowHeader({ title, backLabel, onBack, backHref }: FlowHeaderProps) {
     "flex size-9 shrink-0 items-center justify-center rounded-full text-foreground/80 transition-colors hover:bg-muted active:bg-muted";
 
   return (
-    <header className="sticky top-0 z-30 flex min-h-14 shrink-0 items-center gap-2 bg-background/95 px-2 pt-[max(0.75rem,env(safe-area-inset-top))] pb-2 backdrop-blur">
+    <header className="sticky top-0 z-30 mx-auto flex min-h-14 w-full max-w-[42rem] shrink-0 items-center gap-2 bg-background/95 px-2 pt-[max(0.75rem,env(safe-area-inset-top))] pb-2 backdrop-blur md:px-4">
       {onBack ? (
         <button
           type="button"

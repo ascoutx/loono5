@@ -45,7 +45,7 @@ export default async function CatalogPage({
         }
       />
 
-      <div className="sticky top-14 z-20 flex gap-2 overflow-x-auto bg-background/95 px-4 py-2 backdrop-blur">
+      <div className="sticky top-14 z-20 flex gap-2 overflow-x-auto bg-background/95 px-4 py-2 backdrop-blur md:px-6 xl:px-8">
         {TABS.map((tab, index) => (
           <Badge
             key={tab}
@@ -58,11 +58,11 @@ export default async function CatalogPage({
       </div>
 
       {subscribed ? (
-        <div className="px-4 pb-2 text-xs text-muted-foreground">
+        <div className="px-4 pb-2 text-xs text-muted-foreground md:px-6 xl:px-8">
           {t("resultsCount", { count: catalogUsers.length })}
         </div>
       ) : (
-        <div className="px-4 pb-2">
+        <div className="px-4 pb-2 md:px-6 xl:px-8">
           <Badge variant="secondary" className="rounded-full text-[10px]">
             {tc("comingSoon")}
           </Badge>
@@ -70,11 +70,11 @@ export default async function CatalogPage({
       )}
 
       {catalogUsers.length === 0 ? (
-        <p className="px-4 py-16 text-center text-sm text-muted-foreground">
+        <p className="px-4 py-16 text-center text-sm text-muted-foreground md:px-6 xl:px-8">
           {t("empty")}
         </p>
       ) : (
-        <ul className="grid grid-cols-2 gap-2 px-4 pb-6">
+        <ul className="grid grid-cols-2 gap-2 px-4 pb-6 md:grid-cols-3 md:gap-3 md:px-6 xl:grid-cols-4 xl:gap-4 xl:px-8">
           {catalogUsers.map((user) => (
             <li key={user.id}>
               <Link href={`/user/${user.id}`} className="block">

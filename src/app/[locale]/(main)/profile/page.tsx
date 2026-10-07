@@ -76,187 +76,208 @@ export default async function ProfilePage({
       <ScreenHeader title={t("title")} />
 
       <Screen>
-        <Card className="p-4">
-          <div className="flex flex-row items-center gap-3">
-            <Avatar className="size-14">
-              <AvatarImage src={currentUser.avatarUrl} alt="" />
-              <AvatarFallback>{currentUser.name.slice(0, 2)}</AvatarFallback>
-            </Avatar>
+        {/*
+          Two columns from xl up, one column on mobile.
 
-            <div className="min-w-0 flex-1">
-              <span className="block truncate text-base font-semibold">
-                {currentUser.name}
-              </span>
-              <p className="truncate text-xs text-muted-foreground">
-                {currentUser.age} · {currentUser.city}
-              </p>
-            </div>
+          The two grouping divs are `display: contents` below xl, so their
+          children drop straight into the outer flex column and the mobile
+          stacking order is exactly what it always was. The `order-*` values
+          do double duty: they reproduce the original interleaved sequence on
+          mobile, and inside each desktop column they are already ascending.
+        */}
+        <div className="flex flex-col gap-3 xl:grid xl:grid-cols-[minmax(0,21rem)_minmax(0,1fr)] xl:items-start xl:gap-x-6">
+          {/* ── Left: identity, level, shortcuts ───────────────────────── */}
+          <div className="contents xl:flex xl:flex-col xl:gap-3">
+            <Card className="order-1 p-4">
+              <div className="flex flex-row items-center gap-3">
+                <Avatar className="size-14">
+                  <AvatarImage src={currentUser.avatarUrl} alt="" />
+                  <AvatarFallback>
+                    {currentUser.name.slice(0, 2)}
+                  </AvatarFallback>
+                </Avatar>
+
+                <div className="min-w-0 flex-1">
+                  <span className="block truncate text-base font-semibold">
+                    {currentUser.name}
+                  </span>
+                  <p className="truncate text-xs text-muted-foreground">
+                    {currentUser.age} · {currentUser.city}
+                  </p>
+                </div>
+
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="shrink-0"
+                  render={<Link href="/profile/edit" />}
+                >
+                  {t("edit")}
+                </Button>
+              </div>
+
+              <VerificationBadges
+                tags={currentUser.verifications}
+                showUnverified
+                size="sm"
+                className="mt-3"
+              />
+            </Card>
+
+            <Card className="order-5 p-4">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-muted-foreground">
+                  {t("myLevel")}
+                </span>
+                <Badge className="gap-1 rounded-full">
+                  <Crown className="size-3" />
+                  {t("level", { level: currentUser.subscription.level ?? 1 })}
+                </Badge>
+              </div>
+
+              <div className="mt-3 flex items-end justify-between">
+                <div>
+                  <p className="text-sm font-semibold">
+                    {plan ? ts(planLabelKey(plan.level)) : "—"}
+                  </p>
+                  <p className="mt-0.5 text-[11px] text-muted-foreground">
+                    {active && expiresAt
+                      ? `${t("expiresAt")}: ${new Date(expiresAt).toLocaleDateString(locale)} · ${t("daysLeft", { days: daysUntilExpiry(expiresAt) })}`
+                      : t("expired")}
+                  </p>
+                </div>
+                <Button
+                  size="sm"
+                  className="rounded-full"
+                  render={<Link href="/profile/subscription" />}
+                >
+                  {t("upgrade")}
+                </Button>
+              </div>
+            </Card>
+
+            <MockLevelSwitcher
+              current={currentUser.subscription.level}
+              signedIn={true}
+              className="order-6"
+            />
+
+            <Card className="order-7 overflow-hidden p-0">
+              {rows.map((row, index) => {
+                const Icon = row.icon;
+                return (
+                  <div key={row.href}>
+                    {index > 0 ? <Separator /> : null}
+                    <Link
+                      href={row.href}
+                      className="flex items-center gap-3 px-4 py-3.5 transition-colors hover:bg-muted/50 active:bg-muted"
+                    >
+                      <Icon className="size-4 shrink-0 text-muted-foreground" />
+                      <span className="flex-1 text-sm">{row.label}</span>
+                      <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+                    </Link>
+                  </div>
+                );
+              })}
+            </Card>
 
             <Button
               variant="ghost"
-              size="sm"
-              className="shrink-0"
-              render={<Link href="/profile/edit" />}
+              className="order-8 w-full gap-2 text-destructive hover:text-destructive"
             >
-              {t("edit")}
+              <LogOut className="size-4" />
+              {t("logout")}
             </Button>
+
+            <p className="order-9 flex items-center justify-center gap-1 text-[11px] text-muted-foreground">
+              <Ticket className="size-3" />
+              {t("myReferrals")}: {currentAgent.refCode}
+            </p>
           </div>
 
-          <VerificationBadges
-            tags={currentUser.verifications}
-            showUnverified
-            size="sm"
-            className="mt-3"
-          />
-        </Card>
+          {/* ── Right: profile depth, preferences, verifications ─────────── */}
+          <div className="contents xl:flex xl:flex-col xl:gap-3">
+            {/* Module P — completeness + the extended attribute set. */}
+            <Card className="order-2 p-4">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs text-muted-foreground">
+                  {t("completeness")}
+                </span>
+                <span className="text-[11px] font-medium tabular-nums">
+                  {t("completenessValue", { percent: completion.percent })}
+                </span>
+              </div>
 
-        {/* Module P — completeness + the extended attribute set. */}
-        <Card className="mt-3 p-4">
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-xs text-muted-foreground">
-              {t("completeness")}
-            </span>
-            <span className="text-[11px] font-medium tabular-nums">
-              {t("completenessValue", { percent: completion.percent })}
-            </span>
-          </div>
+              <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-muted">
+                <div
+                  className="h-full rounded-full bg-primary transition-all"
+                  style={{ width: `${completion.percent}%` }}
+                />
+              </div>
 
-          <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-muted">
-            <div
-              className="h-full rounded-full bg-primary transition-all"
-              style={{ width: `${completion.percent}%` }}
-            />
-          </div>
+              <ProfileAttributes profile={profile} className="mt-4" />
 
-          <ProfileAttributes profile={profile} className="mt-4" />
+              <Button
+                variant="outline"
+                size="sm"
+                className="mt-4 w-full rounded-full"
+                render={<Link href="/profile/edit" />}
+              >
+                {t("details")}
+              </Button>
+            </Card>
 
-          <Button
-            variant="outline"
-            size="sm"
-            className="mt-4 w-full rounded-full"
-            render={<Link href="/profile/edit" />}
-          >
-            {t("details")}
-          </Button>
-        </Card>
-
-        {/* Module P — the conditions this member puts on a partner. */}
-        <Card className="mt-3 p-4">
-          <div className="flex items-center gap-2">
-            <HeartHandshake className="size-4 shrink-0 text-muted-foreground" />
-            <span className="flex-1 text-xs text-muted-foreground">
-              {t("preferences")}
-            </span>
-            <Link
-              href="/profile/edit?tab=partner"
-              className="text-[11px] font-medium text-primary"
-            >
-              {t("setPreferences")}
-            </Link>
-          </div>
-
-          <PartnerPreferenceSummary
-            preferences={preferences}
-            level={currentUser.subscription.level ?? currentUser.level}
-            className="mt-3"
-          />
-        </Card>
-
-        <Card className="mt-3 p-4">
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-xs text-muted-foreground">{tv("title")}</span>
-            <span className="text-[11px] font-medium text-muted-foreground">
-              {tv("count", {
-                verified: verifiedCount,
-                total: VERIFICATION_TAG_COUNT,
-              })}
-            </span>
-          </div>
-
-          <VerificationTagWall
-            tags={currentUser.verifications}
-            className="mt-3"
-          />
-
-          <Button
-            variant="outline"
-            size="sm"
-            className="mt-3 w-full rounded-full"
-            render={<Link href="/onboarding/kyc" />}
-          >
-            {tv("manage")}
-          </Button>
-        </Card>
-
-        <Card className="mt-3 p-4">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground">
-              {t("myLevel")}
-            </span>
-            <Badge className="gap-1 rounded-full">
-              <Crown className="size-3" />
-              {t("level", { level: currentUser.subscription.level ?? 1 })}
-            </Badge>
-          </div>
-
-          <div className="mt-3 flex items-end justify-between">
-            <div>
-              <p className="text-sm font-semibold">
-                {plan ? ts(planLabelKey(plan.level)) : "—"}
-              </p>
-              <p className="mt-0.5 text-[11px] text-muted-foreground">
-                {active && expiresAt
-                  ? `${t("expiresAt")}: ${new Date(expiresAt).toLocaleDateString(locale)} · ${t("daysLeft", { days: daysUntilExpiry(expiresAt) })}`
-                  : t("expired")}
-              </p>
-            </div>
-            <Button
-              size="sm"
-              className="rounded-full"
-              render={<Link href="/profile/subscription" />}
-            >
-              {t("upgrade")}
-            </Button>
-          </div>
-        </Card>
-
-        <MockLevelSwitcher
-          current={currentUser.subscription.level}
-          signedIn={true}
-          className="mt-3"
-        />
-
-        <Card className="mt-3 overflow-hidden p-0">
-          {rows.map((row, index) => {
-            const Icon = row.icon;
-            return (
-              <div key={row.href}>
-                {index > 0 ? <Separator /> : null}
+            {/* Module P — the conditions this member puts on a partner. */}
+            <Card className="order-3 p-4">
+              <div className="flex items-center gap-2">
+                <HeartHandshake className="size-4 shrink-0 text-muted-foreground" />
+                <span className="flex-1 text-xs text-muted-foreground">
+                  {t("preferences")}
+                </span>
                 <Link
-                  href={row.href}
-                  className="flex items-center gap-3 px-4 py-3.5 transition-colors hover:bg-muted/50 active:bg-muted"
+                  href="/profile/edit?tab=partner"
+                  className="text-[11px] font-medium text-primary"
                 >
-                  <Icon className="size-4 shrink-0 text-muted-foreground" />
-                  <span className="flex-1 text-sm">{row.label}</span>
-                  <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+                  {t("setPreferences")}
                 </Link>
               </div>
-            );
-          })}
-        </Card>
 
-        <Button
-          variant="ghost"
-          className="mt-4 w-full gap-2 text-destructive hover:text-destructive"
-        >
-          <LogOut className="size-4" />
-          {t("logout")}
-        </Button>
+              <PartnerPreferenceSummary
+                preferences={preferences}
+                level={currentUser.subscription.level ?? currentUser.level}
+                className="mt-3"
+              />
+            </Card>
 
-        <p className="mt-4 flex items-center justify-center gap-1 text-[11px] text-muted-foreground">
-          <Ticket className="size-3" />
-          {t("myReferrals")}: {currentAgent.refCode}
-        </p>
+            <Card className="order-4 p-4">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs text-muted-foreground">
+                  {tv("title")}
+                </span>
+                <span className="text-[11px] font-medium text-muted-foreground">
+                  {tv("count", {
+                    verified: verifiedCount,
+                    total: VERIFICATION_TAG_COUNT,
+                  })}
+                </span>
+              </div>
+
+              <VerificationTagWall
+                tags={currentUser.verifications}
+                className="mt-3"
+              />
+
+              <Button
+                variant="outline"
+                size="sm"
+                className="mt-3 w-full rounded-full"
+                render={<Link href="/onboarding/kyc" />}
+              >
+                {tv("manage")}
+              </Button>
+            </Card>
+          </div>
+        </div>
       </Screen>
     </>
   );

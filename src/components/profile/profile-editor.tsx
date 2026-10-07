@@ -61,6 +61,9 @@ import type { UserLevel } from "@/types/user";
  *   PATCH /me/profile      ← `profile`
  *   PATCH /me/preferences  ← `preferences`
  *   POST  /me/conditions/:code/purchase ← P4 unlock
+ *
+ * The two tabs are exported so the onboarding wizard can reuse the exact same
+ * field groups during registration (see `components/onboarding/*-step.tsx`).
  */
 
 interface ProfileEditorProps {
@@ -132,9 +135,10 @@ export function ProfileEditor({
 
   return (
     <>
-      <ScreenHeader title={t("title")} backHref="/profile" />
+      <ScreenHeader title={t("title")} backHref="/profile" width="narrow" />
 
       <Screen
+        width="narrow"
         footer={
           <div className="flex flex-col gap-2">
             {saved ? (
@@ -215,7 +219,7 @@ export function ProfileEditor({
 /* Shared building blocks                                                     */
 /* -------------------------------------------------------------------------- */
 
-function CompletionCard({
+export function CompletionCard({
   percent,
   label,
   value,
@@ -358,11 +362,14 @@ function PremiumGate({
   locked,
   lockedHint,
   cta,
+  upgradeHref = "/profile/subscription",
   children,
 }: {
   locked: boolean;
   lockedHint: string;
   cta: string;
+  /** Where the upsell CTA points; onboarding sends it to its own plan step. */
+  upgradeHref?: string;
   children: ReactNode;
 }) {
   return (
@@ -385,7 +392,7 @@ function PremiumGate({
           <Button
             size="sm"
             className="rounded-full"
-            render={<Link href="/profile/subscription" />}
+            render={<Link href={upgradeHref} />}
           >
             {cta}
           </Button>
@@ -399,7 +406,7 @@ function PremiumGate({
 /* Tab 1 — 个人资料                                                            */
 /* -------------------------------------------------------------------------- */
 
-function AboutTab({
+export function AboutTab({
   profile,
   update,
 }: {
@@ -554,7 +561,7 @@ function AboutTab({
 /* Tab 2 — 择偶条件                                                            */
 /* -------------------------------------------------------------------------- */
 
-interface PartnerTabProps {
+export interface PartnerTabProps {
   prefs: PartnerPreferences;
   updatePrefs: <K extends keyof PartnerPreferences>(
     key: K,
@@ -566,9 +573,16 @@ interface PartnerTabProps {
   exclusiveCost: number;
   toggleExclusive: (code: ExclusiveConditionCode) => void;
   purchaseExclusive: (code: ExclusiveConditionCode) => void;
+  /** Overrides the P3 upsell destination; defaults to the profile page. */
+  upgradeHref?: string;
+  /**
+   * The tab prints its own title/subtitle. Registration renders the page
+   * heading itself, so it turns this off rather than showing two.
+   */
+  showHeading?: boolean;
 }
 
-function PartnerTab({
+export function PartnerTab({
   prefs,
   updatePrefs,
   level,
@@ -577,6 +591,8 @@ function PartnerTab({
   exclusiveCost,
   toggleExclusive,
   purchaseExclusive,
+  upgradeHref,
+  showHeading = true,
 }: PartnerTabProps) {
   const tp = useTranslations("partnerPref");
   const tf = useTranslations("profileForm");
@@ -647,12 +663,14 @@ function PartnerTab({
 
   return (
     <>
-      <div className="flex flex-col gap-1 pt-3 pb-1">
-        <h2 className="text-sm font-semibold">{tp("title")}</h2>
-        <p className="text-[11px] leading-relaxed text-muted-foreground">
-          {tp("subtitle")}
-        </p>
-      </div>
+      {showHeading ? (
+        <div className="flex flex-col gap-1 pt-3 pb-1">
+          <h2 className="text-sm font-semibold">{tp("title")}</h2>
+          <p className="text-[11px] leading-relaxed text-muted-foreground">
+            {tp("subtitle")}
+          </p>
+        </div>
+      ) : null}
 
       {/* P1/P2 — free conditions */}
       <SectionCard
@@ -717,6 +735,7 @@ function PartnerTab({
             level: PREMIUM_PREFERENCE_MIN_LEVEL.education,
           })}
           cta={tp("premiumSection.cta")}
+          upgradeHref={upgradeHref}
         >
           <div className="flex flex-col gap-4">
             <Field label={tp("education.label")}>

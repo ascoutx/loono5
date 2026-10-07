@@ -2,7 +2,19 @@ import type { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
-import { SAFE_AREA } from "./mobile-frame";
+import { SAFE_AREA } from "./app-frame";
+
+/**
+ * `wide`   content pages: catalog grids, profile, chat.
+ * `narrow` forms and settings: a centred reading column on desktop, so a
+ *          two-field form never stretches across a 1440px window.
+ */
+type ScreenWidth = "wide" | "narrow";
+
+const BODY_PADDING: Record<ScreenWidth, string> = {
+  wide: "px-4 md:px-6 xl:px-8",
+  narrow: "mx-auto w-full max-w-[42rem] px-4 md:px-6",
+};
 
 interface ScreenProps {
   children: ReactNode;
@@ -11,25 +23,33 @@ interface ScreenProps {
   className?: string;
   /** Removes default horizontal padding, e.g. for full-bleed grids. */
   flush?: boolean;
+  width?: ScreenWidth;
 }
 
 /**
- * A single H5 screen.
+ * A single screen.
  *
  * `min-h-full` matters: the scroll container is the viewport-sized element
  * above, so a short screen still fills it and its sticky footer lands on the
  * bottom edge instead of floating mid-screen.
  */
-export function Screen({ children, footer, className, flush }: ScreenProps) {
+export function Screen({
+  children,
+  footer,
+  className,
+  flush,
+  width = "wide",
+}: ScreenProps) {
   return (
     <div className="flex min-h-full flex-1 flex-col">
-      <div className={cn("flex-1", !flush && "px-4", className)}>
+      <div className={cn("flex-1", !flush && BODY_PADDING[width], className)}>
         {children}
       </div>
       {footer ? (
         <div
           className={cn(
-            "sticky bottom-0 z-20 border-t border-border bg-background/95 px-4 pt-3 backdrop-blur",
+            "sticky bottom-0 z-20 border-t border-border bg-background/95 pt-3 backdrop-blur",
+            BODY_PADDING[width],
             "pb-[calc(0.75rem+env(safe-area-inset-bottom))]",
           )}
         >
@@ -41,3 +61,4 @@ export function Screen({ children, footer, className, flush }: ScreenProps) {
 }
 
 export { SAFE_AREA };
+export type { ScreenWidth };
