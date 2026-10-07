@@ -47,7 +47,7 @@ export default async function SettingsPage({
         {
           icon: UserRound,
           label: t("accountEdit"),
-          href: "/onboarding/profile",
+          href: "/profile/edit",
         },
         { icon: Lock, label: t("security"), href: "#" },
         { icon: ShieldCheck, label: t("privacy"), href: "#" },

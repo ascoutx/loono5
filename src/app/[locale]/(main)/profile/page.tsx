@@ -1,6 +1,7 @@
 import {
   ChevronRight,
   Crown,
+  HeartHandshake,
   LogOut,
   Settings as SettingsIcon,
   Ticket,
@@ -13,6 +14,10 @@ import { MockLevelSwitcher } from "@/components/auth/mock-level-switcher";
 import { Screen } from "@/components/layout/screen";
 import { ScreenHeader } from "@/components/layout/screen-header";
 import {
+  PartnerPreferenceSummary,
+  ProfileAttributes,
+} from "@/components/profile/profile-attributes";
+import {
   VerificationBadges,
   VerificationTagWall,
 } from "@/components/profile/verification-badges";
@@ -23,8 +28,14 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/navigation";
 import { getCurrentUser } from "@/lib/auth/current-user";
-import { currentAgent, plans } from "@/lib/mock-data";
+import {
+  currentAgent,
+  emptyPreferences,
+  emptyProfile,
+  plans,
+} from "@/lib/mock-data";
 import { planLabelKey } from "@/lib/plans";
+import { profileCompletion } from "@/lib/profile-options";
 import { daysUntilExpiry, hasActiveSubscription } from "@/lib/tiers";
 import { VERIFICATION_TAG_COUNT, countVerifiedTags } from "@/lib/verification";
 
@@ -49,10 +60,14 @@ export default async function ProfilePage({
   );
   const verifiedCount = countVerifiedTags(currentUser.verifications);
 
+  const profile = currentUser.profile ?? emptyProfile;
+  const preferences = currentUser.preferences ?? emptyPreferences;
+  const completion = profileCompletion(profile);
+
   const rows = [
     { href: "/profile/subscription", icon: Crown, label: t("subscription") },
     { href: "/partner", icon: Users, label: t("agentCenter") },
-    { href: "/onboarding/profile", icon: UserCog, label: t("edit") },
+    { href: "/profile/edit", icon: UserCog, label: t("edit") },
     { href: "/settings", icon: SettingsIcon, label: t("settings") },
   ];
 
@@ -81,7 +96,7 @@ export default async function ProfilePage({
               variant="ghost"
               size="sm"
               className="shrink-0"
-              render={<Link href="/onboarding/profile" />}
+              render={<Link href="/profile/edit" />}
             >
               {t("edit")}
             </Button>
@@ -91,6 +106,58 @@ export default async function ProfilePage({
             tags={currentUser.verifications}
             showUnverified
             size="sm"
+            className="mt-3"
+          />
+        </Card>
+
+        {/* Module P — completeness + the extended attribute set. */}
+        <Card className="mt-3 p-4">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs text-muted-foreground">
+              {t("completeness")}
+            </span>
+            <span className="text-[11px] font-medium tabular-nums">
+              {t("completenessValue", { percent: completion.percent })}
+            </span>
+          </div>
+
+          <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-muted">
+            <div
+              className="h-full rounded-full bg-primary transition-all"
+              style={{ width: `${completion.percent}%` }}
+            />
+          </div>
+
+          <ProfileAttributes profile={profile} className="mt-4" />
+
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-4 w-full rounded-full"
+            render={<Link href="/profile/edit" />}
+          >
+            {t("details")}
+          </Button>
+        </Card>
+
+        {/* Module P — the conditions this member puts on a partner. */}
+        <Card className="mt-3 p-4">
+          <div className="flex items-center gap-2">
+            <HeartHandshake className="size-4 shrink-0 text-muted-foreground" />
+            <span className="flex-1 text-xs text-muted-foreground">
+              {t("preferences")}
+            </span>
+            <Link
+              href="/profile/edit?tab=partner"
+              className="text-[11px] font-medium text-primary"
+            >
+              {t("setPreferences")}
+            </Link>
+          </div>
+
+          <PartnerPreferenceSummary
+            preferences={preferences}
+            level={currentUser.subscription.level ?? currentUser.level}
             className="mt-3"
           />
         </Card>

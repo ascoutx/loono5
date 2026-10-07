@@ -153,7 +153,8 @@
       "title": "升级会员等级以查看",
       "description": "对方为 {level} 级会员。升级至 {level} 级即可查看完整资料。",
       "cta": "升级等级"
-    }
+    },
+    "details": "详细资料"
   },
   "verification": {
     "title": "认证标签",
@@ -215,7 +216,239 @@
     "upgrade": "升级等级",
     "complete": "完善资料",
     "verified": "已认证",
-    "notVerified": "未认证"
+    "notVerified": "未认证",
+    "details": "详细资料",
+    "completeness": "资料完整度",
+    "completenessValue": "{percent}%",
+    "preferences": "择偶条件",
+    "setPreferences": "去设置"
+  },
+  "profileForm": {
+    "title": "完善个人信息",
+    "subtitle": "资料越完整，越容易被对的人找到",
+    "save": "保存资料",
+    "saveHint": "保存后立即生效，可随时修改",
+    "saved": "已保存（演示环境未接入后端）",
+    "completeness": "资料完整度",
+    "completenessValue": "{percent}%",
+    "completenessHint": "完整度越高，在互荐与推荐排序中越靠前",
+    "tabs": {
+      "about": "个人资料",
+      "partner": "择偶条件"
+    },
+    "sections": {
+      "basic": "基础资料",
+      "lifestyle": "生活方式与信仰",
+      "assets": "资产与居住"
+    },
+    "height": {
+      "label": "身高",
+      "unit": "cm",
+      "placeholder": "如 175",
+      "value": "{cm} cm"
+    },
+    "education": {
+      "label": "文化程度",
+      "highschool": "高中及以下",
+      "college": "大专",
+      "bachelor": "本科",
+      "master": "硕士",
+      "doctorate": "博士"
+    },
+    "language": {
+      "label": "语言能力",
+      "hint": "可多选",
+      "zh": "中文",
+      "en": "英语",
+      "ru": "俄语",
+      "es": "西班牙语",
+      "fr": "法语",
+      "de": "德语",
+      "ar": "阿拉伯语",
+      "ja": "日语",
+      "ko": "韩语"
+    },
+    "occupation": {
+      "label": "职业",
+      "placeholder": "如：产品设计师"
+    },
+    "marital": {
+      "label": "婚姻状况",
+      "single": "未婚",
+      "divorced": "离异",
+      "widowed": "丧偶",
+      "separated": "分居"
+    },
+    "children": {
+      "label": "生育意愿",
+      "no": "不想要孩子",
+      "want": "想要孩子",
+      "have": "已有孩子",
+      "have_want": "已有孩子，还想再要",
+      "undecided": "暂未决定"
+    },
+    "religion": {
+      "label": "宗教信仰",
+      "none": "无信仰",
+      "christian": "基督教",
+      "catholic": "天主教",
+      "muslim": "伊斯兰教",
+      "buddhist": "佛教",
+      "hindu": "印度教",
+      "jewish": "犹太教",
+      "other": "其他"
+    },
+    "tattoo": {
+      "label": "纹身",
+      "none": "无纹身",
+      "small": "小面积纹身",
+      "visible": "明显可见纹身"
+    },
+    "smoking": {
+      "label": "吸烟习惯"
+    },
+    "drinking": {
+      "label": "饮酒习惯"
+    },
+    "frequency": {
+      "never": "从不",
+      "socially": "社交场合",
+      "regularly": "经常"
+    },
+    "asset": {
+      "label": "资产状况",
+      "verifiedHint": "可与资产认证联动",
+      "under100k": "10 万美元以下",
+      "100k_500k": "10 万–50 万美元",
+      "500k_1m": "50 万–100 万美元",
+      "1m_5m": "100 万–500 万美元",
+      "above5m": "500 万美元以上"
+    },
+    "country": {
+      "label": "居住国家",
+      "CN": "中国",
+      "RU": "俄罗斯",
+      "US": "美国",
+      "GB": "英国",
+      "DE": "德国",
+      "FR": "法国",
+      "JP": "日本",
+      "KR": "韩国",
+      "SG": "新加坡",
+      "AU": "澳大利亚",
+      "CA": "加拿大",
+      "AE": "阿联酋"
+    },
+    "city": {
+      "label": "居住城市",
+      "placeholder": "如：上海"
+    },
+    "residence": {
+      "label": "居住地"
+    }
+  },
+  "partnerPref": {
+    "title": "择偶条件",
+    "subtitle": "填写你对另一半的要求，用于会员互荐、搜索筛选与推荐排序（模块 P）",
+    "empty": "尚未填写择偶条件",
+    "freeSection": {
+      "title": "基础条件",
+      "hint": "免费 · 参与匹配"
+    },
+    "premiumSection": {
+      "title": "高级精确条件",
+      "hint": "按等级解锁",
+      "locked": "升级至 L{level} 解锁全部高级条件",
+      "cta": "升级解锁"
+    },
+    "exclusiveSection": {
+      "title": "特别指定要求",
+      "hint": "单独计费"
+    },
+    "range": {
+      "from": "最小",
+      "to": "最大",
+      "unitAge": "岁",
+      "unitHeight": "cm"
+    },
+    "age": {
+      "label": "对方年龄范围"
+    },
+    "height": {
+      "label": "对方身高范围"
+    },
+    "countries": {
+      "label": "对方居住国家"
+    },
+    "cities": {
+      "label": "对方居住城市",
+      "placeholder": "输入城市后回车添加"
+    },
+    "smoking": {
+      "label": "对方吸烟习惯"
+    },
+    "drinking": {
+      "label": "对方饮酒习惯"
+    },
+    "noTattoo": {
+      "label": "要求对方无纹身"
+    },
+    "education": {
+      "label": "对方文化程度"
+    },
+    "languages": {
+      "label": "对方语言"
+    },
+    "religions": {
+      "label": "对方宗教信仰"
+    },
+    "children": {
+      "label": "对方生育意愿"
+    },
+    "assetMin": {
+      "label": "对方资产区间（及以上）"
+    },
+    "exclusive": {
+      "sensitiveNotice": "敏感条件：仅在当地法律允许的地区提供，且不向对方展示具体要求（P7）。",
+      "unlock": "解锁 ${price}",
+      "active": "已生效",
+      "inactive": "未支付 · 未生效",
+      "unlocked": "已包含",
+      "total": "已选特别条件合计 {amount}",
+      "payHint": "演示环境：点击「解锁」模拟支付成功",
+      "assetThreshold": {
+        "label": "指定对方资产门槛",
+        "desc": "仅推荐资产达到你设定区间及以上的对象；未支付不参与匹配。"
+      },
+      "exactRange": {
+        "label": "指定年龄 / 身高精确区间",
+        "desc": "按精确区间筛选，不做宽松匹配。"
+      },
+      "regionOnly": {
+        "label": "指定特定国家 / 城市",
+        "desc": "仅匹配你指定的居住地区。"
+      },
+      "virginity": {
+        "label": "特别指定：无性经历",
+        "desc": "按后台配置单独计费，未支付不生效、不向对方展示。"
+      }
+    },
+    "complianceNote": "涉及资产、生育、信仰等敏感条件，平台按地区法规提供条件开关与禁用能力，并拒绝对外展示歧视性或违法表述（P7）。",
+    "summary": {
+      "age": "{min}–{max} 岁",
+      "height": "{min}–{max} cm",
+      "countries": "指定 {count} 个国家/地区",
+      "education": "文化程度 {count} 项",
+      "languages": "语言 {count} 项",
+      "religions": "信仰 {count} 项",
+      "noTattoo": "要求无纹身",
+      "children": "生育意愿 {count} 项",
+      "assetMin": "资产 {range} 以上",
+      "cities": "指定 {count} 个城市",
+      "smoking": "对方吸烟：{level}",
+      "drinking": "对方饮酒：{level}",
+      "exclusive": "特别指定 {count} 项"
+    }
   },
   "subscription": {
     "title": "会员订阅",
