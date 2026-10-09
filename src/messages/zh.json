@@ -929,6 +929,10 @@
   },
   "partner": {
     "title": "合作伙伴后台",
+    "nav": {
+      "dashboard": "数据看板",
+      "agents": "代理商查询"
+    },
     "signOut": "退出登录",
     "login": {
       "title": "合作伙伴后台",
@@ -946,6 +950,100 @@
       "submit": "登录",
       "submitting": "登录中…",
       "demoHint": "演示账号：partner / loono2026"
+    },
+    "agents": {
+      "title": "代理商查询",
+      "subtitle": "按代理商与时间段检索收益、会员与活动",
+      "filters": {
+        "agent": "代理商",
+        "allAgents": "全部代理商",
+        "from": "开始日期",
+        "to": "结束日期",
+        "reset": "重置",
+        "pending": "查询中",
+        "presets": {
+          "7d": "近 7 天",
+          "30d": "近 30 天",
+          "90d": "近 90 天",
+          "ytd": "今年"
+        }
+      },
+      "range": {
+        "label": "统计区间",
+        "days": "{count} 天",
+        "fellBack": "未指定有效的统计区间，已按近 30 天显示。",
+        "noData": "该代理商在此区间内没有数据，可能尚未开始合作或已暂停。"
+      },
+      "roster": {
+        "title": "代理商总览",
+        "hint": "共 {count} 家",
+        "columns": {
+          "agent": "代理商",
+          "tier": "合作档位",
+          "signups": "新增会员",
+          "gross": "会员付费",
+          "commission": "佣金收益",
+          "share": "分成"
+        }
+      },
+      "profile": {
+        "account": "账号",
+        "refCode": "邀请码",
+        "joinedAt": "加入时间"
+      },
+      "status": {
+        "active": "合作中",
+        "onboarding": "接入中",
+        "paused": "已暂停"
+      },
+      "tiers": {
+        "online": "普通线上合伙人",
+        "city": "城市 / 省级合伙人",
+        "country": "国家合伙人",
+        "shareholder": "股东合伙人"
+      },
+      "kpi": {
+        "commission": "期间收益",
+        "gross": "会员付费总额",
+        "signups": "新增会员",
+        "active": "活跃会员"
+      },
+      "ratios": {
+        "paying": "付费会员",
+        "conversations": "新发起对话",
+        "arpu": "客单价",
+        "daily": "日均收益",
+        "share": "实际分成"
+      },
+      "trend": {
+        "title": "收益趋势",
+        "byDay": "按天",
+        "byWeek": "按周",
+        "byMonth": "按月"
+      },
+      "activity": {
+        "title": "推广活动",
+        "hint": "共 {count} 场",
+        "empty": "该区间内没有活动记录",
+        "columns": {
+          "name": "活动",
+          "kind": "类型",
+          "period": "时间",
+          "signups": "新增会员",
+          "commission": "佣金"
+        },
+        "kinds": {
+          "campaign": "线上推广",
+          "offline": "线下活动",
+          "webinar": "直播宣讲",
+          "content": "内容合作",
+          "referral": "互推合作"
+        }
+      },
+      "empty": {
+        "title": "选择一家代理商开始查询",
+        "body": "从下方总览里选一行，或用上方的筛选条指定代理商与时间段。"
+      }
     },
     "revenue": "收益分析",
     "revenueHint": "近 6 个月佣金收入",

@@ -1,12 +1,12 @@
-import { LogOut, Ticket, TrendingUp, Users, Wallet } from "lucide-react";
+import { Ticket, TrendingUp, Users, Wallet } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { PromoTools } from "@/components/agent/promo-tools";
+import { OperatorBar } from "@/components/partner/operator-bar";
+import { Panel } from "@/components/partner/panel";
 import { RevenueChart } from "@/components/partner/revenue-chart";
-import { Button } from "@/components/ui/button";
 import { agentLabelKey, commissionRate } from "@/lib/agent";
 import { currentAgent, payouts, referrals } from "@/lib/mock-data";
-import { partnerSignOutAction } from "@/lib/partner/actions";
 import { requirePartnerSession } from "@/lib/partner/session";
 import { cn } from "@/lib/utils";
 
@@ -22,35 +22,12 @@ const MONTHLY_REVENUE = [
 
 const CURRENCY = "USD";
 
-/** Panel chrome: hairline header, flat body. Shared by every block below. */
-function Panel({
-  title,
-  hint,
-  children,
-  className,
-}: {
-  title: string;
-  hint?: string;
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <section className={cn("partner-panel flex flex-col", className)}>
-      <header className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
-        <h2 className="text-[11px] font-medium tracking-[0.12em] text-white/70 uppercase">
-          {title}
-        </h2>
-        {hint ? (
-          <span className="text-[11px] text-white/40">{hint}</span>
-        ) : null}
-      </header>
-      <div className="p-4">{children}</div>
-    </section>
-  );
-}
-
 /**
  * B2B partner cabinet — dark data surface.
+ *
+ * This is the *partner's own* dashboard: one account, already totalled. The
+ * operator's cross-partner view (search any partner over any window) lives at
+ * /partner/agents, reached through the switcher in the top bar.
  *
  * Deliberately instrument-like rather than warm: charcoal, hairline rules,
  * big tabular numbers. Nothing here is shared with the consumer surface, and
@@ -84,35 +61,11 @@ export default async function PartnerPage({
 
   return (
     <div className="partner-surface relative flex min-h-full flex-1 flex-col">
-      {/* ── Operator bar ─────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-partner-canvas/85 backdrop-blur">
-        <div className="flex h-16 items-center gap-3 px-4 md:px-6 xl:px-8">
-          <span className="min-w-0">
-            <span className="block truncate text-sm font-semibold">
-              {t("title")}
-            </span>
-            <span className="block truncate font-mono text-[10px] text-white/40">
-              {session.account} · {currentAgent.refCode}
-            </span>
-          </span>
-
-          <span className="ms-auto hidden rounded-md border border-white/12 px-2 py-1 text-[10px] tracking-wide text-white/50 uppercase sm:block">
-            {ta(agentLabelKey(currentAgent.level))} · {rate}%
-          </span>
-
-          <form action={partnerSignOutAction}>
-            <Button
-              type="submit"
-              variant="ghost"
-              size="sm"
-              className="gap-1.5 text-white/55 hover:text-white"
-            >
-              <LogOut className="size-4" />
-              <span className="hidden sm:inline">{t("signOut")}</span>
-            </Button>
-          </form>
-        </div>
-      </header>
+      <OperatorBar
+        account={session.account}
+        section="dashboard"
+        badge={`${ta(agentLabelKey(currentAgent.level))} · ${rate}%`}
+      />
 
       <div className="relative z-10 mx-auto w-full max-w-[76rem] px-4 py-5 pb-14 md:px-6 xl:px-8">
         {/* ── KPI strip ──────────────────────────────────────────────── */}
@@ -126,7 +79,7 @@ export default async function PartnerPage({
                   <Icon className="size-3.5" />
                   <span className="truncate">{kpi.label}</span>
                 </span>
-                <p className="mt-2.5 text-2xl font-semibold tabular-nums text-white">
+                <p className="mt-2.5 text-2xl font-semibold text-white tabular-nums">
                   ${kpi.value.toLocaleString(locale)}
                 </p>
               </li>
@@ -150,7 +103,7 @@ export default async function PartnerPage({
                 { label: t("arpu"), value: "$34" },
               ].map((item) => (
                 <div key={item.label}>
-                  <dd className="text-lg font-semibold tabular-nums text-white">
+                  <dd className="text-lg font-semibold text-white tabular-nums">
                     {item.value}
                   </dd>
                   <dt className="text-[10px] text-white/40">{item.label}</dt>
@@ -224,9 +177,7 @@ export default async function PartnerPage({
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-white/10 text-[10px] tracking-wide text-white/40 uppercase">
-                  <th className="pb-2 text-left font-medium">
-                    {tp("title")}
-                  </th>
+                  <th className="pb-2 text-left font-medium">{tp("title")}</th>
                   <th className="pb-2 text-left font-medium">
                     {tp("available")}
                   </th>

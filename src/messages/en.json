@@ -959,6 +959,10 @@
   },
   "partner": {
     "title": "Partner console",
+    "nav": {
+      "dashboard": "Dashboard",
+      "agents": "Partner lookup"
+    },
     "signOut": "Sign out",
     "login": {
       "title": "Partner console",
@@ -976,6 +980,100 @@
       "submit": "Sign in",
       "submitting": "Signing in…",
       "demoHint": "Demo account: partner / loono2026"
+    },
+    "agents": {
+      "title": "Partner lookup",
+      "subtitle": "Search one partner's revenue, members and campaigns over a period",
+      "filters": {
+        "agent": "Partner",
+        "allAgents": "All partners",
+        "from": "From",
+        "to": "To",
+        "reset": "Reset",
+        "pending": "Loading",
+        "presets": {
+          "7d": "Last 7 days",
+          "30d": "Last 30 days",
+          "90d": "Last 90 days",
+          "ytd": "Year to date"
+        }
+      },
+      "range": {
+        "label": "Period",
+        "days": "{count} days",
+        "fellBack": "No valid period was given, so the last 30 days are shown.",
+        "noData": "This partner has no figures in the period — they may not have started yet, or may be paused."
+      },
+      "roster": {
+        "title": "All partners",
+        "hint": "{count} partners",
+        "columns": {
+          "agent": "Partner",
+          "tier": "Track",
+          "signups": "New members",
+          "gross": "Member spend",
+          "commission": "Commission",
+          "share": "Share"
+        }
+      },
+      "profile": {
+        "account": "Account",
+        "refCode": "Referral code",
+        "joinedAt": "Joined"
+      },
+      "status": {
+        "active": "Active",
+        "onboarding": "Onboarding",
+        "paused": "Paused"
+      },
+      "tiers": {
+        "online": "Online partner",
+        "city": "City / provincial partner",
+        "country": "Country partner",
+        "shareholder": "Shareholder partner"
+      },
+      "kpi": {
+        "commission": "Commission",
+        "gross": "Member spend",
+        "signups": "New members",
+        "active": "Active members"
+      },
+      "ratios": {
+        "paying": "Paying members",
+        "conversations": "New conversations",
+        "arpu": "Spend per member",
+        "daily": "Commission per day",
+        "share": "Effective share"
+      },
+      "trend": {
+        "title": "Commission trend",
+        "byDay": "Daily",
+        "byWeek": "Weekly",
+        "byMonth": "Monthly"
+      },
+      "activity": {
+        "title": "Campaigns",
+        "hint": "{count} campaigns",
+        "empty": "No campaigns recorded in this period",
+        "columns": {
+          "name": "Campaign",
+          "kind": "Type",
+          "period": "Dates",
+          "signups": "New members",
+          "commission": "Commission"
+        },
+        "kinds": {
+          "campaign": "Paid campaign",
+          "offline": "Offline event",
+          "webinar": "Webinar",
+          "content": "Content",
+          "referral": "Cross-promotion"
+        }
+      },
+      "empty": {
+        "title": "Pick a partner to look up",
+        "body": "Choose a row below, or set a partner and period in the filters above."
+      }
     },
     "revenue": "Revenue analytics",
     "revenueHint": "Commission income, last 6 months",
