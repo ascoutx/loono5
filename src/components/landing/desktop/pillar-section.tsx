@@ -30,15 +30,15 @@ export async function PillarSection() {
               key={item.tag}
               className="glass-card flex flex-col gap-4 rounded-3xl p-7 transition-transform duration-300 hover:-translate-y-1"
             >
-              <span className="flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-white/25 to-white/5 text-base font-bold text-white ring-1 ring-white/20">
+              <span className="flex size-12 items-center justify-center rounded-2xl bg-loono-sand text-base font-bold text-loono-champagne-deep ring-1 ring-loono-champagne/40">
                 {item.tag}
               </span>
 
-              <h3 className="text-lg leading-snug font-semibold text-white">
+              <h3 className="text-lg leading-snug font-semibold text-foreground">
                 {item.title}
               </h3>
 
-              <p className="text-sm leading-relaxed text-white/60">
+              <p className="text-sm leading-relaxed text-muted-foreground">
                 {item.body}
               </p>
 
@@ -46,10 +46,10 @@ export async function PillarSection() {
                 {item.points.map((point) => (
                   <li
                     key={point}
-                    className="flex items-start gap-2 text-xs leading-relaxed text-white/75"
+                    className="flex items-start gap-2 text-xs leading-relaxed text-foreground/80"
                   >
                     <Check
-                      className="mt-px size-3.5 shrink-0 text-loono-rose"
+                      className="mt-px size-3.5 shrink-0 text-loono-champagne-deep"
                       strokeWidth={2.6}
                     />
                     <span>{point}</span>

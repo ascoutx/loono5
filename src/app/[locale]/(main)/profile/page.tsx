@@ -4,9 +4,7 @@ import {
   HeartHandshake,
   LogOut,
   Settings as SettingsIcon,
-  Ticket,
   UserCog,
-  Users,
 } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -29,7 +27,6 @@ import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/navigation";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import {
-  currentAgent,
   emptyPreferences,
   emptyProfile,
   plans,
@@ -64,9 +61,13 @@ export default async function ProfilePage({
   const preferences = currentUser.preferences ?? emptyPreferences;
   const completion = profileCompletion(profile);
 
+  // Consumer-only shortcuts. There is deliberately no partner/agent entry
+  // here: the B2B cabinet lives on its own host (partner.loono.com) and is
+  // never advertised to members. The single outward door is the Partners
+  // application form, linked from the marketing footer rather than from the
+  // signed-in product.
   const rows = [
     { href: "/profile/subscription", icon: Crown, label: t("subscription") },
-    { href: "/partner", icon: Users, label: t("agentCenter") },
     { href: "/profile/edit", icon: UserCog, label: t("edit") },
     { href: "/settings", icon: SettingsIcon, label: t("settings") },
   ];
@@ -188,11 +189,6 @@ export default async function ProfilePage({
               <LogOut className="size-4" />
               {t("logout")}
             </Button>
-
-            <p className="order-9 flex items-center justify-center gap-1 text-[11px] text-muted-foreground">
-              <Ticket className="size-3" />
-              {t("myReferrals")}: {currentAgent.refCode}
-            </p>
           </div>
 
           {/* ── Right: profile depth, preferences, verifications ─────────── */}

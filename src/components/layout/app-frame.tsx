@@ -85,7 +85,10 @@ export function AppFrame({
     <div
       className={cn(
         "flex h-dvh min-h-screen w-full justify-center",
-        dark ? "bg-neutral-950" : "bg-neutral-100",
+        // Letterbox around the app column. B2C uses a warm sand, one step
+        // deeper than the ivory canvas, so the column still reads as a
+        // distinct surface; B2B uses charcoal.
+        dark ? "bg-partner-canvas" : "bg-loono-sand",
       )}
     >
       <div

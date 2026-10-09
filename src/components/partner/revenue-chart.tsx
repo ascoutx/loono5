@@ -40,9 +40,12 @@ export function RevenueChart({
             >
               <span
                 className={cn(
-                  "w-full rounded-t-md bg-gradient-to-t from-loono-violet/45 to-loono-rose/85",
-                  "opacity-80 transition-opacity duration-200 group-hover:opacity-100",
-                  peak && "from-loono-violet/70 to-loono-rose",
+                  // Cool instrument-blue: on the charcoal data surface this
+                  // reads as a metric, where a warm brand gradient would read
+                  // as marketing.
+                  "w-full rounded-t-sm bg-gradient-to-t from-sky-600/45 to-sky-400/85",
+                  "opacity-85 transition-opacity duration-200 group-hover:opacity-100",
+                  peak && "from-sky-500/70 to-sky-300",
                 )}
                 style={{ height: `${Math.max(ratio * 100, 3)}%` }}
               />

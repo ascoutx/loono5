@@ -19,7 +19,7 @@ const ANCHORS = [
 ] as const;
 
 /**
- * Fixed glass navigation. Server-rendered: the only interactive bits are the
+ * Sticky white navigation. Server-rendered: the only interactive bits are the
  * language switcher and the links.
  */
 export async function DesktopHeader() {
@@ -27,16 +27,16 @@ export async function DesktopHeader() {
   const tc = await getTranslations("common");
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/8 bg-[#07060d]/72 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-border/70 bg-white/82 backdrop-blur-xl">
       <Container className="flex h-20 items-center gap-6">
         <Link
           href="/"
           className="flex shrink-0 items-center gap-2.5 transition-opacity hover:opacity-90"
         >
-          <span className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-loono-rose to-loono-violet shadow-[0_8px_22px_-8px] shadow-loono-rose/80">
+          <span className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-loono-champagne to-loono-champagne-deep shadow-[0_8px_22px_-10px] shadow-loono-champagne">
             <Heart className="size-[18px] fill-white text-white" />
           </span>
-          <span className="text-lg font-bold tracking-tight text-white">
+          <span className="text-lg font-bold tracking-tight text-foreground">
             {tc("appName")}
           </span>
         </Link>
@@ -49,7 +49,7 @@ export async function DesktopHeader() {
             <a
               key={anchor.href}
               href={anchor.href}
-              className="rounded-full px-3.5 py-2 text-sm font-medium text-white/70 transition-colors hover:bg-white/[0.07] hover:text-white"
+              className="rounded-full px-3.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
             >
               {t(`nav.${anchor.key}`)}
             </a>
@@ -61,7 +61,7 @@ export async function DesktopHeader() {
 
           <Link
             href="/auth"
-            className="hidden rounded-full px-4 py-2 text-sm font-medium text-white/75 transition-colors hover:bg-white/[0.07] hover:text-white xl:block"
+            className="hidden rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground xl:block"
           >
             {t("login")}
           </Link>

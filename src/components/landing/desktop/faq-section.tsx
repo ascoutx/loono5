@@ -29,15 +29,15 @@ export async function FaqSection() {
               key={item.q}
               className="glass-card group rounded-2xl px-6 py-5 [&_summary::-webkit-details-marker]:hidden"
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-white xl:text-base">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-foreground xl:text-base">
                 {item.q}
                 <ChevronDown
-                  className="size-5 shrink-0 text-white/50 transition-transform duration-300 group-open:rotate-180"
+                  className="size-5 shrink-0 text-muted-foreground transition-transform duration-300 group-open:rotate-180"
                   strokeWidth={2}
                 />
               </summary>
 
-              <p className="pt-4 text-xs leading-relaxed text-white/60 xl:text-sm">
+              <p className="pt-4 text-xs leading-relaxed text-muted-foreground xl:text-sm">
                 {item.a}
               </p>
             </details>

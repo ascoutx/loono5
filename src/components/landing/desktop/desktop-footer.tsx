@@ -10,6 +10,10 @@ import { Container } from "./section";
  *
  * `href: null` marks a page that does not exist in the demo yet — it renders
  * as quiet text instead of a link that would 404.
+ *
+ * The consumer surface exposes exactly one partner-facing door, and this is
+ * it: the application form, filed under "product" as a plain link. Nothing
+ * here ever names agents or agencies.
  */
 const COLUMNS = [
   {
@@ -18,7 +22,7 @@ const COLUMNS = [
       { key: 0, href: "/catalog" },
       { key: 1, href: "/profile/subscription" },
       { key: 2, href: "/profile" },
-      { key: 3, href: "/agent/join" },
+      { key: 3, href: "/partners/apply" },
     ],
   },
   {
@@ -57,24 +61,26 @@ export async function DesktopFooter() {
   const tc = await getTranslations("common");
 
   return (
-    <footer className="relative border-t border-white/8 bg-black/25">
+    <footer className="relative border-t border-border bg-loono-sand/60">
       <Container className="flex flex-col gap-12 py-16">
         <div className="grid gap-10 lg:grid-cols-[1.3fr_repeat(4,minmax(0,1fr))] lg:gap-8">
           <div className="flex flex-col gap-4 lg:pe-8">
             <span className="flex items-center gap-2.5">
-              <span className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-loono-rose to-loono-violet">
+              <span className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-loono-champagne to-loono-champagne-deep">
                 <Heart className="size-[18px] fill-white text-white" />
               </span>
-              <span className="text-lg font-bold tracking-tight text-white">
+              <span className="text-lg font-bold tracking-tight text-foreground">
                 {tc("appName")}
               </span>
             </span>
 
-            <p className="max-w-xs text-xs leading-relaxed text-white/45">
+            <p className="max-w-xs text-xs leading-relaxed text-muted-foreground">
               {tc("tagline")}
             </p>
 
-            <p className="text-[11px] text-white/30">{t("footer.appStore")}</p>
+            <p className="text-[11px] text-muted-foreground/70">
+              {t("footer.appStore")}
+            </p>
           </div>
 
           {COLUMNS.map((column) => {
@@ -82,7 +88,7 @@ export async function DesktopFooter() {
 
             return (
               <nav key={column.key} className="flex flex-col gap-4">
-                <h3 className="text-xs font-semibold tracking-wide text-white/80 uppercase">
+                <h3 className="text-xs font-semibold tracking-wide text-foreground/80 uppercase">
                   {t(`footer.columns.${column.key as ColumnKey}`)}
                 </h3>
 
@@ -93,18 +99,20 @@ export async function DesktopFooter() {
                     return (
                       <li key={label}>
                         {item.href === null ? (
-                          <span className="text-xs text-white/35">{label}</span>
+                          <span className="text-xs text-muted-foreground/80">
+                            {label}
+                          </span>
                         ) : item.href.startsWith("#") ? (
                           <a
                             href={item.href}
-                            className="text-xs text-white/55 transition-colors hover:text-white"
+                            className="text-xs text-muted-foreground transition-colors hover:text-foreground"
                           >
                             {label}
                           </a>
                         ) : (
                           <Link
                             href={item.href}
-                            className="text-xs text-white/55 transition-colors hover:text-white"
+                            className="text-xs text-muted-foreground transition-colors hover:text-foreground"
                           >
                             {label}
                           </Link>
@@ -118,11 +126,11 @@ export async function DesktopFooter() {
           })}
         </div>
 
-        <p className="text-[11px] leading-relaxed text-white/30">
+        <p className="text-[11px] leading-relaxed text-muted-foreground/70">
           {t("footer.disclaimer")}
         </p>
 
-        <div className="flex flex-col gap-2 border-t border-white/8 pt-6 text-[11px] text-white/35 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-2 border-t border-border pt-6 text-[11px] text-muted-foreground/80 sm:flex-row sm:items-center sm:justify-between">
           <span>{t("footer.rights")}</span>
           <span>{t("footer.company")}</span>
         </div>

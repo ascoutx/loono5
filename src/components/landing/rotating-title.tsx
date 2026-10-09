@@ -42,7 +42,9 @@ export function RotatingTitle({
         key={index}
         aria-hidden
         className={cn(
-          "animate-loono-rise block bg-gradient-to-r from-white via-white to-white/70 bg-clip-text text-transparent",
+          // Metallic champagne sweep — the one place the B2C surface allows a
+          // gradient, and it stays inside the gold ramp rather than going neon.
+          "animate-loono-rise block bg-gradient-to-r from-[#9a7b4f] via-[#c9a961] to-[#9a7b4f] bg-clip-text text-transparent",
         )}
       >
         {phrases[index]}

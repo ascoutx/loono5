@@ -15,10 +15,9 @@
     "current": "当前"
   },
   "nav": {
-    "catalog": "发现",
-    "chats": "消息",
-    "profile": "我的",
-    "agent": "代理"
+    "catalog": "搜索",
+    "chats": "聊天",
+    "profile": "个人中心"
   },
   "guest": {
     "heroTitle": "全球交友，一键连通",
@@ -35,7 +34,7 @@
     "heroTitles": ["遇见对的人", "每张照片都是真人", "用母语轻松畅聊"],
     "ctaPrimary": "开始 / 登录",
     "ctaSecondary": "浏览资料库",
-    "agentCta": "成为代理赚取佣金",
+    "partnerCta": "申请成为合作伙伴",
     "trustLine": "男女平等付费 · 30 天免费试用 · 随时取消",
     "stats": {
       "members": "位会员",
@@ -144,7 +143,7 @@
         ["无限浏览与聊天", "实时翻译聊天", "基础择偶条件"],
         ["含基础版全部权益", "高等级会员资料解锁", "高级择偶条件全部开放"],
         ["含进阶版全部权益", "优先推荐与资料置顶", "专属客服通道"],
-        ["含尊享版全部权益", "人工牵线服务", "专属代理一对一对接"]
+        ["含尊享版全部权益", "人工牵线服务", "专属顾问一对一对接"]
       ],
       "note": "价格按国家与币种自动换算，此处为演示数据。"
     },
@@ -187,7 +186,7 @@
         "legal": "法律与隐私",
         "support": "帮助与支持"
       },
-      "product": ["发现会员", "会员等级", "认证体系", "代理合作"],
+      "product": ["发现会员", "会员等级", "认证体系", "合伙申请"],
       "about": ["关于我们", "团队介绍", "加入我们", "媒体报道"],
       "legal": ["用户协议", "隐私政策", "注销政策", "未成年人保护"],
       "support": ["帮助中心", "常见问题", "联系我们", "意见反馈"],
@@ -298,7 +297,7 @@
     }
   },
   "catalog": {
-    "title": "发现",
+    "title": "搜索",
     "tabsAll": "全部",
     "tabsNearby": "附近",
     "tabsNew": "最新",
@@ -373,7 +372,7 @@
     "typing": "正在输入…"
   },
   "profile": {
-    "title": "我的",
+    "title": "个人中心",
     "edit": "编辑资料",
     "myLevel": "我的等级",
     "level": "L{level}",
@@ -382,8 +381,6 @@
     "expired": "已过期",
     "settings": "设置",
     "subscription": "会员订阅",
-    "agentCenter": "代理中心",
-    "myReferrals": "我的邀请",
     "logout": "退出登录",
     "upgrade": "升级等级",
     "complete": "完善资料",
@@ -643,7 +640,7 @@
     "featureTranslate": "实时翻译聊天",
     "featureBlur": "高等级资料预览",
     "featureSupport": "优先客服支持",
-    "featureAgent": "专属代理对接",
+    "featureAgent": "专属顾问对接",
     "active": "订阅生效中",
     "renew": "续订",
     "upgrade": "升级",
@@ -710,7 +707,7 @@
         "data": "会员资料、照片与认证材料等个人数据将被删除或匿名化处理；",
         "entitlements": "会员等级、已购服务与未消耗的权益全部作废，已支付费用不予退还；",
         "chats": "聊天记录与互动数据将被清除，且无法恢复；",
-        "relation": "代理身份及下级邀请关系将解除，未结算佣金按协议处理；",
+        "relation": "合作伙伴身份及相关权益将解除，未结算款项按协议处理；",
         "irreversible": "账号注销后不可恢复，重新注册须重新完成实名认证；",
         "retention": "依法须留存的交易记录将隔离保存并限制用途。"
       },
@@ -784,25 +781,25 @@
   },
   "agent": {
     "join": {
-      "title": "成为 LOONO 代理",
+      "title": "成为 LOONO 合作伙伴",
       "subtitle": "分享好友，赚取高达 70% 佣金",
-      "benefitsTitle": "代理权益",
+      "benefitsTitle": "合作伙伴权益",
       "commissionTitle": "佣金比例",
       "codeLabel": "你的邀请码",
       "copy": "复制",
       "linkLabel": "专属推广链接",
       "start": "立即加入",
-      "alreadyAgent": "已是代理",
-      "goDashboard": "进入代理中心"
+      "alreadyAgent": "已是合作伙伴",
+      "goDashboard": "进入合作伙伴后台"
     },
     "levels": {
-      "base": "基础代理",
-      "pro": "专业代理",
-      "vip": "VIP 代理"
+      "base": "基础合作伙伴",
+      "pro": "专业合作伙伴",
+      "vip": "VIP 合作伙伴"
     },
     "commission": "{rate}% 佣金",
     "dashboard": {
-      "title": "代理中心",
+      "title": "合作伙伴后台",
       "welcome": "欢迎回来",
       "totalEarnings": "累计佣金",
       "thisMonth": "本月佣金",
@@ -867,7 +864,89 @@
     "requiredLevel": "需要 {level} 级会员",
     "matrixTitle": "等级可见范围"
   },
+  "partners": {
+    "title": "合作伙伴申请",
+    "heading": "成为 LOONO 合作伙伴",
+    "intro": "我们面向线上推广者、城市与省级运营伙伴、国家级运营商与战略股东开放合作。提交申请后，合作团队会在 3 个工作日内与你联系。",
+    "highlights": [
+      {
+        "icon": "reach",
+        "title": "全球会员网络",
+        "body": "覆盖 80+ 国家和地区的实名认证会员"
+      },
+      {
+        "icon": "tools",
+        "title": "专属数据看板",
+        "body": "独立后台，实时查看转化与结算明细"
+      },
+      {
+        "icon": "support",
+        "title": "一对一商务支持",
+        "body": "专属对接人，配套推广物料与培训"
+      }
+    ],
+    "apply": {
+      "fields": {
+        "name": "联系人姓名",
+        "namePlaceholder": "请输入姓名",
+        "company": "机构名称（可选）",
+        "companyPlaceholder": "公司或机构请填写",
+        "email": "联系邮箱",
+        "emailPlaceholder": "name@example.com",
+        "phone": "联系电话",
+        "phonePlaceholder": "+86 138 0000 0000",
+        "country": "所在国家 / 地区",
+        "countryPlaceholder": "如：中国 / 新加坡",
+        "cooperationType": "合作类型",
+        "message": "补充说明（可选）",
+        "messagePlaceholder": "简单介绍你的资源、渠道或合作意向"
+      },
+      "types": {
+        "online": {
+          "label": "普通线上合伙人",
+          "hint": "推荐会员注册，提成 50%"
+        },
+        "city": {
+          "label": "城市 / 省级合伙人",
+          "hint": "本地团队与办公场所，提成 60%"
+        },
+        "country": {
+          "label": "国家合伙人",
+          "hint": "国家级独家运营与实体门店网络，提成 70%"
+        },
+        "shareholder": {
+          "label": "股东合伙人",
+          "hint": "深度绑定长期收益，提成 75%"
+        }
+      },
+      "consent": "提交即表示你同意我们通过所留联系方式与你联系，我们不会将你的信息用于其他用途。",
+      "submit": "提交申请",
+      "submitting": "提交中…",
+      "successTitle": "申请已提交",
+      "successBody": "合作团队会在 3 个工作日内与你联系，请留意邮箱与来电。",
+      "submitAnother": "再提交一份"
+    }
+  },
   "partner": {
+    "title": "合作伙伴后台",
+    "signOut": "退出登录",
+    "login": {
+      "title": "合作伙伴后台",
+      "subtitle": "仅限已授权的合作伙伴账号登录",
+      "fields": {
+        "account": "账号",
+        "accountPlaceholder": "请输入账号",
+        "password": "密码",
+        "passwordPlaceholder": "请输入密码"
+      },
+      "errors": {
+        "accountRequired": "请输入账号",
+        "invalidCredentials": "账号或密码错误"
+      },
+      "submit": "登录",
+      "submitting": "登录中…",
+      "demoHint": "演示账号：partner / loono2026"
+    },
     "revenue": "收益分析",
     "revenueHint": "近 6 个月佣金收入",
     "totalRevenue": "总收益",

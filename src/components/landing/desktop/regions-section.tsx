@@ -42,9 +42,9 @@ export async function RegionsSection() {
             <li key={city}>
               <Link
                 href="/catalog"
-                className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-xs font-medium text-white/75 transition-colors hover:border-white/25 hover:bg-white/[0.1] hover:text-white"
+                className="flex items-center gap-1.5 rounded-full border border-border bg-white px-4 py-2 text-xs font-medium text-foreground/75 transition-colors hover:border-loono-champagne hover:text-foreground"
               >
-                <MapPin className="size-3.5 shrink-0 text-loono-rose/80" />
+                <MapPin className="size-3.5 shrink-0 text-loono-champagne-deep/80" />
                 {city}
               </Link>
             </li>
