@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3000",
+    "dev:partner": "NEXT_DIST_DIR=.next-partner next dev -p 3001",
+    "dev:all": "next dev -p 3000 & NEXT_DIST_DIR=.next-partner next dev -p 3001 & wait",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

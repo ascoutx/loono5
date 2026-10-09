@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# separate build dir for the second dev server (partner cabinet on :3001)
+/.next-partner/
+
 # production
 /build
 
