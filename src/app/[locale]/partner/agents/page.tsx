@@ -36,9 +36,9 @@ import { cn } from "@/lib/utils";
 const CURRENCY = "USD";
 
 const STATUS_TONE: Record<PartnerStatus, string> = {
-  active: "border-emerald-500/40 text-emerald-400",
-  onboarding: "border-sky-500/40 text-sky-400",
-  paused: "border-white/15 text-white/50",
+  active: "border-emerald-600/40 text-emerald-700",
+  onboarding: "border-sky-600/40 text-sky-700",
+  paused: "border-border text-muted-foreground",
 };
 
 const STATUS_KEYS: Record<PartnerStatus, string> = {
@@ -225,7 +225,7 @@ export default async function PartnerAgentsPage({
       <div className="relative z-10 mx-auto w-full max-w-[76rem] px-4 py-5 pb-14 md:px-6 xl:px-8">
         <div className="mb-3">
           <h1 className="text-lg font-semibold">{t("title")}</h1>
-          <p className="mt-1 text-xs text-white/45">{t("subtitle")}</p>
+          <p className="mt-1 text-xs text-muted-foreground">{t("subtitle")}</p>
         </div>
 
         <FilterBar
@@ -250,7 +250,7 @@ export default async function PartnerAgentsPage({
         />
 
         {range.fellBack ? (
-          <p className="mt-3 rounded-lg border border-amber-500/25 bg-amber-500/8 px-3 py-2 text-[11px] text-amber-200/90">
+          <p className="mt-3 rounded-lg border border-amber-600/30 bg-amber-500/10 px-3 py-2 text-[11px] text-amber-800">
             {t("range.fellBack")}
           </p>
         ) : null}
@@ -271,7 +271,7 @@ export default async function PartnerAgentsPage({
                     {statusOf(partner.status)}
                   </span>
                 </h2>
-                <p className="mt-0.5 truncate text-[11px] text-white/45">
+                <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
                   {partner.region}
                 </p>
               </div>
@@ -300,9 +300,12 @@ export default async function PartnerAgentsPage({
                   },
                 ].map((item) => (
                   <div key={item.label}>
-                    <dt className="text-white/40">{item.label}</dt>
+                    <dt className="text-muted-foreground">{item.label}</dt>
                     <dd
-                      className={cn("text-white/85", item.mono && "font-mono")}
+                      className={cn(
+                        "text-foreground/85",
+                        item.mono && "font-mono",
+                      )}
                     >
                       {item.value}
                     </dd>
@@ -312,14 +315,14 @@ export default async function PartnerAgentsPage({
 
               <Link
                 href={windowHref}
-                className="ms-auto text-[11px] whitespace-nowrap text-white/45 transition-colors hover:text-white/80"
+                className="ms-auto text-[11px] whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground/80"
               >
                 {t("roster.title")} →
               </Link>
             </section>
 
             {summary.days === 0 ? (
-              <p className="mt-3 rounded-lg border border-white/12 bg-white/4 px-3 py-2 text-[11px] text-white/55">
+              <p className="mt-3 rounded-lg border border-border bg-foreground/5 px-3 py-2 text-[11px] text-muted-foreground">
                 {t("range.noData")}
               </p>
             ) : null}
@@ -331,11 +334,11 @@ export default async function PartnerAgentsPage({
 
                 return (
                   <li key={kpi.label} className="partner-panel p-4">
-                    <span className="flex items-center gap-1.5 text-[11px] tracking-wide text-white/45 uppercase">
+                    <span className="flex items-center gap-1.5 text-[11px] tracking-wide text-muted-foreground uppercase">
                       <Icon className="size-3.5" />
                       <span className="truncate">{kpi.label}</span>
                     </span>
-                    <p className="mt-2.5 text-2xl font-semibold text-white tabular-nums">
+                    <p className="mt-2.5 text-2xl font-semibold text-foreground tabular-nums">
                       {kpi.value}
                     </p>
                   </li>
@@ -350,13 +353,15 @@ export default async function PartnerAgentsPage({
             >
               <RevenueChart data={trend} currency={CURRENCY} />
 
-              <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-white/10 pt-4 sm:grid-cols-5">
+              <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-border pt-4 sm:grid-cols-5">
                 {ratios.map((item) => (
                   <div key={item.label}>
-                    <dd className="text-lg font-semibold text-white tabular-nums">
+                    <dd className="text-lg font-semibold text-foreground tabular-nums">
                       {item.value}
                     </dd>
-                    <dt className="text-[10px] text-white/40">{item.label}</dt>
+                    <dt className="text-[10px] text-muted-foreground">
+                      {item.label}
+                    </dt>
                   </div>
                 ))}
               </dl>
@@ -370,14 +375,14 @@ export default async function PartnerAgentsPage({
               hint={t("activity.hint", { count: activities.length })}
             >
               {activities.length === 0 ? (
-                <p className="px-4 py-6 text-center text-xs text-white/40">
+                <p className="px-4 py-6 text-center text-xs text-muted-foreground">
                   {t("activity.empty")}
                 </p>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-white/10 text-[10px] tracking-wide text-white/40 uppercase">
+                      <tr className="border-b border-border text-[10px] tracking-wide text-muted-foreground uppercase">
                         <th className="px-4 py-2 text-left font-medium">
                           {t("activity.columns.name")}
                         </th>
@@ -395,31 +400,31 @@ export default async function PartnerAgentsPage({
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-white/5">
+                    <tbody className="divide-y divide-border">
                       {activities.map((activity) => (
                         <tr key={activity.id}>
                           <td className="px-4 py-2.5">
-                            <span className="block truncate text-white/90">
+                            <span className="block truncate text-foreground/90">
                               {localize(activity.title)}
                             </span>
-                            <span className="block truncate text-[11px] text-white/40">
+                            <span className="block truncate text-[11px] text-muted-foreground">
                               {activity.city}
                             </span>
                           </td>
                           <td className="px-4 py-2.5">
-                            <span className="rounded-md border border-white/12 px-1.5 py-0.5 text-[10px] whitespace-nowrap text-white/60">
+                            <span className="rounded-md border border-border px-1.5 py-0.5 text-[10px] whitespace-nowrap text-muted-foreground">
                               {kindOf(activity.kind)}
                             </span>
                           </td>
-                          <td className="px-4 py-2.5 text-[11px] whitespace-nowrap text-white/45">
+                          <td className="px-4 py-2.5 text-[11px] whitespace-nowrap text-muted-foreground">
                             {activity.startAt === activity.endAt
                               ? formatDay(activity.startAt)
                               : `${formatDay(activity.startAt)} – ${formatDay(activity.endAt)}`}
                           </td>
-                          <td className="px-4 py-2.5 text-right text-white/85 tabular-nums">
+                          <td className="px-4 py-2.5 text-right text-foreground/85 tabular-nums">
                             {formatCount(activity.signups)}
                           </td>
-                          <td className="px-4 py-2.5 text-right text-emerald-400 tabular-nums">
+                          <td className="px-4 py-2.5 text-right text-emerald-700 tabular-nums">
                             {formatMoney(activity.commission)}
                           </td>
                         </tr>
@@ -434,10 +439,12 @@ export default async function PartnerAgentsPage({
           <>
             {/* ── Roster for the same window ─────────────────────────── */}
             <div className="partner-panel mt-3 p-5 text-center">
-              <p className="text-sm font-medium text-white/85">
+              <p className="text-sm font-medium text-foreground/85">
                 {t("empty.title")}
               </p>
-              <p className="mt-1 text-xs text-white/45">{t("empty.body")}</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {t("empty.body")}
+              </p>
             </div>
 
             <Panel
@@ -449,7 +456,7 @@ export default async function PartnerAgentsPage({
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-white/10 text-[10px] tracking-wide text-white/40 uppercase">
+                    <tr className="border-b border-border text-[10px] tracking-wide text-muted-foreground uppercase">
                       <th className="px-4 py-2 text-left font-medium">
                         {t("roster.columns.agent")}
                       </th>
@@ -470,12 +477,12 @@ export default async function PartnerAgentsPage({
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5">
+                  <tbody className="divide-y divide-border">
                     {roster.map((row) => (
                       <tr
                         key={row.partner.id}
                         className={cn(
-                          "transition-colors hover:bg-white/4",
+                          "transition-colors hover:bg-foreground/5",
                           row.days === 0 && "opacity-45",
                         )}
                       >
@@ -484,33 +491,33 @@ export default async function PartnerAgentsPage({
                             href={detailHref(row.partner.id)}
                             className="block min-w-0"
                           >
-                            <span className="block truncate text-white/90">
+                            <span className="block truncate text-foreground/90">
                               {row.partner.name}
                             </span>
-                            <span className="block truncate text-[11px] text-white/40">
+                            <span className="block truncate text-[11px] text-muted-foreground">
                               {row.partner.region}
                             </span>
                           </Link>
                         </td>
-                        <td className="px-4 py-2.5 text-[11px] whitespace-nowrap text-white/55">
+                        <td className="px-4 py-2.5 text-[11px] whitespace-nowrap text-muted-foreground">
                           {tierOf(row.partner.tier)}
                         </td>
-                        <td className="px-4 py-2.5 text-right text-white/85 tabular-nums">
+                        <td className="px-4 py-2.5 text-right text-foreground/85 tabular-nums">
                           {row.days === 0
                             ? "—"
                             : formatCount(row.totals.signups)}
                         </td>
-                        <td className="px-4 py-2.5 text-right text-white/70 tabular-nums">
+                        <td className="px-4 py-2.5 text-right text-foreground/70 tabular-nums">
                           {row.days === 0
                             ? "—"
                             : formatMoney(row.totals.gross, true)}
                         </td>
-                        <td className="px-4 py-2.5 text-right text-emerald-400 tabular-nums">
+                        <td className="px-4 py-2.5 text-right text-emerald-700 tabular-nums">
                           {row.days === 0
                             ? "—"
                             : formatMoney(row.totals.commission)}
                         </td>
-                        <td className="px-4 py-2.5 text-right text-white/55 tabular-nums">
+                        <td className="px-4 py-2.5 text-right text-muted-foreground tabular-nums">
                           {formatPercent(row.partner.share)}
                         </td>
                       </tr>
@@ -520,7 +527,7 @@ export default async function PartnerAgentsPage({
               </div>
             </Panel>
 
-            <p className="mt-3 text-[11px] text-white/35">
+            <p className="mt-3 text-[11px] text-muted-foreground/80">
               {t("range.label")}: {formatDay(range.from)} –{" "}
               {formatDay(range.to)} ·{" "}
               {t("range.days", { count: daysBetween(range.from, range.to) })}

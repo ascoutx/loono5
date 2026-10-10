@@ -10,11 +10,13 @@ import { RegionsSection } from "./regions-section";
 import { StoriesSection } from "./stories-section";
 
 /**
- * A second, much wider scatter of warm light.
+ * A second, much wider scatter of blush light.
  *
  * The hero backdrop only lights the first viewport; the page is several
  * thousand pixels tall, so without these the lower half reads as flat paper.
- * Opacity is kept very low — on an ivory canvas these have to whisper.
+ * Same peach / pink / rose trio as the hero backdrop so the temperature never
+ * jumps mid-scroll, at a lower opacity still — on an ivory canvas these have
+ * to whisper.
  */
 function AmbientGlow() {
   return (
@@ -22,9 +24,9 @@ function AmbientGlow() {
       aria-hidden
       className="pointer-events-none absolute inset-0 overflow-hidden"
     >
-      <div className="absolute top-[14%] -left-40 size-[420px] rounded-full bg-[radial-gradient(circle,oklch(0.93_0.05_45/0.7),transparent_70%)] blur-3xl" />
-      <div className="absolute top-[42%] -right-48 size-[460px] rounded-full bg-[radial-gradient(circle,oklch(0.94_0.05_82/0.65),transparent_70%)] blur-3xl" />
-      <div className="absolute top-[68%] left-1/4 size-[420px] rounded-full bg-[radial-gradient(circle,oklch(0.95_0.03_20/0.6),transparent_70%)] blur-3xl" />
+      <div className="absolute top-[14%] -left-40 size-[420px] rounded-full bg-[radial-gradient(circle,oklch(0.912_0.075_26/0.7),transparent_70%)] blur-3xl" />
+      <div className="absolute top-[42%] -right-48 size-[460px] rounded-full bg-[radial-gradient(circle,oklch(0.922_0.074_348/0.68),transparent_70%)] blur-3xl" />
+      <div className="absolute top-[68%] left-1/4 size-[420px] rounded-full bg-[radial-gradient(circle,oklch(0.93_0.064_12/0.62),transparent_70%)] blur-3xl" />
     </div>
   );
 }

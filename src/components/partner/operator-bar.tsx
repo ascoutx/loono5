@@ -39,13 +39,13 @@ export async function OperatorBar({
   ];
 
   return (
-    <header className="sticky top-0 z-30 border-b border-white/10 bg-partner-canvas/85 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b border-border bg-partner-canvas/85 backdrop-blur">
       <div className="flex h-16 items-center gap-3 px-4 md:px-6 xl:px-8">
         <span className="min-w-0">
           <span className="block truncate text-sm font-semibold">
             {t("title")}
           </span>
-          <span className="block truncate font-mono text-[10px] text-white/40">
+          <span className="block truncate font-mono text-[10px] text-muted-foreground">
             {account}
           </span>
         </span>
@@ -63,8 +63,8 @@ export async function OperatorBar({
                 className={cn(
                   "flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs transition-colors",
                   active
-                    ? "bg-white/10 text-white"
-                    : "text-white/50 hover:bg-white/5 hover:text-white/85",
+                    ? "bg-foreground/10 text-foreground"
+                    : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground/85",
                 )}
               >
                 <Icon className="size-3.5" />
@@ -76,7 +76,7 @@ export async function OperatorBar({
 
         <div className="ms-auto flex items-center gap-3">
           {badge ? (
-            <span className="hidden rounded-md border border-white/12 px-2 py-1 text-[10px] tracking-wide text-white/50 uppercase sm:block">
+            <span className="hidden rounded-md border border-border px-2 py-1 text-[10px] tracking-wide text-muted-foreground uppercase sm:block">
               {badge}
             </span>
           ) : null}
@@ -86,7 +86,7 @@ export async function OperatorBar({
               type="submit"
               variant="ghost"
               size="sm"
-              className="gap-1.5 text-white/55 hover:text-white"
+              className="gap-1.5 text-muted-foreground hover:text-foreground"
             >
               <LogOut className="size-4" />
               <span className="hidden sm:inline">{t("signOut")}</span>

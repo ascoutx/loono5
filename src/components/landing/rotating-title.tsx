@@ -42,9 +42,11 @@ export function RotatingTitle({
         key={index}
         aria-hidden
         className={cn(
-          // Metallic champagne sweep — the one place the B2C surface allows a
-          // gradient, and it stays inside the gold ramp rather than going neon.
-          "animate-loono-rise block bg-gradient-to-r from-[#9a7b4f] via-[#c9a961] to-[#9a7b4f] bg-clip-text text-transparent",
+          // Metallic rose-gold sweep — the one place the B2C surface allows a
+          // gradient, and it stays inside the rose/maroon ramp rather than
+          // going neon. The midpoint is a full step deeper than a pastel so
+          // the line still holds against a canvas that is no longer white.
+          "animate-loono-rise block bg-gradient-to-r from-[#9c4a35] via-[#d78a6f] to-[#9c4a35] bg-clip-text text-transparent",
         )}
       >
         {phrases[index]}

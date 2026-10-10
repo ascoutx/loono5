@@ -6,8 +6,8 @@ Front-end for a cross-border matchmaking and dating platform. One codebase carri
 
 | Surface | Audience | Look | Entry |
 | --- | --- | --- | --- |
-| **B2C consumer site** | Ordinary members | Light luxury | `loono.com` · locally `:3000` |
-| **B2B partner console** | Authorised partners / operators | Dark data surface | `partner.loono.com` · locally `:3001` |
+| **B2C consumer site** | Ordinary members | Warm light luxury | `loono.com` · locally `:3000` |
+| **B2B partner console** | Authorised partners / operators | Cool light data surface | `partner.loono.com` · locally `:3001` |
 
 The consumer site **never mentions agents or agencies**. Its bottom navigation is fixed at three core tabs (Search, Chats, Me); the only outward-facing offer is "Partners", reached through an application form. The partner console is **behind an account login** and is not linked from the consumer site in either direction.
 
@@ -126,8 +126,8 @@ The `OperatorBar` in the header switches between the two sections and carries th
 | Capability | Location |
 | --- | --- |
 | Three-language copy | `src/messages/{zh,en,ru}.json`, **715 keys**, with identical key sets across locales |
-| Locale switcher | `LocaleSwitcher`, with a palette for the light consumer site and another for the dark console |
-| Theme tokens | The `@theme` block in `globals.css`: a warm B2C palette plus a charcoal B2B palette |
+| Locale switcher | `LocaleSwitcher`, consumer site only — the console is not exposed to members |
+| Theme tokens | The `@theme` block in `globals.css`: a warm B2C palette plus a cool light B2B palette |
 | Three responsive tiers | `<md` full-bleed H5 · `md–xl` centred single column · `xl+` desktop canvas (side rail replaces the bottom nav) |
 | Sessions and guards | `lib/auth/*` (members), `lib/partner/*` (partners) |
 | Verification badges | 8 kinds (real name / education / marital / assets / criminal record / occupation / income / property), each with a validity window and a state machine |
@@ -232,9 +232,9 @@ When adding copy, all three locales must move together: key sets and placeholder
 
 ## Theme and responsive behaviour
 
-**B2C "Soft Porcelain"** — warm ivory canvas, pure white cards, ink text and champagne accents (`.loono-surface` / `.glass-card` / `.loono-cta`).
+**B2C "Warm Blush"** — a blush-ivory canvas lit by one peach pool and one true-pink pool, pure white cards, espresso-rose text and rose-gold accents (`.loono-surface` / `.glass-card` / `.loono-cta`). Pink arrives through light, never through body type or functional chrome; the whole ramp sits in hues 12–52 (rose through rose-gold).
 
-**B2B data surface** — charcoal panels, a 32px engineering grid, a sky-blue accent and large tabular figures (`.partner-surface` / `.partner-panel`).
+**B2B data surface** — a cool light grey canvas, white panels, a 32px engineering grid, a sky-blue accent and large tabular figures (`.partner-surface` / `.partner-panel`). Both products are light: the two are separated by **hue**, warm for consumers and cool for operators, not by luminance. `.partner-surface` re-declares the shadcn tokens for its subtree, so `text-foreground` / `border-border` / `Card` resolve cool inside the cabinet with no per-component overrides.
 
 Responsiveness runs entirely on **CSS breakpoints** (`lg:hidden` / `hidden lg:block` swapping two trees) and **never reads the viewport size**, which keeps hydration from mismatching.
 

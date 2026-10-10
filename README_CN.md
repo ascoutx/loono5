@@ -6,8 +6,8 @@
 
 | 站点 | 面向 | 视觉 | 入口 |
 | --- | --- | --- | --- |
-| **B2C 主站** | 普通会员 | 轻奢浅色调（Light Luxury） | `loono.com` · 本地 `:3000` |
-| **B2B 合作伙伴后台** | 已授权的合作伙伴／运营 | 暗色数据风 | `partner.loono.com` · 本地 `:3001` |
+| **B2C 主站** | 普通会员 | 暖调轻奢浅色 | `loono.com` · 本地 `:3000` |
+| **B2B 合作伙伴后台** | 已授权的合作伙伴／运营 | 冷调浅色数据风 | `partner.loono.com` · 本地 `:3001` |
 
 主站**不出现任何代理人／代理机构字样**，底部导航固定为三个核心 Tab（搜索、聊天、个人中心）；对外只说「合伙」（Partners），入口是一个申请表单。合作伙伴后台**仅限账号密码登录**，与主站互不链接。
 
@@ -126,8 +126,8 @@ localhost:3000/partner/login → redirect 307 → localhost:3001/login  （剥�
 | 能力 | 位置 |
 | --- | --- |
 | 三语文案 | `src/messages/{zh,en,ru}.json`，共 **715 个键**，三语键集完全对齐 |
-| 语言切换 | `LocaleSwitcher`，浅色主站与暗色后台各适配一套配色 |
-| 主题令牌 | `globals.css` 的 `@theme`：B2C 暖色板 + B2B 炭黑板 |
+| 语言切换 | `LocaleSwitcher`，仅主站使用——后台不对会员开放 |
+| 主题令牌 | `globals.css` 的 `@theme`：B2C 暖色板 + B2B 冷调浅色板 |
 | 响应式三档 | `<md` 全出血 H5 · `md–xl` 居中单列 · `xl+` 桌面画布（侧栏替代底部导航） |
 | 会话与守卫 | `lib/auth/*`（会员）、`lib/partner/*`（合作伙伴） |
 | 会员认证徽章 | 8 类（实名 / 学历 / 婚姻 / 资产 / 无犯罪 / 职业 / 收入 / 房产），带有效期与状态机 |
@@ -232,9 +232,9 @@ src/
 
 ## 主题与响应式
 
-**B2C「Soft Porcelain」**：暖象牙底 + 纯白卡片 + 墨色文字 + 香槟金点缀（`.loono-surface` / `.glass-card` / `.loono-cta`）。
+**B2C「Warm Blush」**：粉调象牙暖底，顶部一束暖桃光晕配一束真粉光晕；纯白卡片 + 浓缩咖啡—玫瑰墨色 + 玫瑰金点缀（`.loono-surface` / `.glass-card` / `.loono-cta`）。粉色由**光**承载，不落在正文与功能性控件上；色相整体落在 12–52（玫瑰→玫瑰金）。
 
-**B2B 数据风**：炭黑面板 + 32px 工程网格 + 天蓝强调色 + 大号等宽数字（`.partner-surface` / `.partner-panel`）。
+**B2B 数据风**：冷调浅灰底 + 白色面板 + 32px 工程网格 + 天蓝强调色 + 大号等宽数字（`.partner-surface` / `.partner-panel`）。两套都是浅色，靠**色相**区分而非明度——C 端偏暖、B 端偏冷。`.partner-surface` 为自己的子树重新声明了 shadcn 令牌，所以 `text-foreground` / `border-border` / `Card` 在后台内部自动走冷色，无需逐个组件覆盖。
 
 响应式全部走 **纯 CSS 断点**（`lg:hidden` / `hidden lg:block` 切换两棵树），**不读 viewport 尺寸**，以避免 hydration mismatch。
 

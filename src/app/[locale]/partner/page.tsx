@@ -23,15 +23,15 @@ const MONTHLY_REVENUE = [
 const CURRENCY = "USD";
 
 /**
- * B2B partner cabinet — dark data surface.
+ * B2B partner cabinet — cool light data surface.
  *
  * This is the *partner's own* dashboard: one account, already totalled. The
  * operator's cross-partner view (search any partner over any window) lives at
  * /partner/agents, reached through the switcher in the top bar.
  *
- * Deliberately instrument-like rather than warm: charcoal, hairline rules,
- * big tabular numbers. Nothing here is shared with the consumer surface, and
- * the page is gated — see `requirePartnerSession`.
+ * Deliberately instrument-like rather than warm: neutral grey, hairline
+ * rules, big tabular numbers. Nothing here is shared with the consumer
+ * surface, and the page is gated — see `requirePartnerSession`.
  */
 export default async function PartnerPage({
   params,
@@ -75,11 +75,11 @@ export default async function PartnerPage({
 
             return (
               <li key={kpi.label} className="partner-panel p-4">
-                <span className="flex items-center gap-1.5 text-[11px] tracking-wide text-white/45 uppercase">
+                <span className="flex items-center gap-1.5 text-[11px] tracking-wide text-muted-foreground uppercase">
                   <Icon className="size-3.5" />
                   <span className="truncate">{kpi.label}</span>
                 </span>
-                <p className="mt-2.5 text-2xl font-semibold text-white tabular-nums">
+                <p className="mt-2.5 text-2xl font-semibold text-foreground tabular-nums">
                   ${kpi.value.toLocaleString(locale)}
                 </p>
               </li>
@@ -96,17 +96,19 @@ export default async function PartnerPage({
           >
             <RevenueChart data={MONTHLY_REVENUE} currency={CURRENCY} />
 
-            <dl className="mt-4 grid grid-cols-3 gap-3 border-t border-white/10 pt-4">
+            <dl className="mt-4 grid grid-cols-3 gap-3 border-t border-border pt-4">
               {[
                 { label: t("newInvites"), value: "24" },
                 { label: t("activeSubs"), value: "96" },
                 { label: t("arpu"), value: "$34" },
               ].map((item) => (
                 <div key={item.label}>
-                  <dd className="text-lg font-semibold text-white tabular-nums">
+                  <dd className="text-lg font-semibold text-foreground tabular-nums">
                     {item.value}
                   </dd>
-                  <dt className="text-[10px] text-white/40">{item.label}</dt>
+                  <dt className="text-[10px] text-muted-foreground">
+                    {item.label}
+                  </dt>
                 </div>
               ))}
             </dl>
@@ -132,7 +134,7 @@ export default async function PartnerPage({
           >
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-white/10 text-[10px] tracking-wide text-white/40 uppercase">
+                <tr className="border-b border-border text-[10px] tracking-wide text-muted-foreground uppercase">
                   <th className="pb-2 text-left font-medium">
                     {td("tabs.overview")}
                   </th>
@@ -140,27 +142,27 @@ export default async function PartnerPage({
                   <th className="pb-2 text-right font-medium">USD</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-border">
                 {referrals.map((referral) => (
                   <tr key={referral.id}>
                     <td className="py-2.5">
                       <span className="flex items-center gap-2">
-                        <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-white/8 text-[10px] font-medium">
+                        <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-foreground/10 text-[10px] font-medium">
                           {referral.nickname.slice(0, 1)}
                         </span>
                         <span className="truncate">{referral.nickname}</span>
                       </span>
                     </td>
-                    <td className="py-2.5 text-[11px] text-white/40">
+                    <td className="py-2.5 text-[11px] text-muted-foreground">
                       {new Date(referral.joinedAt).toLocaleDateString(locale)}
                     </td>
                     <td className="py-2.5 text-right tabular-nums">
                       {referral.subscribed ? (
-                        <span className="text-emerald-400">
+                        <span className="text-emerald-700">
                           +${referral.earnings.toFixed(2)}
                         </span>
                       ) : (
-                        <span className="text-white/25">—</span>
+                        <span className="text-muted-foreground/60">—</span>
                       )}
                     </td>
                   </tr>
@@ -176,7 +178,7 @@ export default async function PartnerPage({
           >
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-white/10 text-[10px] tracking-wide text-white/40 uppercase">
+                <tr className="border-b border-border text-[10px] tracking-wide text-muted-foreground uppercase">
                   <th className="pb-2 text-left font-medium">{tp("title")}</th>
                   <th className="pb-2 text-left font-medium">
                     {tp("available")}
@@ -186,13 +188,13 @@ export default async function PartnerPage({
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-border">
                 {payouts.map((payout) => (
                   <tr key={payout.id}>
                     <td className="py-2.5 tabular-nums">
                       ${payout.amount.toFixed(2)}
                     </td>
-                    <td className="truncate py-2.5 text-[11px] text-white/40">
+                    <td className="truncate py-2.5 text-[11px] text-muted-foreground">
                       {payout.account}
                     </td>
                     <td className="py-2.5 text-right">
@@ -200,12 +202,12 @@ export default async function PartnerPage({
                         className={cn(
                           "rounded-md border px-1.5 py-0.5 text-[10px]",
                           payout.status === "paid" &&
-                            "border-emerald-500/40 text-emerald-400",
+                            "border-emerald-600/40 text-emerald-700",
                           payout.status === "rejected" &&
                             "border-destructive/40 text-destructive",
                           payout.status !== "paid" &&
                             payout.status !== "rejected" &&
-                            "border-white/15 text-white/50",
+                            "border-border text-muted-foreground",
                         )}
                       >
                         {tp(

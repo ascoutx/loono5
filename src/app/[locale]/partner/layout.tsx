@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { AppShell } from "@/components/layout/app-shell";
 
 /**
- * B2B partner cabinet: dark data surface, no B2C tab bar.
+ * B2B partner cabinet: cool light data surface, no B2C tab bar.
  *
  * Reached only via partner.loono.com (middleware rewrites the subdomain to
  * /partner) — it is intentionally absent from the consumer bottom nav and is
@@ -14,5 +14,5 @@ import { AppShell } from "@/components/layout/app-shell";
  * page.
  */
 export default function PartnerLayout({ children }: { children: ReactNode }) {
-  return <AppShell surface="dark">{children}</AppShell>;
+  return <AppShell surface="partner">{children}</AppShell>;
 }

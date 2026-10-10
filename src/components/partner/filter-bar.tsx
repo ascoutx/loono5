@@ -29,9 +29,9 @@ export interface FilterBarLabels {
 }
 
 const FIELD = cn(
-  "h-8 rounded-md border border-white/12 bg-white/5 px-2 text-xs text-white",
-  "outline-none transition-colors [color-scheme:dark]",
-  "hover:border-white/25 focus-visible:border-white/40",
+  "h-8 rounded-md border border-border bg-card px-2 text-xs text-foreground",
+  "outline-none transition-colors [color-scheme:light]",
+  "hover:border-ring/60 focus-visible:border-ring",
 );
 
 /**
@@ -44,7 +44,7 @@ const FIELD = cn(
  *
  * Native controls on purpose — `<select>` and `<input type="date">` come with
  * keyboard handling, locale-aware layout and mobile pickers already; the only
- * work left is theming them for the charcoal surface (`color-scheme: dark`).
+ * work left is theming them for the light surface (`color-scheme: light`).
  */
 export function FilterBar({
   partners,
@@ -100,7 +100,7 @@ export function FilterBar({
     <section className="partner-panel">
       <div className="flex flex-wrap items-end gap-3 p-4">
         <label className="flex min-w-[13rem] flex-1 flex-col gap-1.5">
-          <span className="text-[10px] tracking-wide text-white/45 uppercase">
+          <span className="text-[10px] tracking-wide text-muted-foreground uppercase">
             {labels.agent}
           </span>
           <select
@@ -126,7 +126,7 @@ export function FilterBar({
         </label>
 
         <label className="flex flex-col gap-1.5">
-          <span className="text-[10px] tracking-wide text-white/45 uppercase">
+          <span className="text-[10px] tracking-wide text-muted-foreground uppercase">
             {labels.from}
           </span>
           <input
@@ -139,7 +139,7 @@ export function FilterBar({
         </label>
 
         <label className="flex flex-col gap-1.5">
-          <span className="text-[10px] tracking-wide text-white/45 uppercase">
+          <span className="text-[10px] tracking-wide text-muted-foreground uppercase">
             {labels.to}
           </span>
           <input
@@ -165,8 +165,8 @@ export function FilterBar({
                 className={cn(
                   "h-8 rounded-md border px-2.5 text-xs transition-colors",
                   active
-                    ? "border-white/30 bg-white/12 text-white"
-                    : "border-white/12 text-white/55 hover:border-white/25 hover:text-white/85",
+                    ? "border-ring/60 bg-foreground/10 text-foreground"
+                    : "border-border text-muted-foreground hover:border-ring/40 hover:text-foreground/85",
                 )}
               >
                 {option.label}
@@ -180,7 +180,7 @@ export function FilterBar({
               navigate({ agent: null, from: null, to: null, preset: null })
             }
             title={labels.reset}
-            className="flex h-8 items-center gap-1.5 rounded-md border border-transparent px-2 text-xs text-white/40 transition-colors hover:text-white/75"
+            className="flex h-8 items-center gap-1.5 rounded-md border border-transparent px-2 text-xs text-muted-foreground transition-colors hover:text-foreground/80"
           >
             <RotateCcw className="size-3.5" />
             <span className="hidden md:inline">{labels.reset}</span>
@@ -190,7 +190,7 @@ export function FilterBar({
             <span
               role="status"
               aria-label={labels.pending}
-              className="flex h-8 w-6 items-center justify-center text-white/45"
+              className="flex h-8 w-6 items-center justify-center text-muted-foreground"
             >
               <Loader2 className="size-3.5 animate-spin" />
             </span>
