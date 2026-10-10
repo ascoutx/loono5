@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const LOCALE_SHORT: Record<Locale, string> = { zh: "中文", ru: "RU", en: "EN" };
+const LOCALE_SHORT: Record<Locale, string> = { zh: "ZH", ru: "RU", en: "EN" };
 
 /**
  * Switches locale while staying on the current route.

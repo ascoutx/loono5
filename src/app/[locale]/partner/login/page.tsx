@@ -1,6 +1,7 @@
 import { ShieldCheck } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { PartnerSignInForm } from "@/components/partner/sign-in-form";
 
 /**
@@ -22,6 +23,10 @@ export default async function PartnerLoginPage({
 
   return (
     <div className="partner-surface relative flex min-h-full flex-1 items-center justify-center px-5 py-14">
+      {/* Same switcher as the cabinet header: locale-aware router, keeps the
+          current route and swaps only the [locale] prefix. */}
+      <LocaleSwitcher className="fixed top-4 right-4 z-40" />
+
       <div className="partner-panel w-full max-w-[26rem] p-7">
         <div className="flex flex-col items-center gap-3 pb-6 text-center">
           <span className="flex size-11 items-center justify-center rounded-xl bg-foreground/10 ring-1 ring-border">

@@ -1,6 +1,7 @@
 import { LayoutDashboard, LogOut, Users } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
+import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { partnerSignOutAction } from "@/lib/partner/actions";
@@ -80,6 +81,8 @@ export async function OperatorBar({
               {badge}
             </span>
           ) : null}
+
+          <LocaleSwitcher className="h-8 gap-1 px-2" />
 
           <form action={partnerSignOutAction}>
             <Button

@@ -15,6 +15,8 @@ const eslintConfig = [
     ignores: [
       "node_modules/**",
       ".next/**",
+      // Second build dir used by `npm run dev:partner`.
+      ".next-partner/**",
       "out/**",
       "build/**",
       "next-env.d.ts",
