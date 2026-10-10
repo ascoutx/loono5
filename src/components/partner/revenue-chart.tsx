@@ -40,13 +40,16 @@ export function RevenueChart({
             >
               <span
                 className={cn(
-                  "w-full rounded-t-md bg-gradient-to-t from-loono-violet/45 to-loono-rose/85",
-                  "opacity-80 transition-opacity duration-200 group-hover:opacity-100",
-                  peak && "from-loono-violet/70 to-loono-rose",
+                  // Cool instrument-blue, but opaque: the previous half-alpha
+                  // ramp was tuned for a charcoal panel and washed out to a
+                  // pale smear once the cabinet turned light.
+                  "w-full rounded-t-sm bg-gradient-to-t from-sky-700 to-sky-400",
+                  "opacity-90 transition-opacity duration-200 group-hover:opacity-100",
+                  peak && "from-sky-800 to-sky-500",
                 )}
                 style={{ height: `${Math.max(ratio * 100, 3)}%` }}
               />
-              <span className="pointer-events-none absolute -top-1 left-1/2 z-10 -translate-x-1/2 -translate-y-full rounded-md bg-popover px-1.5 py-0.5 text-[10px] whitespace-nowrap text-popover-foreground opacity-0 shadow-md transition-opacity group-hover:opacity-100">
+              <span className="pointer-events-none absolute -top-1 left-1/2 z-10 -translate-x-1/2 -translate-y-full rounded-md border border-border bg-popover px-1.5 py-0.5 text-[10px] whitespace-nowrap text-popover-foreground opacity-0 shadow-md transition-opacity group-hover:opacity-100">
                 {format.number(point.amount, { style: "currency", currency })}
               </span>
               <span className="sr-only">

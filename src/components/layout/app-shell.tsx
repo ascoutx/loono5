@@ -4,7 +4,7 @@ import { AppFrame, BOTTOM_NAV_CLEARANCE } from "./app-frame";
 import { BottomNav } from "./bottom-nav";
 import { SideNav } from "./side-nav";
 
-type Surface = "light" | "dark";
+type Surface = "light" | "partner";
 
 interface AppShellProps {
   children: ReactNode;

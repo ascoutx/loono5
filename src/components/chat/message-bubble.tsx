@@ -48,7 +48,9 @@ export function MessageBubble({ message, isOwn }: MessageBubbleProps) {
         <p className="text-[15px] leading-relaxed break-words">{primaryText}</p>
       </div>
 
-      {/* Original wording, secondary and de-emphasised. */}
+      {/* Original wording, secondary and de-emphasised. The 🈯 mark is the
+          PRD-specified affordance: it flags "this line is the sender's own
+          words", as opposed to the translated primary line above. */}
       {showOriginal ? (
         <p
           className={cn(
@@ -56,7 +58,13 @@ export function MessageBubble({ message, isOwn }: MessageBubbleProps) {
             isOwn ? "justify-end text-right" : "text-left",
           )}
         >
-          <Languages className="mt-0.5 size-2.5 shrink-0 opacity-70" />
+          <span
+            aria-hidden
+            className="shrink-0 text-[11px] leading-snug opacity-80 select-none"
+          >
+            🈯
+          </span>
+          <span className="sr-only">{t("original")}</span>
           <span className="min-w-0 break-words">{message.originalText}</span>
         </p>
       ) : message.isTranslating ? (

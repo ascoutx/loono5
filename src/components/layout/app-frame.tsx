@@ -35,7 +35,7 @@ export const DESKTOP_GUTTER = "1.5rem";
 export const CONTENT_WIDTH =
   "mx-auto w-full max-w-[46rem] lg:max-w-[60rem] xl:max-w-[72rem]";
 
-type Surface = "light" | "dark";
+type Surface = "light" | "partner";
 
 interface AppFrameProps {
   children: ReactNode;
@@ -48,7 +48,10 @@ interface AppFrameProps {
   sidebar?: ReactNode;
   /** Extra classes for the scroll container, e.g. bottom-nav clearance. */
   scrollClassName?: string;
-  /** B2C is light "soft porcelain"; the B2B partner cabinet is dark. */
+  /**
+   * B2C is the warm ivory consumer site; the B2B partner cabinet is a cool
+   * light data surface. Both are light — the difference is hue, not luminance.
+   */
   surface?: Surface;
 }
 
@@ -79,22 +82,24 @@ export function AppFrame({
   scrollClassName,
   surface = "light",
 }: AppFrameProps) {
-  const dark = surface === "dark";
+  const partner = surface === "partner";
 
   return (
     <div
       className={cn(
         "flex h-dvh min-h-screen w-full justify-center",
-        dark ? "bg-neutral-950" : "bg-neutral-100",
+        // Letterbox around the app column. B2C uses a warm sand, one step
+        // deeper than the ivory canvas, so the column still reads as a
+        // distinct surface; B2B uses its own cool grey.
+        partner ? "bg-partner-canvas" : "bg-loono-sand",
       )}
     >
       <div
         className={cn(
-          "relative flex h-dvh min-h-0 w-full flex-1 flex-row overflow-hidden",
-          // Activates the shadcn dark tokens so B2B components theme
-          // themselves without every card needing dark: variants.
-          dark && "dark",
-          "bg-background text-foreground",
+          "relative flex h-dvh min-h-0 w-full flex-1 flex-row overflow-hidden text-foreground",
+          // Both surfaces are light, but the cabinet re-declares the shadcn
+          // tokens inside `.partner-surface` so its own chrome resolves cool.
+          partner ? "bg-partner-canvas" : "bg-background",
         )}
       >
         {sidebar}

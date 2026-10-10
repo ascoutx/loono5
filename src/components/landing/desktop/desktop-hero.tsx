@@ -41,10 +41,10 @@ function MemberCollage({ caption }: { caption: string }) {
             />
 
             <figcaption className="px-1 pt-2 pb-1">
-              <span className="block truncate text-[11px] font-semibold text-white">
+              <span className="block truncate text-[11px] font-semibold text-foreground">
                 {user.name}
               </span>
-              <span className="flex items-center gap-0.5 truncate text-[10px] text-white/55">
+              <span className="flex items-center gap-0.5 truncate text-[10px] text-muted-foreground">
                 <MapPin className="size-2.5 shrink-0" />
                 {user.age} · {user.city}
               </span>
@@ -53,7 +53,9 @@ function MemberCollage({ caption }: { caption: string }) {
         ))}
       </div>
 
-      <p className="text-center text-[10px] text-white/35">{caption}</p>
+      <p className="text-center text-[10px] text-muted-foreground/70">
+        {caption}
+      </p>
     </div>
   );
 }
@@ -77,7 +79,7 @@ export async function DesktopHero() {
           <VerifiedBadge>{t("hero.badge")}</VerifiedBadge>
 
           <h1 className="flex flex-col gap-2">
-            <span className="bg-gradient-to-br from-white via-white to-white/75 bg-clip-text text-4xl leading-[1.1] font-bold tracking-tight text-balance text-transparent xl:text-[3.3rem]">
+            <span className="text-4xl leading-[1.1] font-bold tracking-tight text-balance text-foreground xl:text-[3.3rem]">
               {t("hero.title")}
             </span>
             <RotatingTitle
@@ -86,7 +88,7 @@ export async function DesktopHero() {
             />
           </h1>
 
-          <p className="max-w-xl text-sm leading-relaxed text-white/65 xl:text-base">
+          <p className="max-w-xl text-sm leading-relaxed text-muted-foreground xl:text-base">
             {t("hero.subtitle")}
           </p>
 
@@ -107,7 +109,9 @@ export async function DesktopHero() {
             </Link>
           </div>
 
-          <p className="text-[11px] text-white/45">{t("hero.trustLine")}</p>
+          <p className="text-[11px] text-muted-foreground/85">
+            {t("hero.trustLine")}
+          </p>
 
           <StatsRow stats={stats} className="w-full max-w-md" />
         </div>
@@ -117,10 +121,10 @@ export async function DesktopHero() {
 
       {/* The single most persuasive line on the page, on its own. */}
       <Container className="mt-16 xl:mt-20">
-        <p className="flex items-center justify-center gap-3 text-center text-sm font-medium text-white/55">
+        <p className="flex items-center justify-center gap-3 text-center text-sm font-medium text-muted-foreground">
           <span className="relative flex size-2 shrink-0 items-center justify-center">
-            <span className="animate-loono-pulse-ring absolute inset-0 rounded-full bg-loono-rose/70" />
-            <span className="size-2 rounded-full bg-loono-rose shadow-[0_0_10px_2px] shadow-loono-rose/60" />
+            <span className="animate-loono-pulse-ring absolute inset-0 rounded-full bg-emerald-500/60" />
+            <span className="size-2 rounded-full bg-emerald-500" />
           </span>
           {t("hero.pulse")}
         </p>

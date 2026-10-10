@@ -15,10 +15,9 @@
     "current": "Current"
   },
   "nav": {
-    "catalog": "Discover",
+    "catalog": "Search",
     "chats": "Chats",
-    "profile": "Me",
-    "agent": "Agent"
+    "profile": "Profile"
   },
   "guest": {
     "heroTitle": "Global dating, one tap away",
@@ -39,7 +38,7 @@
     ],
     "ctaPrimary": "Start / Log in",
     "ctaSecondary": "Browse profiles",
-    "agentCta": "Earn with LOONO",
+    "partnerCta": "Become a partner",
     "trustLine": "Equal pay · 30-day free trial · Cancel anytime",
     "stats": {
       "members": "members",
@@ -163,7 +162,7 @@
         [
           "Everything in Premium",
           "Human matchmaking service",
-          "One-to-one agent support"
+          "One-to-one advisor support"
         ]
       ],
       "note": "Prices auto-convert by country and currency; figures shown are demo data."
@@ -211,7 +210,7 @@
         "Discover members",
         "Membership tiers",
         "Verification",
-        "Partner programme"
+        "Partners"
       ],
       "about": ["About us", "Our team", "Careers", "Press"],
       "legal": [
@@ -328,7 +327,7 @@
     }
   },
   "catalog": {
-    "title": "Discover",
+    "title": "Search",
     "tabsAll": "All",
     "tabsNearby": "Nearby",
     "tabsNew": "New",
@@ -403,7 +402,7 @@
     "typing": "typing…"
   },
   "profile": {
-    "title": "Me",
+    "title": "Profile",
     "edit": "Edit profile",
     "myLevel": "My level",
     "level": "L{level}",
@@ -412,8 +411,6 @@
     "expired": "Expired",
     "settings": "Settings",
     "subscription": "Subscription",
-    "agentCenter": "Agent center",
-    "myReferrals": "My invites",
     "logout": "Log out",
     "upgrade": "Upgrade level",
     "complete": "Complete profile",
@@ -673,7 +670,7 @@
     "featureTranslate": "Live translated chat",
     "featureBlur": "Higher-tier preview",
     "featureSupport": "Priority support",
-    "featureAgent": "Dedicated agent contact",
+    "featureAgent": "Dedicated advisor contact",
     "active": "Active plan",
     "renew": "Renew",
     "upgrade": "Upgrade",
@@ -740,7 +737,7 @@
         "data": "Your profile, photos and verification documents will be deleted or anonymised;",
         "entitlements": "Your membership level, purchased services and unused benefits are voided, with no refund;",
         "chats": "Chat history and interaction data will be erased and cannot be recovered;",
-        "relation": "Your agent status and referral relationships end; unsettled commission is handled per agreement;",
+        "relation": "Your partner status and related benefits end; unsettled amounts are handled per agreement;",
         "irreversible": "A deleted account cannot be restored — signing up again means redoing verification;",
         "retention": "Records we must keep by law are stored in isolation with restricted use."
       },
@@ -814,16 +811,16 @@
   },
   "agent": {
     "join": {
-      "title": "Become a LOONO agent",
+      "title": "Become a LOONO partner",
       "subtitle": "Invite friends and earn up to 70% commission",
-      "benefitsTitle": "Agent benefits",
+      "benefitsTitle": "Partner benefits",
       "commissionTitle": "Commission rates",
       "codeLabel": "Your invite code",
       "copy": "Copy",
       "linkLabel": "Your referral link",
       "start": "Join now",
-      "alreadyAgent": "Already an agent",
-      "goDashboard": "Open agent center"
+      "alreadyAgent": "Already a partner",
+      "goDashboard": "Open partner console"
     },
     "levels": {
       "base": "Base",
@@ -832,7 +829,7 @@
     },
     "commission": "{rate}% commission",
     "dashboard": {
-      "title": "Agent center",
+      "title": "Partner console",
       "welcome": "Welcome back",
       "totalEarnings": "Total earnings",
       "thisMonth": "This month",
@@ -897,7 +894,187 @@
     "requiredLevel": "Level {level} required",
     "matrixTitle": "Tier visibility"
   },
+  "partners": {
+    "title": "Partner application",
+    "heading": "Become a LOONO partner",
+    "intro": "We partner with online promoters, city and provincial operators, national operators and strategic shareholders. Submit an application and our partnerships team will reply within three business days.",
+    "highlights": [
+      {
+        "icon": "reach",
+        "title": "A global member base",
+        "body": "Verified members across 80+ countries and regions"
+      },
+      {
+        "icon": "tools",
+        "title": "Your own dashboard",
+        "body": "A dedicated console with live conversion and payout detail"
+      },
+      {
+        "icon": "support",
+        "title": "One-to-one support",
+        "body": "A named contact, plus ready-made creative and training"
+      }
+    ],
+    "apply": {
+      "fields": {
+        "name": "Contact name",
+        "namePlaceholder": "Your full name",
+        "company": "Organisation (optional)",
+        "companyPlaceholder": "Company or organisation name",
+        "email": "Email",
+        "emailPlaceholder": "name@example.com",
+        "phone": "Phone",
+        "phonePlaceholder": "+44 7700 900000",
+        "country": "Country / region",
+        "countryPlaceholder": "e.g. United Kingdom",
+        "cooperationType": "Type of partnership",
+        "message": "Anything else? (optional)",
+        "messagePlaceholder": "Tell us briefly about your audience, channels or goals"
+      },
+      "types": {
+        "online": {
+          "label": "Online partner",
+          "hint": "Refer members and earn 50% commission"
+        },
+        "city": {
+          "label": "City / provincial partner",
+          "hint": "Local team and office space — 60% commission"
+        },
+        "country": {
+          "label": "Country partner",
+          "hint": "National exclusivity and a branch network — 70% commission"
+        },
+        "shareholder": {
+          "label": "Shareholder partner",
+          "hint": "Long-term alignment — 75% commission"
+        }
+      },
+      "consent": "By submitting you agree that we may contact you using the details above. We will not use them for anything else.",
+      "submit": "Submit application",
+      "submitting": "Submitting…",
+      "successTitle": "Application received",
+      "successBody": "Our partnerships team will be in touch within three business days.",
+      "submitAnother": "Send another"
+    }
+  },
   "partner": {
+    "title": "Partner console",
+    "nav": {
+      "dashboard": "Dashboard",
+      "agents": "Partner lookup"
+    },
+    "signOut": "Sign out",
+    "login": {
+      "title": "Partner console",
+      "subtitle": "Authorised partner accounts only",
+      "fields": {
+        "account": "Account",
+        "accountPlaceholder": "Your account name",
+        "password": "Password",
+        "passwordPlaceholder": "Your password"
+      },
+      "errors": {
+        "accountRequired": "Enter your account name",
+        "invalidCredentials": "Incorrect account or password"
+      },
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "demoHint": "Demo account: partner / loono2026"
+    },
+    "agents": {
+      "title": "Partner lookup",
+      "subtitle": "Search one partner's revenue, members and campaigns over a period",
+      "filters": {
+        "agent": "Partner",
+        "allAgents": "All partners",
+        "from": "From",
+        "to": "To",
+        "reset": "Reset",
+        "pending": "Loading",
+        "presets": {
+          "7d": "Last 7 days",
+          "30d": "Last 30 days",
+          "90d": "Last 90 days",
+          "ytd": "Year to date"
+        }
+      },
+      "range": {
+        "label": "Period",
+        "days": "{count} days",
+        "fellBack": "No valid period was given, so the last 30 days are shown.",
+        "noData": "This partner has no figures in the period — they may not have started yet, or may be paused."
+      },
+      "roster": {
+        "title": "All partners",
+        "hint": "{count} partners",
+        "columns": {
+          "agent": "Partner",
+          "tier": "Track",
+          "signups": "New members",
+          "gross": "Member spend",
+          "commission": "Commission",
+          "share": "Share"
+        }
+      },
+      "profile": {
+        "account": "Account",
+        "refCode": "Referral code",
+        "joinedAt": "Joined"
+      },
+      "status": {
+        "active": "Active",
+        "onboarding": "Onboarding",
+        "paused": "Paused"
+      },
+      "tiers": {
+        "online": "Online partner",
+        "city": "City / provincial partner",
+        "country": "Country partner",
+        "shareholder": "Shareholder partner"
+      },
+      "kpi": {
+        "commission": "Commission",
+        "gross": "Member spend",
+        "signups": "New members",
+        "active": "Active members"
+      },
+      "ratios": {
+        "paying": "Paying members",
+        "conversations": "New conversations",
+        "arpu": "Spend per member",
+        "daily": "Commission per day",
+        "share": "Effective share"
+      },
+      "trend": {
+        "title": "Commission trend",
+        "byDay": "Daily",
+        "byWeek": "Weekly",
+        "byMonth": "Monthly"
+      },
+      "activity": {
+        "title": "Campaigns",
+        "hint": "{count} campaigns",
+        "empty": "No campaigns recorded in this period",
+        "columns": {
+          "name": "Campaign",
+          "kind": "Type",
+          "period": "Dates",
+          "signups": "New members",
+          "commission": "Commission"
+        },
+        "kinds": {
+          "campaign": "Paid campaign",
+          "offline": "Offline event",
+          "webinar": "Webinar",
+          "content": "Content",
+          "referral": "Cross-promotion"
+        }
+      },
+      "empty": {
+        "title": "Pick a partner to look up",
+        "body": "Choose a row below, or set a partner and period in the filters above."
+      }
+    },
     "revenue": "Revenue analytics",
     "revenueHint": "Commission income, last 6 months",
     "totalRevenue": "Total revenue",

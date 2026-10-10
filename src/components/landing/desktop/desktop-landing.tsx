@@ -1,4 +1,4 @@
-import { AuroraBackdrop } from "@/components/landing/aurora-backdrop";
+import { SoftBackdrop } from "@/components/landing/soft-backdrop";
 
 import { DesktopFooter } from "./desktop-footer";
 import { DesktopHeader } from "./desktop-header";
@@ -10,10 +10,13 @@ import { RegionsSection } from "./regions-section";
 import { StoriesSection } from "./stories-section";
 
 /**
- * A second, wider scatter of aurora blobs.
+ * A second, much wider scatter of blush light.
  *
  * The hero backdrop only lights the first viewport; the page is several
- * thousand pixels tall, so without these the lower half reads as flat black.
+ * thousand pixels tall, so without these the lower half reads as flat paper.
+ * Same peach / pink / rose trio as the hero backdrop so the temperature never
+ * jumps mid-scroll, at a lower opacity still — on an ivory canvas these have
+ * to whisper.
  */
 function AmbientGlow() {
   return (
@@ -21,9 +24,9 @@ function AmbientGlow() {
       aria-hidden
       className="pointer-events-none absolute inset-0 overflow-hidden"
     >
-      <div className="absolute top-[14%] -left-40 size-[420px] rounded-full bg-[radial-gradient(circle,oklch(0.62_0.21_290/0.22),transparent_70%)] blur-3xl" />
-      <div className="absolute top-[42%] -right-48 size-[460px] rounded-full bg-[radial-gradient(circle,oklch(0.72_0.19_350/0.16),transparent_70%)] blur-3xl" />
-      <div className="absolute top-[68%] left-1/4 size-[420px] rounded-full bg-[radial-gradient(circle,oklch(0.45_0.15_265/0.22),transparent_70%)] blur-3xl" />
+      <div className="absolute top-[14%] -left-40 size-[420px] rounded-full bg-[radial-gradient(circle,oklch(0.912_0.075_26/0.7),transparent_70%)] blur-3xl" />
+      <div className="absolute top-[42%] -right-48 size-[460px] rounded-full bg-[radial-gradient(circle,oklch(0.922_0.074_348/0.68),transparent_70%)] blur-3xl" />
+      <div className="absolute top-[68%] left-1/4 size-[420px] rounded-full bg-[radial-gradient(circle,oklch(0.93_0.064_12/0.62),transparent_70%)] blur-3xl" />
     </div>
   );
 }
@@ -33,7 +36,8 @@ function AmbientGlow() {
  *
  * Information architecture follows a classic long-form dating-site landing
  * (hero → three pillars → social proof → pricing → FAQ → local links →
- * footer); the palette is LOONO's own dark aurora surface, unchanged.
+ * footer). The palette is the B2C light-luxury surface: ivory canvas, white
+ * cards, ink type, champagne accents — the same one the H5 landing uses.
  *
  * Rendered from `lg` up. Below that the H5 landing takes over — the two trees
  * are swapped purely in CSS, so there is no viewport JS and no hydration
@@ -41,8 +45,8 @@ function AmbientGlow() {
  */
 export async function DesktopLanding({ locale }: { locale: string }) {
   return (
-    <div className="loono-surface relative min-h-dvh text-white">
-      <AuroraBackdrop />
+    <div className="loono-surface relative min-h-dvh text-foreground">
+      <SoftBackdrop />
       <AmbientGlow />
 
       <div className="relative z-10 flex min-h-dvh flex-col">

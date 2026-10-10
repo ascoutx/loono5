@@ -44,10 +44,10 @@ export function Section({
   );
 }
 
-/** Small caps pill above a section headline. */
+/** Small caps pill above a section headline — hairline champagne outline. */
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-white/12 bg-white/[0.06] px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.14em] text-white/70 uppercase backdrop-blur">
+    <span className="inline-flex items-center rounded-full border border-loono-champagne/45 bg-white px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.14em] text-loono-champagne-deep uppercase">
       {children}
     </span>
   );
@@ -80,16 +80,12 @@ export function SectionHeading({
     >
       <Eyebrow>{eyebrow}</Eyebrow>
 
-      <h2
-        className={cn(
-          "max-w-3xl bg-gradient-to-br from-white via-white to-white/70 bg-clip-text text-3xl font-bold tracking-tight text-balance text-transparent xl:text-[2.6rem] xl:leading-[1.15]",
-        )}
-      >
+      <h2 className="max-w-3xl text-3xl font-bold tracking-tight text-balance text-foreground xl:text-[2.6rem] xl:leading-[1.15]">
         {title}
       </h2>
 
       {subtitle ? (
-        <p className="max-w-2xl text-sm leading-relaxed text-white/60 xl:text-base">
+        <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground xl:text-base">
           {subtitle}
         </p>
       ) : null}

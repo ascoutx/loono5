@@ -1,17 +1,11 @@
-import {
-  Heart,
-  Languages,
-  ShieldCheck,
-  Sparkles,
-  TrendingUp,
-} from "lucide-react";
+import { Handshake, Heart, Languages, ShieldCheck, Sparkles } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { AuroraBackdrop } from "@/components/landing/aurora-backdrop";
 import { GhostCta, PrimaryCta } from "@/components/landing/cta";
 import { DesktopLanding } from "@/components/landing/desktop/desktop-landing";
 import { FeatureCard } from "@/components/landing/feature-card";
 import { RotatingTitle } from "@/components/landing/rotating-title";
+import { SoftBackdrop } from "@/components/landing/soft-backdrop";
 import { StatsRow } from "@/components/landing/stats-row";
 import { VerifiedBadge } from "@/components/landing/verified-badge";
 import { AppShell } from "@/components/layout/app-shell";
@@ -58,14 +52,18 @@ export default async function LandingPage({
   return (
     <>
       {/*
-        Below `lg` (H5 + tablet): the original dark aurora landing, unchanged.
+        Below `lg` (H5 + tablet): the light-luxury landing.
         From `lg` up: the long-form marketing home in `landing/desktop`.
         The swap is pure CSS — no viewport JS, so no hydration mismatch.
+
+        Note the consumer surface deliberately says nothing about agents or
+        agencies. The only outward-facing door is the partners application
+        form, rendered as a quiet text link in the footer.
       */}
       <div className="lg:hidden">
         <AppShell>
-          <div className="loono-surface relative flex min-h-full flex-1 flex-col text-white">
-            <AuroraBackdrop />
+          <div className="loono-surface relative flex min-h-full flex-1 flex-col">
+            <SoftBackdrop />
 
             {/* ── Header ──────────────────────────────────────────────── */}
             <header className="relative z-10 mx-auto flex w-full max-w-[64rem] items-center justify-between px-5 pt-[max(1.25rem,env(safe-area-inset-top))] pb-3 md:px-8">
@@ -73,10 +71,10 @@ export default async function LandingPage({
                 href="/"
                 className="flex items-center gap-2 rounded-full py-1 pr-3 pl-1 transition-opacity hover:opacity-85"
               >
-                <span className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-loono-rose to-loono-violet shadow-[0_6px_18px_-6px] shadow-loono-rose/70">
+                <span className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-loono-champagne to-loono-champagne-deep shadow-[0_6px_18px_-8px] shadow-loono-champagne/80">
                   <Heart className="size-4 fill-white text-white" />
                 </span>
-                <span className="text-base font-bold tracking-tight">
+                <span className="text-base font-bold tracking-tight text-foreground">
                   {tc("appName")}
                 </span>
               </Link>
@@ -89,17 +87,15 @@ export default async function LandingPage({
               <section className="flex flex-col items-center gap-5 pt-6 pb-7 text-center md:pt-14 md:pb-12">
                 <VerifiedBadge>{t("verifiedBadge")}</VerifiedBadge>
 
-                <h1 className="text-[1.9rem] leading-[1.12] font-bold tracking-tight">
-                  <span className="bg-gradient-to-br from-white via-white to-white/75 bg-clip-text text-transparent">
-                    {t("heroTitle")}
-                  </span>
+                <h1 className="text-[1.9rem] leading-[1.12] font-bold tracking-tight text-foreground">
+                  <span className="block">{t("heroTitle")}</span>
                   <RotatingTitle
                     phrases={titles}
                     className="mt-1.5 text-[1.6rem] sm:text-[1.9rem]"
                   />
                 </h1>
 
-                <p className="max-w-[19rem] text-sm leading-relaxed text-white/65">
+                <p className="max-w-[19rem] text-sm leading-relaxed text-muted-foreground">
                   {t("heroSubtitle")}
                 </p>
 
@@ -111,7 +107,7 @@ export default async function LandingPage({
                     <GhostCta href="/catalog">{t("ctaSecondary")}</GhostCta>
                   </div>
 
-                  <p className="mt-3.5 text-[11px] leading-relaxed text-white/45">
+                  <p className="mt-3.5 text-[11px] leading-relaxed text-muted-foreground/85">
                     {t("trustLine")}
                   </p>
                 </div>
@@ -133,20 +129,20 @@ export default async function LandingPage({
             {/* ── Footer ────────────────────────────────────────────────────── */}
             <footer className="relative z-10 mx-auto w-full max-w-[64rem] px-5 pt-1 pb-[max(1.25rem,env(safe-area-inset-bottom))] md:px-8">
               <Link
-                href="/agent/join"
-                className="group flex items-center justify-center gap-2 rounded-2xl py-3 text-xs font-medium text-white/60 transition-colors hover:bg-white/5 hover:text-white"
+                href="/partners/apply"
+                className="group flex items-center justify-center gap-2 rounded-2xl py-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-white/70 hover:text-foreground"
               >
-                <TrendingUp className="size-3.5 transition-transform duration-300 group-hover:-translate-y-0.5" />
-                {t("agentCta")}
+                <Handshake className="size-3.5 transition-transform duration-300 group-hover:-translate-y-0.5" />
+                {t("partnerCta")}
                 <span
                   aria-hidden
-                  className="text-white/30 transition-transform duration-300 group-hover:translate-x-0.5"
+                  className="text-muted-foreground/50 transition-transform duration-300 group-hover:translate-x-0.5"
                 >
                   →
                 </span>
               </Link>
 
-              <p className="pt-1 text-center text-[10px] text-white/30">
+              <p className="pt-1 text-center text-[10px] text-muted-foreground/70">
                 {tc("tagline")}
               </p>
             </footer>

@@ -36,9 +36,9 @@ export function LocaleSwitcher({ className }: { className?: string }) {
       <DropdownMenuTrigger
         className={cn(
           "flex h-9 items-center gap-1.5 rounded-full px-2.5 text-xs font-medium",
-          "text-white/80 transition-all duration-200",
-          "hover:bg-white/10 hover:text-white active:scale-95",
-          "focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:outline-none",
+          "text-foreground/75 transition-all duration-200",
+          "hover:bg-secondary hover:text-foreground active:scale-95",
+          "focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none",
           isPending && "opacity-50",
           className,
         )}
@@ -51,7 +51,7 @@ export function LocaleSwitcher({ className }: { className?: string }) {
       <DropdownMenuContent
         align="end"
         sideOffset={8}
-        className="min-w-40 rounded-2xl border border-white/10 bg-neutral-900/80 p-1.5 text-neutral-50 shadow-2xl shadow-black/50 backdrop-blur-xl"
+        className="min-w-40 rounded-2xl border border-border bg-popover p-1.5 text-popover-foreground shadow-xl shadow-black/8"
       >
         {locales.map((option) => {
           const selected = option === locale;
@@ -70,18 +70,20 @@ export function LocaleSwitcher({ className }: { className?: string }) {
               }}
               className={cn(
                 "flex cursor-pointer items-center justify-between gap-3 rounded-xl px-3 py-2 text-sm",
-                "text-neutral-200 transition-colors hover:bg-white/10 hover:text-white",
-                "focus-visible:bg-white/10 focus-visible:outline-none",
-                selected && "text-white",
+                "text-popover-foreground transition-colors hover:bg-secondary",
+                "focus-visible:bg-secondary focus-visible:outline-none",
+                selected && "font-medium",
               )}
             >
               <span className="flex items-center gap-2">
-                <span className="w-6 text-[11px] font-semibold tracking-wide text-neutral-400">
+                <span className="w-6 text-[11px] font-semibold tracking-wide text-muted-foreground">
                   {option.toUpperCase()}
                 </span>
                 <span>{localeLabels[option]}</span>
               </span>
-              {selected ? <Check className="size-4 text-emerald-400" /> : null}
+              {selected ? (
+                <Check className="size-4 text-emerald-600" />
+              ) : null}
             </DropdownMenuItem>
           );
         })}
