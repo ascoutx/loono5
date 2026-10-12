@@ -80,9 +80,7 @@ export function ReferralLink({
     <Card className={cn("p-4", className)}>
       <div className="flex items-center gap-2">
         <Gift className="size-4 shrink-0 text-primary" />
-        <p className="flex-1 text-xs text-muted-foreground">
-          {t("title")}
-        </p>
+        <p className="flex-1 text-xs text-muted-foreground">{t("title")}</p>
       </div>
 
       <p className="mt-1.5 text-sm font-semibold">{t("headline")}</p>

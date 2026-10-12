@@ -1,5 +1,9 @@
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
-import type { ChatRow, MessageRow } from "@/lib/supabase/database.types";
+import type {
+  ChatRow,
+  ChatWithVisibility,
+  MessageRow,
+} from "@/lib/supabase/database.types";
 import type { Message } from "@/types/chat";
 import { randomId } from "@/lib/utils";
 
@@ -47,6 +51,8 @@ export async function ensureChatThread(input: {
   slug: string;
   viewerProfileId: string;
   peer: PeerDisplay;
+  /** The peer's profile id when they have one; null for an unseeded peer. */
+  peerId?: string | null;
 }): Promise<ChatRow> {
   const supabase = getSupabaseBrowserClient();
 
@@ -62,6 +68,19 @@ export async function ensureChatThread(input: {
   }
 
   if (existing) {
+    // Backfill `peer_id` once the peer has a profile, without paying for a
+    // write on every open.
+    if (!existing.peer_id && input.peerId) {
+      const { data: linked } = await supabase
+        .from("chats")
+        .update({ peer_id: input.peerId })
+        .eq("id", existing.id)
+        .select("*")
+        .maybeSingle();
+
+      return linked ?? existing;
+    }
+
     return existing;
   }
 
@@ -71,8 +90,8 @@ export async function ensureChatThread(input: {
     fields are refreshed on the way, which is what keeps a stale avatar or name
     from surviving in the conversation list.
 
-    The peer has no `profiles` row yet — they have not signed up — so the
-    viewer is the only member, and the peer rides along as display columns.
+    The viewer is always the only member: the peer has no login of their own
+    yet, so there is nothing to add until they sign up.
   */
   const { data: chat, error: upsertError } = await supabase
     .from("chats")
@@ -81,6 +100,10 @@ export async function ensureChatThread(input: {
         slug: input.slug,
         owner_id: input.viewerProfileId,
         member_ids: [input.viewerProfileId],
+        // Null until the peer exists as a profile (see `seed.sql`). Blocking
+        // and reporting need this to have a target; everything else works
+        // without it.
+        peer_id: input.peerId ?? null,
         peer_name: input.peer.name,
         peer_avatar_url: input.peer.avatarUrl,
         peer_level: input.peer.level,
@@ -131,9 +154,19 @@ export async function fetchThreadMessages(chatId: string): Promise<Message[]> {
 export async function listChats(viewerProfileId: string): Promise<ChatRow[]> {
   const supabase = getSupabaseBrowserClient();
 
+  /*
+    `chat_visibility` is embedded rather than fetched separately. The join is a
+    left join, so a visible thread comes back with an empty array; filtering on
+    "no rows attached" keeps the whole list to one round trip, which matters
+    because this runs on every realtime event.
+
+    RLS does the second half of the work: the policy on `chat_visibility` only
+    returns this member's own rows, so the embed cannot leak whether somebody
+    else hid the same conversation.
+  */
   const { data, error } = await supabase
     .from("chats")
-    .select("*")
+    .select("*, chat_visibility(chat_id)")
     .eq("owner_id", viewerProfileId)
     // Threads with no messages yet have a null timestamp and sort last rather
     // than jumping to the top of the list.
@@ -144,7 +177,19 @@ export async function listChats(viewerProfileId: string): Promise<ChatRow[]> {
     throw new Error(`Could not load conversations: ${error.message}`);
   }
 
-  return data ?? [];
+  const rows = (data ?? []) as ChatWithVisibility[];
+
+  return (
+    rows
+      .filter((row) => (row.chat_visibility?.length ?? 0) === 0)
+      // Strip the embed so callers get a plain chat row; nothing downstream
+      // should be able to read another member's visibility through this.
+      .map((row) => {
+        const { chat_visibility, ...chat } = row;
+        void chat_visibility;
+        return chat;
+      })
+  );
 }
 
 /**

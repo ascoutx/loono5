@@ -9,53 +9,47 @@ import { MessageBubble } from "@/components/chat/message-bubble";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  ensureChatThread,
   fetchThreadMessages,
   markThreadRead,
   sendMessage,
   subscribeToMessages,
-  type PeerDisplay,
 } from "@/lib/supabase/chat";
-import { ensureViewerProfile } from "@/lib/supabase/profile";
 import {
   CHATS_HREF,
   useUnreadActions,
 } from "@/components/chat/unread-provider";
+import { useThreadContext } from "@/components/chat/thread-moderation";
+import { useModeration } from "@/components/chat/moderation-provider";
 import type { Message } from "@/types/chat";
 import { randomId } from "@/lib/utils";
 
 type LoadState = "loading" | "ready" | "error";
 
-export interface MessageThreadProps {
-  /** Thread id from the URL — the same slug the chat row is keyed by. */
-  slug: string;
-  peer: PeerDisplay;
-  /** The signed-in member, used to seed their `profiles` row on first open. */
-  viewer: {
-    displayName: string;
-    avatarUrl: string | null;
-    level: number;
-  };
-}
-
 /**
  * One conversation, backed by Supabase.
  *
  * This is the first screen in the app that owns its data instead of reading a
- * module-level mock: it resolves a session, loads the history, subscribes to
- * new rows and writes new ones. Sending is optimistic — the bubble appears
- * immediately and is swapped for the persisted row on success — so the thread
- * never lags behind the composer.
+ * module-level mock: it loads the history, subscribes to new rows and writes
+ * new ones. Sending is optimistic — the bubble appears immediately and is
+ * swapped for the persisted row on success — so the thread never lags behind
+ * the composer.
+ *
+ * The conversation itself is resolved by `ThreadModeration`, which owns the
+ * row for the whole screen. Reading it from there rather than resolving again
+ * keeps this to one lookup per open and one source of truth for the uuid.
  */
-export function MessageThread({ slug, peer, viewer }: MessageThreadProps) {
+export function MessageThread() {
   const t = useTranslations("chats");
+  const tm = useTranslations("chatModeration");
   const locale = useLocale();
   const { markRead } = useUnreadActions();
+  const { chatId, viewerProfileId: viewerId } = useThreadContext();
+  const { status: moderationStatus, unblock } = useModeration();
+
+  const blocked = moderationStatus === "blocked";
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [state, setState] = useState<LoadState>("loading");
-  const [chatId, setChatId] = useState<string | null>(null);
-  const [viewerId, setViewerId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   // Ids of optimistic rows whose insert failed, so they can be retried in place.
   const [failed, setFailed] = useState<Set<string>>(new Set());
@@ -65,26 +59,19 @@ export function MessageThread({ slug, peer, viewer }: MessageThreadProps) {
   localeRef.current = locale;
 
   const load = useCallback(async () => {
+    if (!chatId) return;
+
     setState("loading");
     setError(null);
 
     try {
-      const profile = await ensureViewerProfile(viewer);
-      const chat = await ensureChatThread({
-        slug,
-        viewerProfileId: profile.id,
-        peer,
-      });
-
-      setViewerId(profile.id);
-      setChatId(chat.id);
-      const history = await fetchThreadMessages(chat.id);
+      const history = await fetchThreadMessages(chatId);
 
       // Opening a thread is what makes it read. The local count drops straight
       // away so the nav badge reacts to the tap, and the database recomputes
       // `chats.unread_count` from `messages.is_read` to agree with it.
-      markRead(CHATS_HREF, chat.id);
-      void markThreadRead(chat.id);
+      markRead(CHATS_HREF, chatId);
+      void markThreadRead(chatId);
 
       setMessages(history);
       setState("ready");
@@ -92,10 +79,7 @@ export function MessageThread({ slug, peer, viewer }: MessageThreadProps) {
       setError(cause instanceof Error ? cause.message : String(cause));
       setState("error");
     }
-    // `viewer` is a fresh object literal on every render from the server
-    // component; depending on it would re-run the bootstrap each time.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slug]);
+  }, [chatId, markRead]);
 
   useEffect(() => {
     void load();
@@ -287,10 +271,30 @@ export function MessageThread({ slug, peer, viewer }: MessageThreadProps) {
         </ul>
 
         <div className="sticky bottom-0 border-t border-border bg-background/95 px-3 pt-2 backdrop-blur md:px-5 xl:px-7">
-          <ChatComposer
-            onSend={(text) => void send(text)}
-            disabled={!chatId || !viewerId}
-          />
+          {blocked ? (
+            // Blocking is reversible from here rather than only from the menu:
+            // if the member blocked by mistake, an inert composer with no way
+            // back would be a dead end.
+            <div className="flex items-center justify-between gap-3 py-1">
+              <p className="text-xs text-muted-foreground">
+                {tm("blockedNotice")}
+              </p>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="shrink-0 rounded-full"
+                onClick={() => void unblock()}
+              >
+                {tm("unblock")}
+              </Button>
+            </div>
+          ) : (
+            <ChatComposer
+              onSend={(text) => void send(text)}
+              disabled={!chatId || !viewerId}
+            />
+          )}
         </div>
       </div>
     </>

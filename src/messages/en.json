@@ -1102,5 +1102,29 @@
     "conversion": "Conversion",
     "topCountry": "Top source",
     "since": "since"
+  },
+  "chatModeration": {
+    "menu": "Conversation options",
+    "deleteForMe": "Delete for me",
+    "block": "Block",
+    "unblock": "Unblock",
+    "report": "Report",
+    "reportTitle": "Report this member",
+    "reportBody": "Tell us what {name} did wrong. Our moderators review every report.",
+    "submit": "Send report",
+    "cancel": "Cancel",
+    "close": "Close",
+    "detailsPlaceholder": "Add anything that helps (optional)",
+    "reportAndBlock": "Report and block",
+    "reportSentTitle": "Report sent",
+    "reportSentBody": "Thanks. Our moderators will review this. You can also block {name} so you will not hear from them again.",
+    "blockedNotice": "You blocked this person. You cannot send messages.",
+    "reasons": {
+      "spam": "Spam or scams",
+      "harassment": "Harassment or abuse",
+      "inappropriate_content": "Inappropriate content",
+      "other": "Something else"
+    },
+    "someone": "this person"
   }
 }

@@ -39,7 +39,9 @@ export function isValidRefCode(value: unknown): value is string {
  * means `?ref=alex60` from a hand-typed message resolves the same profile as a
  * link the platform generated.
  */
-export function normalizeRefCode(value: string | null | undefined): string | null {
+export function normalizeRefCode(
+  value: string | null | undefined,
+): string | null {
   if (typeof value !== "string") {
     return null;
   }

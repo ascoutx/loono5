@@ -1,6 +1,7 @@
 import { SlidersHorizontal } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { BlockedFilter } from "@/components/profile/blocked-filter";
 import { UserCard } from "@/components/catalog/user-card";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { ScreenHeader } from "@/components/layout/screen-header";
@@ -69,21 +70,26 @@ export default async function CatalogPage({
         </div>
       )}
 
-      {catalogUsers.length === 0 ? (
-        <p className="px-4 py-16 text-center text-sm text-muted-foreground md:px-6 xl:px-8">
-          {t("empty")}
-        </p>
-      ) : (
-        <ul className="grid grid-cols-2 gap-2 px-4 pb-6 md:grid-cols-3 md:gap-3 md:px-6 xl:grid-cols-4 xl:gap-4 xl:px-8">
-          {catalogUsers.map((user) => (
-            <li key={user.id}>
-              <Link href={`/user/${user.id}`} className="block">
-                <UserCard user={user} unlocked={visible.has(user.level)} />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+      {/* Blocked members drop out here; see `BlockedFilter`. */}
+      <BlockedFilter candidates={catalogUsers}>
+        {(visibleUsers) =>
+          visibleUsers.length === 0 ? (
+            <p className="px-4 py-16 text-center text-sm text-muted-foreground md:px-6 xl:px-8">
+              {t("empty")}
+            </p>
+          ) : (
+            <ul className="grid grid-cols-2 gap-2 px-4 pb-6 md:grid-cols-3 md:gap-3 md:px-6 xl:grid-cols-4 xl:gap-4 xl:px-8">
+              {visibleUsers.map((user) => (
+                <li key={user.id}>
+                  <Link href={`/user/${user.id}`} className="block">
+                    <UserCard user={user} unlocked={visible.has(user.level)} />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </BlockedFilter>
     </>
   );
 }

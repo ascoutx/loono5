@@ -143,10 +143,114 @@ export interface Database {
         };
         Relationships: [];
       };
+
+      chat_visibility: {
+        Row: {
+          chat_id: string;
+          user_id: string;
+          hidden_at: string;
+        };
+        Insert: {
+          chat_id: string;
+          user_id: string;
+          hidden_at?: string;
+        };
+        Update: {
+          hidden_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "chat_visibility_chat_id_fkey";
+            columns: ["chat_id"];
+            isOneToOne: false;
+            referencedRelation: "chats";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "chat_visibility_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+
+      user_blocks: {
+        Row: {
+          blocker_id: string;
+          blocked_id: string;
+          created_at: string;
+        };
+        Insert: {
+          blocker_id: string;
+          blocked_id: string;
+          created_at?: string;
+        };
+        Update: {
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "user_blocks_blocker_id_fkey";
+            columns: ["blocker_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "user_blocks_blocked_id_fkey";
+            columns: ["blocked_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+
+      user_reports: {
+        Row: {
+          id: string;
+          reporter_id: string;
+          reported_id: string;
+          reason: ReportReason;
+          details: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          reporter_id: string;
+          reported_id: string;
+          reason: ReportReason;
+          details?: string | null;
+          created_at?: string;
+        };
+        Update: Record<string, never>;
+        Relationships: [
+          {
+            foreignKeyName: "user_reports_reporter_id_fkey";
+            columns: ["reporter_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "user_reports_reported_id_fkey";
+            columns: ["reported_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Views: Record<string, never>;
     Functions: {
       is_chat_member: { Args: { target_chat: string }; Returns: boolean };
+      current_profile_id: {
+        Args: Record<string, never>;
+        Returns: string | null;
+      };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
@@ -157,3 +261,29 @@ export interface Database {
 export type ProfileRow = Database["public"]["Tables"]["profiles"]["Row"];
 export type ChatRow = Database["public"]["Tables"]["chats"]["Row"];
 export type MessageRow = Database["public"]["Tables"]["messages"]["Row"];
+
+/**
+ * Closed set enforced by a CHECK constraint on `user_reports.reason`, so this
+ * union and the database cannot disagree.
+ */
+export const REPORT_REASONS = [
+  "spam",
+  "harassment",
+  "inappropriate_content",
+  "other",
+] as const;
+
+export type ReportReason = (typeof REPORT_REASONS)[number];
+
+/**
+ * A chat row with the caller's own visibility rows attached.
+ *
+ * `listChats` embeds `chat_visibility` to find out which threads this member
+ * has hidden. It is a left join, so the array is empty for a visible thread —
+ * the filter is "no rows came back", not "rows came back". Doing it as one
+ * embedded query rather than a second round trip also keeps the list to a
+ * single read on every realtime event.
+ */
+export type ChatWithVisibility = ChatRow & {
+  chat_visibility: { chat_id: string }[];
+};
