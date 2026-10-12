@@ -1,10 +1,17 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
-import { ChatComposer } from "@/components/chat/composer";
-import { MessageBubble } from "@/components/chat/message-bubble";
+import { MessageThread } from "@/components/chat/message-thread";
 import { ScreenHeader } from "@/components/layout/screen-header";
-import { findThread, messagesByThread } from "@/lib/mock-data";
+import { getCurrentUser } from "@/lib/auth/current-user";
+import { findThread } from "@/lib/mock-data";
+
+/**
+ * The message list is fetched by the client (`MessageThread`) rather than
+ * rendered here, so this route must not be prerendered — the shell is enough
+ * to build, the history arrives after sign-in resolves.
+ */
+export const dynamic = "force-dynamic";
 
 export default async function ChatThreadPage({
   params,
@@ -21,7 +28,7 @@ export default async function ChatThreadPage({
     notFound();
   }
 
-  const messages = messagesByThread[id] ?? [];
+  const viewer = await getCurrentUser();
 
   return (
     <>
@@ -40,27 +47,21 @@ export default async function ChatThreadPage({
         }
       />
 
-      <div className="flex flex-1 flex-col">
-        <ul className="flex flex-1 flex-col gap-3 px-4 py-4 md:px-6 xl:px-8">
-          <li className="my-1 text-center text-[10px] text-muted-foreground">
-            {t("today")}
-          </li>
-          {messages.map((message) => (
-            <MessageBubble
-              key={message.id}
-              message={message}
-              isOwn={message.senderId === "u_current"}
-            />
-          ))}
-        </ul>
-
-        <div
-          className="sticky bottom-0 border-t border-border bg-background/95 px-3 pt-2 backdrop-blur md:px-5 xl:px-7"
-          style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
-        >
-          <ChatComposer />
-        </div>
-      </div>
+      <MessageThread
+        slug={thread.id}
+        peer={{
+          id: thread.peer.id,
+          name: thread.peer.name,
+          avatarUrl: thread.peer.avatarUrl,
+          level: thread.peer.level,
+          isOnline: thread.peer.isOnline,
+        }}
+        viewer={{
+          displayName: viewer.name,
+          avatarUrl: viewer.avatarUrl,
+          level: viewer.subscription.level ?? viewer.level,
+        }}
+      />
     </>
   );
 }

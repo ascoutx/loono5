@@ -37,7 +37,7 @@ Design constraint: a **mobile-first H5** app, tuned for WeChat's in-app browser 
 
 ### Requirements
 
-Node.js 20 or newer (Next.js 15 requires 18.18+), npm.
+Node.js 20 or newer (Next.js 15 requires 18.18+), npm. Chat persistence additionally needs a Supabase project — see [Supabase setup](#supabase-setup).
 
 ### Install and run
 
@@ -240,6 +240,49 @@ Responsiveness runs entirely on **CSS breakpoints** (`lg:hidden` / `hidden lg:bl
 
 ---
 
+## Supabase setup
+
+Chats are the first part of the app that persists to a real database. Everything else is still mocked (see [Data and mocks](#data-and-mocks)).
+
+### 1. Environment
+
+`.env.local` (git-ignored):
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon public key>
+```
+
+Both are inlined into the client bundle and are therefore **public**. Access control lives entirely in the RLS policies — never put the service-role key in a `NEXT_PUBLIC_` variable.
+
+### 2. Enable anonymous sign-ins
+
+Dashboard → **Authentication → Sign In / Providers → Anonymous → Enable**.
+
+This is not optional. Without a real JWT the browser has no `auth.uid()`, so every insert is rejected by RLS and no message can be sent. It is also what gives the app a stable member identity before real phone/SMS auth exists; swap it for `signInWithOtp` when that lands.
+
+### 3. Apply the schema
+
+Run `supabase/migrations/0001_chat_core.sql` once in Dashboard → **SQL Editor → New query**, or with `supabase db push`. It creates `profiles`, `chats` and `messages`, their indexes, the `last_message_at` trigger, and the RLS policies. It is idempotent.
+
+### How it fits together
+
+| File | Role |
+| --- | --- |
+| `lib/supabase/client.ts` | Browser singleton. Reads the two env vars as **static** `process.env.NEXT_PUBLIC_*` accesses, which is the only form Next.js inlines into the bundle |
+| `lib/supabase/database.types.ts` | Hand-written table shapes, kept beside the migration so the two can be diffed. Replace with `supabase gen types typescript` when the schema is final |
+| `lib/supabase/chat.ts` | Session, profile, chat and message operations; maps DB rows to the app's `Message` type so the presentational components are unchanged |
+| `components/chat/message-thread.tsx` | Client component owning the message list: loads history, subscribes to realtime inserts, sends optimistically |
+
+Notes:
+
+- `chats.slug` preserves the existing `/chats/c_01` URLs while the primary key stays a uuid.
+- The viewer's own `profiles` row is created on first open, keyed by their auth uid. A conversation partner who has not signed up has no profile row — they ride along as denormalised peer columns on `chats`.
+- Because history now comes from the database, **the seeded mock messages no longer appear**: an untouched conversation opens empty. That is correct behaviour, and the empty state says so.
+- Each browser gets its own anonymous identity, so conversations are per-browser. Threading this into the existing mock phone session is the natural next step.
+
+---
+
 ## Data and mocks
 
 - Members, threads, messages, plans and the partner's own dashboard live in `src/lib/mock-data.ts`.
@@ -278,8 +321,10 @@ Conventions:
 | --- | --- | --- |
 | `lib/auth/*` | Cookie-based mock session, SMS code fixed at `1234` | A real SMS / session service |
 | `lib/partner/{constants,session,actions}.ts` | Hard-coded credentials | A partner identity service plus rate limiting and lockout |
-| `lib/mock-data.ts` | Static mock data | Member, messaging and subscription APIs |
+| `lib/mock-data.ts` | Static mock data (members, plans, agent dashboard) | Member and subscription APIs. Message history and sending already live in Supabase |
 | `lib/partner/mock-agents.ts` | Seeded ledger | A reporting endpoint, keeping the input shape `query.ts` expects |
+| `lib/supabase/*` | Anonymous Supabase Auth | Real phone/SMS auth. The existing mock phone session should then own `profiles.auth_user_id` instead of an anonymous user |
+| `components/chat/message-thread.tsx` | Reads and writes chats directly from the browser | Fine as-is for now; revisit once conversations need server-side moderation, rate limiting or push notifications |
 | `components/partner/apply-form.tsx` | `handleSubmit` is a local stub | `POST /partners/applications`, with server-side rate limiting and a captcha (the endpoint is public by definition) |
 | `components/agent/promo-tools.tsx` | Referral link and promo codes are placeholders | The referral tooling API |
 

@@ -399,7 +399,11 @@
     "today": "Today",
     "yesterday": "Yesterday",
     "online": "Online",
-    "typing": "typing…"
+    "typing": "typing…",
+    "retry": "Retry",
+    "sendFailed": "Not sent — tap to retry",
+    "threadEmpty": "No messages yet",
+    "threadEmptyHint": "Say hello — your first message lands in the conversation for good."
   },
   "profile": {
     "title": "Profile",
