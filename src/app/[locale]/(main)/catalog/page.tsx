@@ -1,13 +1,11 @@
 import { SlidersHorizontal } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { BlockedFilter } from "@/components/profile/blocked-filter";
-import { UserCard } from "@/components/catalog/user-card";
+import { CatalogGrid } from "@/components/catalog/catalog-grid";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { ScreenHeader } from "@/components/layout/screen-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/navigation";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { catalogUsers } from "@/lib/mock-data";
 import { hasActiveSubscription, visibleLevels } from "@/lib/tiers";
@@ -70,26 +68,8 @@ export default async function CatalogPage({
         </div>
       )}
 
-      {/* Blocked members drop out here; see `BlockedFilter`. */}
-      <BlockedFilter candidates={catalogUsers}>
-        {(visibleUsers) =>
-          visibleUsers.length === 0 ? (
-            <p className="px-4 py-16 text-center text-sm text-muted-foreground md:px-6 xl:px-8">
-              {t("empty")}
-            </p>
-          ) : (
-            <ul className="grid grid-cols-2 gap-2 px-4 pb-6 md:grid-cols-3 md:gap-3 md:px-6 xl:grid-cols-4 xl:gap-4 xl:px-8">
-              {visibleUsers.map((user) => (
-                <li key={user.id}>
-                  <Link href={`/user/${user.id}`} className="block">
-                    <UserCard user={user} unlocked={visible.has(user.level)} />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )
-        }
-      </BlockedFilter>
+      {/* Blocked members drop out client-side; see `CatalogGrid`. */}
+      <CatalogGrid users={catalogUsers} visibleLevels={[...visible]} />
     </>
   );
 }
