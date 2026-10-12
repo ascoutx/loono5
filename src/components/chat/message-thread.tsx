@@ -22,6 +22,7 @@ import {
   useUnreadActions,
 } from "@/components/chat/unread-provider";
 import type { Message } from "@/types/chat";
+import { randomId } from "@/lib/utils";
 
 type LoadState = "loading" | "ready" | "error";
 
@@ -141,7 +142,7 @@ export function MessageThread({ slug, peer, viewer }: MessageThreadProps) {
     async (text: string) => {
       if (!chatId || !viewerId) return;
 
-      const optimisticId = `pending:${crypto.randomUUID()}`;
+      const optimisticId = `pending:${randomId()}`;
       const optimistic: Message = {
         id: optimisticId,
         threadId: chatId,

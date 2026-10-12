@@ -1,6 +1,7 @@
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import type { ChatRow, MessageRow } from "@/lib/supabase/database.types";
 import type { Message } from "@/types/chat";
+import { randomId } from "@/lib/utils";
 
 /**
  * Chat persistence against Supabase.
@@ -175,6 +176,35 @@ export async function markThreadRead(chatId: string): Promise<void> {
 }
 
 /**
+ * A topic name unique to one subscription.
+ *
+ * `supabase.channel(name)` is **not** a factory — RealtimeClient keeps a
+ * registry keyed by topic and returns the existing channel when the name is
+ * already taken (`RealtimeClient.channel`). Hand that channel back to `.on()`
+ * once it is already joining and the library throws:
+ *
+ *   cannot add `postgres_changes` callbacks for realtime:<topic> after `subscribe()`
+ *
+ * which is why every subscription here needs its own name. Two things collide
+ * on a fixed one:
+ *
+ *   · `ThreadList` is mounted twice on `/chats` — once in the page for mobile,
+ *     once in the layout's desktop rail. Only the styling differs; both are in
+ *     the tree at the same time.
+ *   · `removeChannel()` is async (`await unsubscribe()`), and the channel only
+ *     leaves the registry on `teardown()`. React StrictMode's mount → cleanup
+ *     → mount therefore re-requests the topic while the first is still
+ *     joining.
+ *
+ * The suffix is cosmetic as far as the server is concerned — the topic is a
+ * local socket identifier, and the row filtering happens in the `postgres_changes`
+ * filter — so a random one is safe.
+ */
+function uniqueChannelName(prefix: string): string {
+  return `${prefix}:${randomId()}`;
+}
+
+/**
  * Notifies when a conversation's projection changes — new preview, cleared
  * badge, online flag.
  *
@@ -188,7 +218,7 @@ export function subscribeToChats(onChange: () => void): () => void {
   const supabase = getSupabaseBrowserClient();
 
   const channel = supabase
-    .channel("chats:list")
+    .channel(uniqueChannelName("chats:list"))
     .on(
       "postgres_changes",
       { event: "*", schema: "public", table: "chats" },
@@ -249,7 +279,7 @@ export function subscribeToMessages(
   const supabase = getSupabaseBrowserClient();
 
   const channel = supabase
-    .channel(`messages:${chatId}`)
+    .channel(uniqueChannelName(`messages:${chatId}`))
     .on(
       "postgres_changes",
       {
