@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { UnreadProvider } from "@/components/chat/unread-provider";
 import { cn } from "@/lib/utils";
 
 /**
@@ -84,52 +85,60 @@ export function AppFrame({
 }: AppFrameProps) {
   const partner = surface === "partner";
 
+  /*
+    Wraps the whole frame rather than just the scroll area, because the unread
+    count is read by the navigation — which is rendered outside `main`, in the
+    footer and the side rail. A client component can take server-rendered
+    children as a prop, so this costs nothing in the server/client split.
+  */
   return (
-    <div
-      className={cn(
-        "flex h-dvh min-h-screen w-full justify-center",
-        // Letterbox around the app column. B2C uses a warm sand, one step
-        // deeper than the ivory canvas, so the column still reads as a
-        // distinct surface; B2B uses its own cool grey.
-        partner ? "bg-partner-canvas" : "bg-loono-sand",
-      )}
-    >
+    <UnreadProvider>
       <div
         className={cn(
-          "relative flex h-dvh min-h-0 w-full flex-1 flex-row overflow-hidden text-foreground",
-          // Both surfaces are light, but the cabinet re-declares the shadcn
-          // tokens inside `.partner-surface` so its own chrome resolves cool.
-          partner ? "bg-partner-canvas" : "bg-background",
+          "flex h-dvh min-h-screen w-full justify-center",
+          // Letterbox around the app column. B2C uses a warm sand, one step
+          // deeper than the ivory canvas, so the column still reads as a
+          // distinct surface; B2B uses its own cool grey.
+          partner ? "bg-partner-canvas" : "bg-loono-sand",
         )}
       >
-        {sidebar}
+        <div
+          className={cn(
+            "relative flex h-dvh min-h-0 w-full flex-1 flex-row overflow-hidden text-foreground",
+            // Both surfaces are light, but the cabinet re-declares the shadcn
+            // tokens inside `.partner-surface` so its own chrome resolves cool.
+            partner ? "bg-partner-canvas" : "bg-background",
+          )}
+        >
+          {sidebar}
 
-        <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-          {/*
-            The scrollport is a plain block, NOT a flex column.
+          <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+            {/*
+              The scrollport is a plain block, NOT a flex column.
 
-            As a flex container it would have a definite height (flex-1 of a
-            fixed-height shell), so its direct children would default to
-            flex-shrink:1 and get compressed whenever content overflowed —
-            e.g. the catalog filter row was squashed from 36px to 16px and
-            clipped. A block scrollport plus one `min-h-full` column child
-            keeps every child at its natural height, and still lets sticky
-            footers reach the bottom edge on short screens.
-          */}
-          <main
-            className={cn(
-              "min-h-0 flex-1 overflow-y-auto overscroll-contain",
-              scrollClassName,
-            )}
-          >
-            <div className={cn("flex min-h-full flex-col", CONTENT_WIDTH)}>
-              {children}
-            </div>
-          </main>
+              As a flex container it would have a definite height (flex-1 of a
+              fixed-height shell), so its direct children would default to
+              flex-shrink:1 and get compressed whenever content overflowed —
+              e.g. the catalog filter row was squashed from 36px to 16px and
+              clipped. A block scrollport plus one `min-h-full` column child
+              keeps every child at its natural height, and still lets sticky
+              footers reach the bottom edge on short screens.
+            */}
+            <main
+              className={cn(
+                "min-h-0 flex-1 overflow-y-auto overscroll-contain",
+                scrollClassName,
+              )}
+            >
+              <div className={cn("flex min-h-full flex-col", CONTENT_WIDTH)}>
+                {children}
+              </div>
+            </main>
 
-          {footer}
+            {footer}
+          </div>
         </div>
       </div>
-    </div>
+    </UnreadProvider>
   );
 }

@@ -7,9 +7,5 @@ import { AppShell } from "@/components/layout/app-shell";
  * sharing the bottom tab bar across every authenticated screen.
  */
 export default function MainLayout({ children }: { children: ReactNode }) {
-  return (
-    <AppShell tabbed badges={{ "/chats": 2 }}>
-      {children}
-    </AppShell>
-  );
+  return <AppShell tabbed>{children}</AppShell>;
 }

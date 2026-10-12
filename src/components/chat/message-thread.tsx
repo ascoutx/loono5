@@ -11,11 +11,16 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   ensureChatThread,
   fetchThreadMessages,
+  markThreadRead,
   sendMessage,
   subscribeToMessages,
   type PeerDisplay,
 } from "@/lib/supabase/chat";
 import { ensureViewerProfile } from "@/lib/supabase/profile";
+import {
+  CHATS_HREF,
+  useUnreadActions,
+} from "@/components/chat/unread-provider";
 import type { Message } from "@/types/chat";
 
 type LoadState = "loading" | "ready" | "error";
@@ -44,6 +49,7 @@ export interface MessageThreadProps {
 export function MessageThread({ slug, peer, viewer }: MessageThreadProps) {
   const t = useTranslations("chats");
   const locale = useLocale();
+  const { markRead } = useUnreadActions();
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [state, setState] = useState<LoadState>("loading");
@@ -71,7 +77,15 @@ export function MessageThread({ slug, peer, viewer }: MessageThreadProps) {
 
       setViewerId(profile.id);
       setChatId(chat.id);
-      setMessages(await fetchThreadMessages(chat.id));
+      const history = await fetchThreadMessages(chat.id);
+
+      // Opening a thread is what makes it read. The local count drops straight
+      // away so the nav badge reacts to the tap, and the database recomputes
+      // `chats.unread_count` from `messages.is_read` to agree with it.
+      markRead(CHATS_HREF, chat.id);
+      void markThreadRead(chat.id);
+
+      setMessages(history);
       setState("ready");
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : String(cause));
@@ -85,6 +99,22 @@ export function MessageThread({ slug, peer, viewer }: MessageThreadProps) {
   useEffect(() => {
     void load();
   }, [load]);
+
+  // A message arriving while the thread is open is read by definition — the
+  // member is looking at it — so it must not leave a badge behind. Only
+  // incoming ones count; the optimistic echo of our own message is filtered
+  // out above by id.
+  useEffect(() => {
+    if (!chatId || state !== "ready" || !viewerId) return;
+
+    const hasIncoming = messages.some(
+      (message) => message.senderId !== viewerId && !message.isRead,
+    );
+
+    if (hasIncoming) {
+      void markThreadRead(chatId);
+    }
+  }, [messages, chatId, state, viewerId]);
 
   // Live updates. Realtime is an enhancement, not a requirement: if the table
   // is not in the publication the subscription simply never fires and the

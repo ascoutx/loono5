@@ -27,6 +27,11 @@ export interface Message {
   translatedLocale?: string;
   /** While the translation is still pending. */
   isTranslating?: boolean;
+  /**
+   * Whether the recipient has seen it. Drives the unread badge: the database
+   * counts unread messages per chat, and the thread clears them on open.
+   */
+  isRead?: boolean;
   status: MessageStatus;
   createdAt: string;
 }

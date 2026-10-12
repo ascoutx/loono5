@@ -25,7 +25,7 @@ export interface PeerDisplay {
 }
 
 const SELECT_COLUMNS =
-  "id, chat_id, sender_id, body, original_locale, translated_body, translated_locale, is_translating, created_at";
+  "id, chat_id, sender_id, body, original_locale, translated_body, translated_locale, is_translating, is_read, created_at";
 
 /**
  * Resolves the chat row for a thread slug, creating it on first open.
@@ -116,6 +116,92 @@ export async function fetchThreadMessages(chatId: string): Promise<Message[]> {
 }
 
 /**
+ * The conversation list, newest activity first.
+ *
+ * Served from `chats` rather than from a mock, and the values it renders —
+ * preview text, timestamp, unread badge — are columns that database triggers
+ * maintain on every message write. That is what keeps the list and the open
+ * thread from disagreeing: there is one source of truth and the client never
+ * recomputes any of it.
+ *
+ * RLS already narrows this to the caller's own threads, so the `owner_id`
+ * filter is an index hint rather than the thing making it private.
+ */
+export async function listChats(viewerProfileId: string): Promise<ChatRow[]> {
+  const supabase = getSupabaseBrowserClient();
+
+  const { data, error } = await supabase
+    .from("chats")
+    .select("*")
+    .eq("owner_id", viewerProfileId)
+    // Threads with no messages yet have a null timestamp and sort last rather
+    // than jumping to the top of the list.
+    .order("last_message_at", { ascending: false, nullsFirst: false })
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw new Error(`Could not load conversations: ${error.message}`);
+  }
+
+  return data ?? [];
+}
+
+/**
+ * Marks every message in a thread as read.
+ *
+ * Deliberately fire-and-forget from the caller's point of view: it runs on
+ * every open, and a thread that renders its history whether or not this
+ * succeeds is better than one that waits on it. The trigger recomputes
+ * `unread_count` from `messages.is_read`, so the badge is derived rather than
+ * decremented and cannot drift.
+ *
+ * Only `is_read` is updatable by a member (see migration 0004), so this
+ * cannot be used to rewrite somebody else's message.
+ */
+export async function markThreadRead(chatId: string): Promise<void> {
+  const supabase = getSupabaseBrowserClient();
+
+  const { error } = await supabase
+    .from("messages")
+    .update({ is_read: true })
+    .eq("chat_id", chatId)
+    // Without this the statement rewrites every message in the thread, which
+    // costs a row lock per message for no benefit.
+    .eq("is_read", false);
+
+  if (error) {
+    throw new Error(`Could not mark the conversation read: ${error.message}`);
+  }
+}
+
+/**
+ * Notifies when a conversation's projection changes — new preview, cleared
+ * badge, online flag.
+ *
+ * One subscription covers both reported bugs because both are written to the
+ * same row: a sent message updates `last_message_text` through the trigger,
+ * and opening a thread updates `unread_count` through the other one. The list
+ * refetches on either rather than trying to patch its own copy, so what it
+ * shows is always what the database says.
+ */
+export function subscribeToChats(onChange: () => void): () => void {
+  const supabase = getSupabaseBrowserClient();
+
+  const channel = supabase
+    .channel("chats:list")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "chats" },
+      () => onChange(),
+    )
+    .subscribe();
+
+  return () => {
+    void supabase.removeChannel(channel);
+  };
+}
+
+/**
  * Appends a message and returns the stored row.
  *
  * The caller is responsible for clearing its input and reconciling its
@@ -194,6 +280,7 @@ function toMessage(row: MessageRow): Message {
     translatedText: row.translated_body ?? undefined,
     translatedLocale: row.translated_locale ?? undefined,
     isTranslating: row.is_translating,
+    isRead: row.is_read,
     status: "sent",
     createdAt: row.created_at,
   };

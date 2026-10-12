@@ -270,6 +270,7 @@ Run these in order in Dashboard → **SQL Editor → New query**, or with `supab
 | 1 | `supabase/migrations/0001_chat_core.sql` | `profiles`, `chats`, `messages`, indexes, the `last_message_at` trigger, RLS policies |
 | 2 | `supabase/migrations/0002_referral.sql` | `ref_code` uniqueness, the code generator, and the insert/immutability triggers |
 | 3 | `supabase/migrations/0003_chat_owner.sql` | Moves chat uniqueness from `slug` to `(slug, owner_id)`, because a slug is viewer-relative — see below |
+| 4 | `supabase/migrations/0004_chat_read_state.sql` | `messages.is_read`, `chats.last_message_text`, `chats.unread_count`, the triggers that maintain them, and the column-level grant that lets a member mark a thread read |
 | — | `supabase/seed.sql` | *Optional.* Three agency profiles (`ALEX60`, `NORDIC60`, `ATLAS70`) so the referral flow is demonstrable |
 
 > If PostgREST answers `column chats.owner_id does not exist` straight after applying 0003, the schema cache has not reloaded yet — run `NOTIFY pgrst, 'reload schema';`.
@@ -279,6 +280,23 @@ Run these in order in Dashboard → **SQL Editor → New query**, or with `supab
 `chats.slug` is **not** a conversation identity. `c_01` means "Mei ↔ whoever is currently looking", so two members opening `/chats/c_01` are looking at two different conversations that share a name. Uniqueness is therefore `(slug, owner_id)`, and 0003 backfills `owner_id` from the first member of each existing row.
 
 Once both participants have `profiles` rows, the natural key becomes the canonical participant pair (sorted member ids, hashed) and a thread should resolve by that pair rather than by whoever opened it. The peer has no profile row today, so a pair key has nothing to pair.
+
+### Where the conversation list reads from
+
+The list is served from `chats`, and the three values it shows are columns that triggers maintain on every message write:
+
+| Column | Maintained by | Written when |
+| --- | --- | --- |
+| `last_message_text` | `messages_touch_chat` | A message is inserted |
+| `last_message_at` | `messages_touch_chat` | A message is inserted |
+| `unread_count` | `messages_touch_chat` / `messages_refresh_unread` | A message arrives from the peer / messages are marked read |
+
+Nothing on the client recomputes any of it. `ThreadList` subscribes to the `chats` table and refetches on change, which is what keeps the red badge clearing on open and the preview following a sent message from being two things that have to be remembered separately.
+
+Two details worth keeping:
+
+- **The badge trigger is statement-level over a transition table.** Marking 200 messages read costs one recount, not 200, and a derived count cannot drift from the rows it summarises.
+- **Marking read is granted per column** (`grant update (is_read)`), not per row. An RLS `UPDATE` policy can decide *which rows* you may touch but never *which columns*, so the column-level grant is what stops a member rewriting the body of a message somebody else sent.
 
 ### 4. Referral links
 

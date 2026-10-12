@@ -68,7 +68,11 @@ export interface Database {
           peer_avatar_url: string | null;
           peer_level: number | null;
           peer_is_online: boolean;
+          /** Preview line for the conversation list. Trigger-maintained. */
+          last_message_text: string | null;
           last_message_at: string | null;
+          /** Red-badge number. Trigger-maintained from `messages.is_read`. */
+          unread_count: number;
           created_at: string;
         };
         Insert: {
@@ -81,7 +85,9 @@ export interface Database {
           peer_avatar_url?: string | null;
           peer_level?: number | null;
           peer_is_online?: boolean;
+          last_message_text?: string | null;
           last_message_at?: string | null;
+          unread_count?: number;
           created_at?: string;
         };
         Update: {
@@ -92,7 +98,9 @@ export interface Database {
           peer_avatar_url?: string | null;
           peer_level?: number | null;
           peer_is_online?: boolean;
+          last_message_text?: string | null;
           last_message_at?: string | null;
+          unread_count?: number;
         };
         Relationships: [];
       };
@@ -108,6 +116,12 @@ export interface Database {
           translated_locale: string | null;
           is_translating: boolean;
           created_at: string;
+          /**
+           * Whether the recipient has seen it. In a two-person thread the
+           * recipient is unambiguous, so this lives on the message rather than
+           * in a per-member table — see migration 0004.
+           */
+          is_read: boolean;
         };
         Insert: {
           id?: string;
@@ -119,11 +133,13 @@ export interface Database {
           translated_locale?: string | null;
           is_translating?: boolean;
           created_at?: string;
+          is_read?: boolean;
         };
         Update: {
           translated_body?: string | null;
           translated_locale?: string | null;
           is_translating?: boolean;
+          is_read?: boolean;
         };
         Relationships: [];
       };

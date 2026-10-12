@@ -11,7 +11,6 @@ interface AppShellProps {
   /** Shows the B2C navigation: tab bar on mobile, side rail on desktop. */
   tabbed?: boolean;
   surface?: Surface;
-  badges?: Record<string, number>;
 }
 
 /**
@@ -25,14 +24,13 @@ export function AppShell({
   children,
   tabbed = false,
   surface = "light",
-  badges,
 }: AppShellProps) {
   return (
     <AppFrame
       surface={surface}
       scrollClassName={tabbed ? BOTTOM_NAV_CLEARANCE : undefined}
-      sidebar={tabbed ? <SideNav badges={badges} /> : null}
-      footer={tabbed ? <BottomNav badges={badges} /> : null}
+      sidebar={tabbed ? <SideNav /> : null}
+      footer={tabbed ? <BottomNav /> : null}
     >
       {children}
     </AppFrame>

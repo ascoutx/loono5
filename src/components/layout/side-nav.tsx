@@ -2,14 +2,11 @@
 
 import { useTranslations } from "next-intl";
 
+import { useUnreadTotals } from "@/components/chat/unread-provider";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 import { NAV_TABS } from "./nav-tabs";
-
-interface SideNavProps {
-  badges?: Record<string, number>;
-}
 
 /**
  * Desktop counterpart of the bottom tab bar (≥1280px only).
@@ -18,10 +15,11 @@ interface SideNavProps {
  * It reuses the same `NAV_TABS` and the same active-route rule as
  * `BottomNav` — only the axis changes.
  */
-export function SideNav({ badges }: SideNavProps) {
+export function SideNav() {
   const t = useTranslations("nav");
   const tc = useTranslations("common");
   const pathname = usePathname();
+  const totals = useUnreadTotals();
 
   return (
     <nav className="hidden shrink-0 border-r border-border bg-background xl:flex xl:w-60 xl:flex-col xl:px-3 xl:py-6">
@@ -34,7 +32,7 @@ export function SideNav({ badges }: SideNavProps) {
           const active =
             pathname === tab.href || pathname.startsWith(`${tab.href}/`);
           const Icon = tab.icon;
-          const badge = badges?.[tab.href] ?? 0;
+          const badge = totals[tab.href] ?? 0;
 
           return (
             <li key={tab.href}>

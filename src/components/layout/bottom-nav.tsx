@@ -2,14 +2,11 @@
 
 import { useTranslations } from "next-intl";
 
+import { useUnreadTotals } from "@/components/chat/unread-provider";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 import { NAV_TABS } from "./nav-tabs";
-
-interface BottomNavProps {
-  badges?: Record<string, number>;
-}
 
 /**
  * Pinned to the bottom of the frame. Rendered outside the scroll container by
@@ -17,10 +14,15 @@ interface BottomNavProps {
  *
  * `xl:hidden` hands navigation over to the desktop side rail, which renders
  * from the same NAV_TABS list.
+ *
+ * Badge counts come from the unread context rather than a prop: they are
+ * maintained in the database and published over realtime, and threading them
+ * down from a server layout is what had them hardcoded to a literal `2`.
  */
-export function BottomNav({ badges }: BottomNavProps) {
+export function BottomNav() {
   const t = useTranslations("nav");
   const pathname = usePathname();
+  const totals = useUnreadTotals();
 
   return (
     <nav
@@ -37,7 +39,7 @@ export function BottomNav({ badges }: BottomNavProps) {
           const active =
             pathname === tab.href || pathname.startsWith(`${tab.href}/`);
           const Icon = tab.icon;
-          const badge = badges?.[tab.href] ?? 0;
+          const badge = totals[tab.href] ?? 0;
 
           return (
             <li key={tab.href}>
