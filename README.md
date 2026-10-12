@@ -269,7 +269,16 @@ Run these in order in Dashboard → **SQL Editor → New query**, or with `supab
 | --- | --- | --- |
 | 1 | `supabase/migrations/0001_chat_core.sql` | `profiles`, `chats`, `messages`, indexes, the `last_message_at` trigger, RLS policies |
 | 2 | `supabase/migrations/0002_referral.sql` | `ref_code` uniqueness, the code generator, and the insert/immutability triggers |
+| 3 | `supabase/migrations/0003_chat_owner.sql` | Moves chat uniqueness from `slug` to `(slug, owner_id)`, because a slug is viewer-relative — see below |
 | — | `supabase/seed.sql` | *Optional.* Three agency profiles (`ALEX60`, `NORDIC60`, `ATLAS70`) so the referral flow is demonstrable |
+
+> If PostgREST answers `column chats.owner_id does not exist` straight after applying 0003, the schema cache has not reloaded yet — run `NOTIFY pgrst, 'reload schema';`.
+
+### A note on `chats.slug`
+
+`chats.slug` is **not** a conversation identity. `c_01` means "Mei ↔ whoever is currently looking", so two members opening `/chats/c_01` are looking at two different conversations that share a name. Uniqueness is therefore `(slug, owner_id)`, and 0003 backfills `owner_id` from the first member of each existing row.
+
+Once both participants have `profiles` rows, the natural key becomes the canonical participant pair (sorted member ids, hashed) and a thread should resolve by that pair rather than by whoever opened it. The peer has no profile row today, so a pair key has nothing to pair.
 
 ### 4. Referral links
 

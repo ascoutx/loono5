@@ -57,6 +57,11 @@ export interface Database {
         Row: {
           id: string;
           slug: string;
+          /**
+           * The member the thread belongs to. A slug is viewer-relative, so
+           * uniqueness is `(slug, owner_id)` — see migration 0003.
+           */
+          owner_id: string | null;
           member_ids: string[];
           peer_id: string | null;
           peer_name: string | null;
@@ -69,6 +74,7 @@ export interface Database {
         Insert: {
           id?: string;
           slug: string;
+          owner_id?: string | null;
           member_ids?: string[];
           peer_id?: string | null;
           peer_name?: string | null;
@@ -79,6 +85,7 @@ export interface Database {
           created_at?: string;
         };
         Update: {
+          owner_id?: string | null;
           member_ids?: string[];
           peer_id?: string | null;
           peer_name?: string | null;

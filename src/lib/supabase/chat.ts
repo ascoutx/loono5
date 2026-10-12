@@ -30,8 +30,17 @@ const SELECT_COLUMNS =
 /**
  * Resolves the chat row for a thread slug, creating it on first open.
  *
- * The slug is the thread id used by the existing `/chats/[id]` URLs, so the
- * seeded demo conversations keep working while the primary key stays a uuid.
+ * A slug is viewer-relative, not a conversation identity: `c_01` means "Mei ↔
+ * whoever is currently looking". So the lookup and the write are both scoped to
+ * `owner_id` — two members opening the same slug get their own conversation,
+ * and the unique key is `(slug, owner_id)` rather than `slug` alone. See
+ * `supabase/migrations/0003_chat_owner.sql`.
+ *
+ * Ordering matters. The SELECT is a fast path that keeps the common case (chat
+ * already exists) from writing a row on every open; the upsert is what makes
+ * the cold path correct, because it collapses "create, and if someone else
+ * created it first take theirs" into one atomic statement. A separate
+ * try-SELECT-then-INSERT would still lose the race between the two calls.
  */
 export async function ensureChatThread(input: {
   slug: string;
@@ -44,6 +53,7 @@ export async function ensureChatThread(input: {
     .from("chats")
     .select("*")
     .eq("slug", input.slug)
+    .eq("owner_id", input.viewerProfileId)
     .maybeSingle();
 
   if (lookupError) {
@@ -54,37 +64,37 @@ export async function ensureChatThread(input: {
     return existing;
   }
 
-  const { data: created, error: insertError } = await supabase
+  /*
+    `onConflict` turns a duplicate into an update, so this returns the winning
+    row whether this call created it or found it already there. Peer display
+    fields are refreshed on the way, which is what keeps a stale avatar or name
+    from surviving in the conversation list.
+
+    The peer has no `profiles` row yet — they have not signed up — so the
+    viewer is the only member, and the peer rides along as display columns.
+  */
+  const { data: chat, error: upsertError } = await supabase
     .from("chats")
-    .insert({
-      slug: input.slug,
-      // The partner has no profile row yet — they have not signed up — so the
-      // viewer is the only member, and the peer rides along as display columns.
-      member_ids: [input.viewerProfileId],
-      peer_name: input.peer.name,
-      peer_avatar_url: input.peer.avatarUrl,
-      peer_level: input.peer.level,
-      peer_is_online: input.peer.isOnline,
-    })
+    .upsert(
+      {
+        slug: input.slug,
+        owner_id: input.viewerProfileId,
+        member_ids: [input.viewerProfileId],
+        peer_name: input.peer.name,
+        peer_avatar_url: input.peer.avatarUrl,
+        peer_level: input.peer.level,
+        peer_is_online: input.peer.isOnline,
+      },
+      { onConflict: "slug,owner_id" },
+    )
     .select("*")
     .single();
 
-  if (insertError) {
-    // Unique violation on `slug` means another tab created it first.
-    const { data: raced } = await supabase
-      .from("chats")
-      .select("*")
-      .eq("slug", input.slug)
-      .maybeSingle();
-
-    if (raced) {
-      return raced;
-    }
-
-    throw new Error(`Could not open the conversation: ${insertError.message}`);
+  if (upsertError) {
+    throw new Error(`Could not open the conversation: ${upsertError.message}`);
   }
 
-  return created;
+  return chat;
 }
 
 /** Loads one conversation's history, oldest first. */
