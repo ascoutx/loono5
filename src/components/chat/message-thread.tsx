@@ -10,12 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   ensureChatThread,
-  ensureViewerProfile,
   fetchThreadMessages,
   sendMessage,
   subscribeToMessages,
   type PeerDisplay,
 } from "@/lib/supabase/chat";
+import { ensureViewerProfile } from "@/lib/supabase/profile";
 import type { Message } from "@/types/chat";
 
 type LoadState = "loading" | "ready" | "error";

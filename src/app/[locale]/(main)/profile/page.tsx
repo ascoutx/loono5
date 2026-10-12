@@ -15,6 +15,7 @@ import {
   PartnerPreferenceSummary,
   ProfileAttributes,
 } from "@/components/profile/profile-attributes";
+import { ReferralLink } from "@/components/profile/referral-link";
 import {
   VerificationBadges,
   VerificationTagWall,
@@ -272,6 +273,14 @@ export default async function ProfilePage({
                 {tv("manage")}
               </Button>
             </Card>
+
+            {/* Referral — own code and share link, read from Supabase. */}
+            <ReferralLink
+              displayName={currentUser.name}
+              avatarUrl={currentUser.avatarUrl}
+              level={currentUser.subscription.level ?? currentUser.level}
+              className="order-9 xl:order-none"
+            />
           </div>
         </div>
       </Screen>

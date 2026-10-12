@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
 
 import { routing } from "./i18n/routing";
+import {
+  normalizeRefCode,
+  REF_COOKIE,
+  REF_COOKIE_MAX_AGE,
+} from "./lib/referral";
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -57,7 +62,7 @@ function isCabinetPath(rest: string): boolean {
  * straight away: the app tree is `[locale]/partner/...`, so a bare
  * `/partner/login` would match no route at all.
  */
-export default function middleware(request: NextRequest) {
+function route(request: NextRequest): NextResponse {
   const host = request.headers.get("host") ?? "";
   const { locale, rest } = splitLocale(request.nextUrl.pathname);
 
@@ -84,6 +89,38 @@ export default function middleware(request: NextRequest) {
   }
 
   return intlMiddleware(request);
+}
+
+/**
+ * Capture a referral code, then route.
+ *
+ * Wrapping `route` rather than threading a parameter through it means every
+ * exit is covered — the intl rewrite, the partner rewrite and the cross-port
+ * bounce alike. A member who lands on `/?ref=X` is redirected to `/ru/` by
+ * next-intl, and the code has to survive that hop or it is gone.
+ *
+ * Only requests that actually carry a usable code touch the cookie, so the
+ * common path stays free of a Set-Cookie on every navigation.
+ */
+export default function middleware(request: NextRequest) {
+  const response = route(request);
+
+  const refCode = normalizeRefCode(request.nextUrl.searchParams.get("ref"));
+
+  if (refCode) {
+    response.cookies.set({
+      name: REF_COOKIE,
+      value: refCode,
+      path: "/",
+      maxAge: REF_COOKIE_MAX_AGE,
+      // Readable by script on purpose: the browser is what turns this into a
+      // `referred_by` when the profile is created. See lib/referral.ts.
+      httpOnly: false,
+      sameSite: "lax",
+    });
+  }
+
+  return response;
 }
 
 export const config = {

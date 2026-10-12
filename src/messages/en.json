@@ -424,7 +424,15 @@
     "completeness": "Profile completeness",
     "completenessValue": "{percent}%",
     "preferences": "Partner preferences",
-    "setPreferences": "Set up"
+    "setPreferences": "Set up",
+    "referral": {
+      "title": "Invite friends",
+      "headline": "Earn on every friend who joins",
+      "hint": "Share your link. If they sign up, it is attributed to you automatically.",
+      "copyLink": "Copy link",
+      "copyCode": "Copy code",
+      "copied": "Copied"
+    }
   },
   "profileForm": {
     "title": "Complete your profile",

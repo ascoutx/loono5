@@ -263,7 +263,35 @@ This is not optional. Without a real JWT the browser has no `auth.uid()`, so eve
 
 ### 3. Apply the schema
 
-Run `supabase/migrations/0001_chat_core.sql` once in Dashboard → **SQL Editor → New query**, or with `supabase db push`. It creates `profiles`, `chats` and `messages`, their indexes, the `last_message_at` trigger, and the RLS policies. It is idempotent.
+Run these in order in Dashboard → **SQL Editor → New query**, or with `supabase db push`. Both are idempotent.
+
+| Order | File | Does |
+| --- | --- | --- |
+| 1 | `supabase/migrations/0001_chat_core.sql` | `profiles`, `chats`, `messages`, indexes, the `last_message_at` trigger, RLS policies |
+| 2 | `supabase/migrations/0002_referral.sql` | `ref_code` uniqueness, the code generator, and the insert/immutability triggers |
+| — | `supabase/seed.sql` | *Optional.* Three agency profiles (`ALEX60`, `NORDIC60`, `ATLAS70`) so the referral flow is demonstrable |
+
+### 4. Referral links
+
+Every profile owns a `ref_code`, assigned once by a database trigger. A member shares `https://loono.app/auth?ref=CODE`; the profile created from that link gets `referred_by` pointing at the sharer.
+
+```
+ /auth?ref=ALEX60
+      │
+      ├─ middleware sees ?ref= on ANY page, not just /auth
+      │     and writes the loono_ref cookie (30 days)
+      │
+      └─ on first profile creation the browser reads that cookie,
+            resolves CODE → profiles.id, and writes referred_by
+```
+
+Design points worth knowing:
+
+- **Attribution is first-touch.** `ref_code` is immutable (a trigger rejects changes) and `referred_by` is only written when the profile row is first created, so a member who later clicks a different link keeps their original referrer.
+- **An unknown code is discarded, not fatal.** Plenty of links in the wild are dead; refusing to register someone over a stale one would be the wrong trade.
+- **The cookie survives redirects.** Capture happens in middleware specifically so it also survives the next-intl locale hop (`/auth?ref=X` → `/ru/auth?ref=X`) and the cross-port partner bounce.
+- The code is *not* a credential — it authorises nothing, it only selects a row.
+- `lib/referral.ts` holds the cookie name, TTL, format validation and the share-link builder; it is imported by both the middleware and the browser, which is why it has no `"server-only"` marker.
 
 ### How it fits together
 
@@ -273,6 +301,8 @@ Run `supabase/migrations/0001_chat_core.sql` once in Dashboard → **SQL Editor 
 | `lib/supabase/database.types.ts` | Hand-written table shapes, kept beside the migration so the two can be diffed. Replace with `supabase gen types typescript` when the schema is final |
 | `lib/supabase/chat.ts` | Session, profile, chat and message operations; maps DB rows to the app's `Message` type so the presentational components are unchanged |
 | `components/chat/message-thread.tsx` | Client component owning the message list: loads history, subscribes to realtime inserts, sends optimistically |
+| `lib/referral.ts` | Referral cookie, code validation and share-link builder | Unchanged — the capture stays in middleware, which is the only place that can act before React runs |
+| `components/profile/referral-link.tsx` | Reads the member's `ref_code` from Supabase | Also needs a share/copy affordance for WeChat and Telegram, and stats ("3 friends joined") once payouts exist |
 
 Notes:
 
